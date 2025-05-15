@@ -2,29 +2,37 @@
  * Cyber Time Travel Animation and Functionality
  */
 document.addEventListener('DOMContentLoaded', function() {
-    // Button to initiate time travel
+    console.log('Time travel script loaded!');
+    
+    // Button to initiate random time travel
     const travelButton = document.getElementById('travel-button');
     if (travelButton) {
-        travelButton.addEventListener('click', startTimeTravel);
-    }
-
-    // Button to start sequential journey
-    const sequentialButton = document.getElementById('sequential-travel');
-    if (sequentialButton) {
-        sequentialButton.addEventListener('click', function(e) {
+        console.log('Travel button found, adding click event');
+        travelButton.addEventListener('click', function(e) {
             e.preventDefault();
-            const attackId = this.getAttribute('data-attack');
-            startTimeTravel(null, attackId, true);
+            console.log('Travel button clicked!');
+            startTimeTravel(e, null);
         });
     }
+
+    // All buttons with the travel-button class for consistency
+    const sequentialButtons = document.querySelectorAll('.sequential-button');
+    sequentialButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Sequential button clicked!');
+            startTimeTravel(e, null, true, this.getAttribute('href'));
+        });
+    });
 
     // Attack selection from the timeline
     const attackLinks = document.querySelectorAll('.attack-link');
     attackLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
+            console.log('Attack link clicked: ' + this.getAttribute('data-attack'));
             const attackId = this.getAttribute('data-attack');
-            startTimeTravel(null, attackId);
+            startTimeTravel(e, attackId);
         });
     });
 
@@ -33,39 +41,71 @@ document.addEventListener('DOMContentLoaded', function() {
      * @param {Event} e - Click event
      * @param {string} attackId - Optional attack ID to travel to
      * @param {boolean} isSequential - Whether this is a sequential journey
+     * @param {string} destinationUrl - Optional URL to navigate to
      */
-    function startTimeTravel(e, attackId, isSequential = false) {
+    function startTimeTravel(e, attackId, isSequential = false, destinationUrl = null) {
+        console.log('Starting time travel animation');
         // Play sound effect if available
-        const soundEffect = new Audio('/sounds/space-spaceTravel.mp3');
-        soundEffect.volume = 0.5;
+        playSoundEffect(document.location.origin + '/sounds/space-spaceTravel.mp3');
         
-        try {
-            soundEffect.play().catch(err => {
-                console.log('Sound could not be played', err);
-            });
-        } catch (err) {
-            console.log('Sound error:', err);
+        // Get the video element which is our background
+        const videoBackground = document.querySelector('video');
+        if (videoBackground) {
+            // Add a class to the video's parent for the animation
+            videoBackground.parentElement.classList.add('time-travel-active');
         }
-        
-        // Add the active class to start animation
-        document.querySelector('.space-background').classList.add('time-travel-active');
         
         // Create warp speed effect
         createWarpEffect();
         
         // After animation completes, redirect to the destination
         setTimeout(() => {
-            document.querySelector('.space-background').classList.remove('time-travel-active');
-            
-            if (attackId) {
-                window.location.href = `/game/time-travel/${attackId}`;
-            } else {
-                // If no specific attack, choose a random one
-                const attacks = ['morris-worm', 'i-love-you', 'stuxnet', 'wannacry', 'solarwinds'];
-                const randomAttack = attacks[Math.floor(Math.random() * attacks.length)];
-                window.location.href = `/game/time-travel/${randomAttack}`;
+            // Remove animation class
+            if (videoBackground) {
+                videoBackground.parentElement.classList.remove('time-travel-active');
             }
+            
+            // Determine destination URL
+            let targetUrl;
+            
+            if (destinationUrl) {
+                // If explicit URL was provided, use it
+                targetUrl = destinationUrl;
+            } else if (attackId) {
+                // If attack ID was provided
+                targetUrl = document.location.origin + `/game/time-travel/${attackId}`;
+            } else {
+                // Random time travel - let the server handle the randomization
+                targetUrl = document.location.origin + `/game/time-travel/random`;
+            }
+            
+            console.log('Navigating to:', targetUrl);
+            window.location.href = targetUrl;
         }, 3000);
+    }
+    
+    /**
+     * Play a sound effect with better error handling
+     * @param {string} soundPath - Path to the sound file
+     */
+    function playSoundEffect(soundPath) {
+        try {
+            const soundEffect = new Audio(soundPath);
+            soundEffect.volume = 0.5;
+            
+            // Using the play promise API with proper error handling
+            const playPromise = soundEffect.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log('Sound playback prevented: ', error);
+                    // User interaction may be needed before audio can play
+                });
+            }
+        } catch (err) {
+            console.log('Sound error:', err);
+            // Continue without sound
+        }
     }
     
     /**
@@ -126,7 +166,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Random angle for travel direction
         const angle = Math.random() * Math.PI * 2;
-        const distance = Math.min(window.innerWidth, window.innerHeight) * 0.8;
         
         // Animate the star
         setTimeout(() => {
@@ -144,23 +183,44 @@ document.addEventListener('DOMContentLoaded', function() {
     if (backButton) {
         backButton.addEventListener('click', function(e) {
             e.preventDefault();
-            
-            // Add travel effect backwards
-            document.querySelector('.space-background').classList.add('time-travel-active');
-            createWarpEffect();
-            
-            try {
-                const soundEffect = new Audio('/sounds/space-spaceTravel.mp3');
-                soundEffect.volume = 0.5;
-                soundEffect.play().catch(err => console.log('Sound could not be played', err));
-            } catch (err) {
-                console.log('Sound error:', err);
-            }
-            
-            setTimeout(() => {
-                window.location.href = this.getAttribute('href');
-            }, 2000);
+            handleNavigation(this.getAttribute('href'));
         });
+    }
+
+    // Navigation buttons for previous/next attack
+    const prevAttackBtn = document.getElementById('prev-attack');
+    const nextAttackBtn = document.getElementById('next-attack');
+    
+    if (prevAttackBtn) {
+        prevAttackBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            handleNavigation(this.getAttribute('href'));
+        });
+    }
+    
+    if (nextAttackBtn) {
+        nextAttackBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            handleNavigation(this.getAttribute('href'));
+        });
+    }
+    
+    function handleNavigation(url) {
+        // Add travel effect
+        const videoBackground = document.querySelector('video');
+        if (videoBackground) {
+            videoBackground.parentElement.classList.add('time-travel-active');
+        }
+        
+        createWarpEffect();
+        
+        // Play sound effect
+        playSoundEffect(document.location.origin + '/sounds/space-spaceTravel.mp3');
+        
+        // Navigate after animation
+        setTimeout(() => {
+            window.location.href = url;
+        }, 2000);
     }
 
     /**
@@ -188,28 +248,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     clearInterval(typeInterval);
                 }
             }, 20);
-        }
-
-        // Add event listener for "Travel Back" button
-        const backButton = document.getElementById('back-button');
-        if (backButton) {
-            backButton.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Add the time travel animation in reverse
-                const spaceBackground = document.querySelector('.space-background');
-                spaceBackground.classList.add('time-travel-active');
-                
-                // Play space travel sound
-                const travelSound = new Audio('/sounds/space-spaceTravel.mp3');
-                travelSound.volume = 0.5;
-                travelSound.play();
-                
-                // After animation completes, go back to the time travel hub
-                setTimeout(() => {
-                    window.location.href = '/game/time-travel';
-                }, 5000);
-            });
         }
     }
 }); 

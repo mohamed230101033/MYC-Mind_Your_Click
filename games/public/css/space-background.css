@@ -1,33 +1,31 @@
+/* Global styles for time travel feature */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    color: #fff;
+    font-family: sans-serif;
+}
+
 /* Space Background Animation Styles */
 .space-background {
     position: relative;
     background-color: #000; /* Fallback color */
-    z-index: 0;
-    overflow: hidden; /* This is crucial for cropping the oversized video */
     min-height: 100vh;
     width: 100%;
+    overflow: hidden;
 }
 
 .video-background {
     position: absolute;
-
-    /*
-        Increase these values to make the video content appear more "zoomed out".
-        Try values like 150%, 180%, 200%, or even higher.
-        The higher the percentage, the more "zoomed out" the video content will look.
-        Both width and height should generally use the same percentage to maintain
-        the video's aspect ratio correctly when object-fit: cover is applied.
-    */
-    width: 150%;  /* Example: Try starting with 150% or higher */
-    height: 99%; /* Example: Try starting with 150% or higher */
-
-    /* These lines center the oversized video element */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    object-fit: cover; /* This will make the video cover the new larger dimensions */
-    z-index: 0;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: cover;
+    z-index: -1;
 }
 
 /* Travel Button Styles */
@@ -44,12 +42,12 @@
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
-    z-index: 1;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    z-index: 10;
     font-size: 1.1rem;
 }
-
-/* ... rest of your space-background.css styles ... */
-/* Ensure all other styles remain as they were */
 
 .travel-button:hover {
     transform: translateY(-2px) scale(1.05);
@@ -122,7 +120,9 @@
 }
 
 .time-travel-active .container {
-    animation: time-travel 4s forwards;
+    animation: time-travel 3s forwards;
+    position: relative;
+    z-index: 10;
 }
 
 .time-travel-active::after {
@@ -133,10 +133,20 @@
     right: 0;
     bottom: 0;
     background: radial-gradient(circle, transparent 30%, rgba(255, 107, 107, 0.3) 100%);
-    z-index: 3;
+    z-index: 2;
     pointer-events: none;
     opacity: 0;
-    animation: pulse 4s ease-in-out infinite;
+    animation: pulse 3s ease-in-out infinite;
+}
+
+#warp-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    pointer-events: none;
 }
 
 @keyframes pulse {
@@ -181,4 +191,18 @@
 
 .sequential-button::before {
     background: linear-gradient(to right, #818cf8, #4f46e5);
+}
+
+/* Additional styles for better UI */
+.shadow-glow {
+    box-shadow: 0 0 15px 5px rgba(59, 130, 246, 0.7);
+}
+
+.font-game {
+    font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', sans-serif;
+}
+
+.backdrop-blur-md {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 }

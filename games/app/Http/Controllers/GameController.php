@@ -571,6 +571,17 @@ class GameController extends Controller
     }
     
     /**
+     * Random time travel to a cyber attack
+     */
+    public function randomTimeTravel()
+    {
+        $attackOrder = ['morris-worm', 'i-love-you', 'stuxnet', 'wannacry', 'solarwinds'];
+        $randomAttack = $attackOrder[array_rand($attackOrder)];
+        
+        return redirect()->route('game.time-travel.attack', ['attack' => $randomAttack]);
+    }
+    
+    /**
      * Get all missions data (this would normally come from a database)
      */
     private function getMissions()
