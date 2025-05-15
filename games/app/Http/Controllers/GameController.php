@@ -669,7 +669,7 @@ class GameController extends Controller
     /**
      * Get cyber attacks data for time travel feature.
      */
-    private function getCyberAttacks()
+    protected function getCyberAttacks()
     {
         return [
             'morris-worm' => [

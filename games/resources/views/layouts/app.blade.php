@@ -129,6 +129,21 @@
         .social-stage.active {
             display: block;
         }
+        
+        /* Time Travel Effect Styles */
+        .time-travel-active {
+            animation: timeTravel 3s forwards;
+        }
+        
+        @keyframes timeTravel {
+            0% { filter: brightness(1) blur(0); }
+            50% { filter: brightness(1.5) blur(5px); }
+            100% { filter: brightness(1) blur(0); }
+        }
+        
+        #warp-container {
+            pointer-events: none;
+        }
     </style>
 
     <!-- Scripts -->
