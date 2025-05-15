@@ -11,6 +11,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/space-background.css') }}">
@@ -83,8 +85,180 @@
             }
         }
     </script>
+
     
     @stack('styles')
+
+
+    <!-- Custom CSS -->
+    <style>
+        /* Add custom animations for the Social Media Mayhem activity */
+        .animate-spin-slow {
+            animation: spin 15s linear infinite;
+        }
+        
+        .animate-pulse-slow {
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(0.95);
+            }
+        }
+        
+        /* Social stage classes */
+        .social-stage {
+            transition: all 0.3s ease;
+        }
+        
+        .social-stage.hidden {
+            display: none;
+        }
+        
+        .social-stage.active {
+            display: block;
+        }
+        
+        /* Full-page chat popup */
+        .chat-simulator-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 50;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .chat-simulator-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .chat-simulator {
+            width: 90%;
+            max-width: 800px;
+            height: 85vh;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.95);
+            transition: all 0.3s ease;
+        }
+        
+        .chat-simulator-overlay.active .chat-simulator {
+            transform: scale(1);
+        }
+        
+        .chat-header {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            padding: 16px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .chat-messages-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 16px;
+            background-color: #f3f4f6;
+        }
+        
+        .chat-input {
+            padding: 16px;
+            border-top: 1px solid #e5e7eb;
+            background-color: white;
+        }
+        
+        .typing-indicator {
+            display: flex;
+            padding: 10px;
+        }
+        
+        .typing-indicator span {
+            height: 10px;
+            width: 10px;
+            margin: 0 2px;
+            background-color: #9ca3af;
+            border-radius: 50%;
+            display: inline-block;
+            animation: typing 1.4s ease-in-out infinite;
+        }
+        
+        .typing-indicator span:nth-child(1) {
+            animation-delay: 0s;
+        }
+        
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typing {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        .alert-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            animation: pulse 1s infinite;
+        }
+        
+        .chat-action-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+    </style>
+
+    <!-- Scripts -->
+
 </head>
 <body class="font-sans antialiased bg-gray-50 min-h-screen">
     <header class="bg-primary-700 text-white p-4 shadow-md">

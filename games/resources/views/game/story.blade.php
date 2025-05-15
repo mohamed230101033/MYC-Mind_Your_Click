@@ -102,8 +102,8 @@
                 </a>
                 
                 <!-- Mission 3 -->
-                <a href="{{ $current_level >= 2 ? route('game.mission', 3) : '#' }}" 
-                   class="block transition transform hover:scale-105 {{ $current_level < 2 ? 'opacity-60 cursor-not-allowed' : '' }}">
+                <a href="{{ (in_array(1, $completed_missions) && in_array(2, $completed_missions)) ? route('game.mission', 3) : '#' }}" 
+                   class="block transition transform hover:scale-105 {{ !(in_array(1, $completed_missions) && in_array(2, $completed_missions)) ? 'opacity-60 cursor-not-allowed' : '' }}">
                     <div class="game-card bg-white/5 hover:bg-white/10 border border-white/10 p-5 rounded-xl">
                         <div class="flex items-center mb-3">
                             <div class="mr-4 w-14 h-14 rounded-lg bg-danger-100 flex items-center justify-center">
@@ -122,7 +122,7 @@
                         <p class="text-white/80">Profile Phantom is creating fake accounts to trick kids. Can you spot the fakes?</p>
                         <div class="mt-3 flex justify-between items-center">
                             <span class="text-xs px-2 py-1 bg-primary-800 rounded">Difficulty: Medium</span>
-                            @if($current_level < 2)
+                            @if(!(in_array(1, $completed_missions) && in_array(2, $completed_missions)))
                                 <span class="text-white/50 flex items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mr-1">
                                         <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 00-5.25 5.25v3a3 3 0 00-3 3v6.75a3 3 0 003 3h10.5a3 3 0 003-3v-6.75a3 3 0 00-3-3v-3c0-2.9-2.35-5.25-5.25-5.25zm3.75 8.25v-3a3.75 3.75 0 10-7.5 0v3h7.5z" clip-rule="evenodd" />
