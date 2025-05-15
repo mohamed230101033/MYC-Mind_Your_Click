@@ -17,70 +17,18 @@
                                 <path fill-rule="evenodd" d="M15.75 1.5a6.75 6.75 0 00-6.651 7.906c.067.39-.032.717-.221.906l-6.5 6.499a3 3 0 00-.878 2.121v2.818c0 .414.336.75.75.75H6a.75.75 0 00.75-.75v-1.5h1.5A.75.75 0 009 19.5V18h1.5a.75.75 0 00.75-.75V15h1.5a.75.75 0 00.75-.75v-1.5h1.5a.75.75 0 00.75-.75V9.262c.219-.313.41-.641.547-1.008.7-1.898 1.357-3.868 1.357-5.754 0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0012 9.75c-2.678 0-5.25-.241-7.78-.72A48.672 48.672 0 012.507 9a.75.75 0 00-1.096-.536l-.001.002z" clip-rule="evenodd" />
                                 @break
                             @case(3)
-                                <div class="text-white/90 space-y-3">
-                                    <div class="flex items-center gap-3 mb-2">
-                                        <div class="w-12 h-12 rounded-full bg-red-500 flex items-center justify-center flex-shrink-0 animate-pulse-slow">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 text-white">
-                                                <path d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0z" />
-                                                <path d="M3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" />
-                                            </svg>
-                                        </div>
-                                        <h3 class="font-game text-xl text-red-300">Watch out for Profile Phantom!</h3>
-                                    </div>
-                                    
-                                    <p class="text-lg">Hi {{ $player_name }}! Let's spot those tricky fake accounts!</p>
-                                    
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                                        <div class="bg-blue-900/30 p-4 rounded-lg border border-blue-400/20 transform transition hover:scale-105">
-                                            <div class="flex items-center gap-2 mb-2">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-300" viewBox="0 0 20 20" fill="currentColor">
-                                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                                                </svg>
-                                                <span class="font-bold text-blue-300">Fake Prizes Trick</span>
-                                            </div>
-                                            <p>Groups offering "free" stuff or exclusive content</p>
-                                        </div>
-                                        
-                                        <div class="bg-purple-900/30 p-4 rounded-lg border border-purple-400/20 transform transition hover:scale-105">
-                                            <div class="flex items-center gap-2 mb-2">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-300" viewBox="0 0 20 20" fill="currentColor">
-                                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                                                </svg>
-                                                <span class="font-bold text-purple-300">Sneaky Messages</span>
-                                            </div>
-                                            <p>Strangers asking for your personal info</p>
-                                        </div>
-                                        
-                                        <div class="bg-red-900/30 p-4 rounded-lg border border-red-400/20 transform transition hover:scale-105">
-                                            <div class="flex items-center gap-2 mb-2">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-300" viewBox="0 0 20 20" fill="currentColor">
-                                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                                                </svg>
-                                                <span class="font-bold text-red-300">Credit Card Scams</span>
-                                            </div>
-                                            <p>People asking for your parent's credit card</p>
-                                        </div>
-                                        
-                                        <div class="bg-green-900/30 p-4 rounded-lg border border-green-400/20 transform transition hover:scale-105">
-                                            <div class="flex items-center gap-2 mb-2">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-300" viewBox="0 0 20 20" fill="currentColor">
-                                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                                                </svg>
-                                                <span class="font-bold text-green-300">Imposters Alert</span>
-                                            </div>
-                                            <p>Accounts pretending to be someone you know</p>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="mt-4 text-center">
-                                        <span class="inline-block animate-bounce bg-yellow-500 text-black font-bold px-4 py-2 rounded-full">
-                                            Let's become social media detectives!
-                                        </span>
-                                    </div>
-                                </div>
-                            @break
-                        @default
-                            <path fill-rule="evenodd" d="M9 4.5a.75.75 0 01.721.544l.813 2.846a3.75 3.75 0 002.576 2.576l2.846.813a.75.75 0 010 1.442l-2.846.813a3.75 3.75 0 00-2.576 2.576l-.813 2.846a.75.75 0 01-1.442 0l-.813-2.846a3.75 3.75 0 00-2.576-2.576l-2.846-.813a.75.75 0 010-1.442l2.846-.813A3.75 3.75 0 007.466 7.89l.813-2.846A.75.75 0 019 4.5zM18 1.5a.75.75 0 01.728.568l.258 1.036c.236.94.97 1.674 1.91 1.91l1.036.258a.75.75 0 010 1.456l-1.036.258c-.94.236-1.674.97-1.91 1.91l-.258 1.036a.75.75 0 01-1.456 0l-.258-1.036a2.625 2.625 0 00-1.91-1.91l-1.036-.258a.75.75 0 010-1.456l1.036-.258a2.625 2.625 0 001.91-1.91l.258-1.036A.75.75 0 0118 1.5zM16.5 15a.75.75 0 01.712.513l.394 1.183c.15.447.5.799.948.948l1.183.395a.75.75 0 010 1.422l-1.183.395c-.447.15-.799.5-.948.948l-.395 1.183a.75.75 0 01-1.422 0l-.395-1.183a1.5 1.5 0 00-.948-.948l-1.183-.395a.75.75 0 010-1.422l1.183-.395c.447-.15.799-.5.948-.948l.395-1.183A.75.75 0 0116.5 15z" clip-rule="evenodd" />
+                                <p class="text-white/90">Hi {{ $player_name }}! Profile Phantom is creating fake social media accounts and groups to trick kids. Let's learn how to spot these fakes and stay safe online!</p>
+                                <p class="mt-2 text-white/90">Be careful of these social media dangers:</p>
+                                <ul class="list-disc pl-5 mt-2 space-y-1 text-white/90">
+                                    <li>Fake groups pretending to offer prizes or exclusive content</li>
+                                    <li>Strangers sending suspicious messages asking for personal information</li>
+                                    <li>People asking for your parent's phone number or credit card details</li>
+                                    <li>Accounts pretending to be someone you know but with strange behavior</li>
+                                    <li>Messages creating urgency or fear to trick you into doing something</li>
+                                </ul>
+                                @break
+                            @default
+                                <path fill-rule="evenodd" d="M9 4.5a.75.75 0 01.721.544l.813 2.846a3.75 3.75 0 002.576 2.576l2.846.813a.75.75 0 010 1.442l-2.846.813a3.75 3.75 0 00-2.576 2.576l-.813 2.846a.75.75 0 01-1.442 0l-.813-2.846a3.75 3.75 0 00-2.576-2.576l-2.846-.813a.75.75 0 010-1.442l2.846-.813A3.75 3.75 0 007.466 7.89l.813-2.846A.75.75 0 019 4.5zM18 1.5a.75.75 0 01.728.568l.258 1.036c.236.94.97 1.674 1.91 1.91l1.036.258a.75.75 0 010 1.456l-1.036.258c-.94.236-1.674.97-1.91 1.91l-.258 1.036a.75.75 0 01-1.456 0l-.258-1.036a2.625 2.625 0 00-1.91-1.91l-1.036-.258a.75.75 0 010-1.456l1.036-.258a2.625 2.625 0 001.91-1.91l.258-1.036A.75.75 0 0118 1.5zM16.5 15a.75.75 0 01.712.513l.394 1.183c.15.447.5.799.948.948l1.183.395a.75.75 0 010 1.422l-1.183.395c-.447.15-.799.5-.948.948l-.395 1.183a.75.75 0 01-1.422 0l-.395-1.183a1.5 1.5 0 00-.948-.948l-1.183-.395a.75.75 0 010-1.422l1.183-.395c.447-.15.799-.5.948-.948l.395-1.183A.75.75 0 0116.5 15z" clip-rule="evenodd" />
                         @endswitch
                     </svg>
                     <h1 class="text-2xl font-game">{{ $mission['title'] }}</h1>
@@ -131,68 +79,16 @@
                             </ul>
                             @break
                         @case(3)
-                            <div class="text-white/90 space-y-3">
-                                <div class="flex items-center gap-3 mb-2">
-                                    <div class="w-12 h-12 rounded-full bg-red-500 flex items-center justify-center flex-shrink-0 animate-pulse-slow">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 text-white">
-                                            <path d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0z" />
-                                            <path d="M3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" />
-                                        </svg>
-                                    </div>
-                                    <h3 class="font-game text-xl text-red-300">Watch out for Profile Phantom!</h3>
-                                </div>
-                                
-                                <p class="text-lg">Hi {{ $player_name }}! Let's spot those tricky fake accounts!</p>
-                                
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                                    <div class="bg-blue-900/30 p-4 rounded-lg border border-blue-400/20 transform transition hover:scale-105">
-                                        <div class="flex items-center gap-2 mb-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-300" viewBox="0 0 20 20" fill="currentColor">
-                                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                                            </svg>
-                                            <span class="font-bold text-blue-300">Fake Prizes Trick</span>
-                                        </div>
-                                        <p>Groups offering "free" stuff or exclusive content</p>
-                                    </div>
-                                    
-                                    <div class="bg-purple-900/30 p-4 rounded-lg border border-purple-400/20 transform transition hover:scale-105">
-                                        <div class="flex items-center gap-2 mb-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-300" viewBox="0 0 20 20" fill="currentColor">
-                                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                                            </svg>
-                                            <span class="font-bold text-purple-300">Sneaky Messages</span>
-                                        </div>
-                                        <p>Strangers asking for your personal info</p>
-                                    </div>
-                                    
-                                    <div class="bg-red-900/30 p-4 rounded-lg border border-red-400/20 transform transition hover:scale-105">
-                                        <div class="flex items-center gap-2 mb-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-300" viewBox="0 0 20 20" fill="currentColor">
-                                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                                            </svg>
-                                            <span class="font-bold text-red-300">Credit Card Scams</span>
-                                        </div>
-                                        <p>People asking for your parent's credit card</p>
-                                    </div>
-                                    
-                                    <div class="bg-green-900/30 p-4 rounded-lg border border-green-400/20 transform transition hover:scale-105">
-                                        <div class="flex items-center gap-2 mb-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-300" viewBox="0 0 20 20" fill="currentColor">
-                                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                                            </svg>
-                                            <span class="font-bold text-green-300">Imposters Alert</span>
-                                        </div>
-                                        <p>Accounts pretending to be someone you know</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="mt-4 text-center">
-                                    <span class="inline-block animate-bounce bg-yellow-500 text-black font-bold px-4 py-2 rounded-full">
-                                        Let's become social media detectives!
-                                    </span>
-                                </div>
-                            </div>
-                        @break
+                            <p class="text-white/90">Hi {{ $player_name }}! Profile Phantom is creating fake social media accounts and groups to trick kids. Let's learn how to spot these fakes and stay safe online!</p>
+                            <p class="mt-2 text-white/90">Be careful of these social media dangers:</p>
+                            <ul class="list-disc pl-5 mt-2 space-y-1 text-white/90">
+                                <li>Fake groups pretending to offer prizes or exclusive content</li>
+                                <li>Strangers sending suspicious messages asking for personal information</li>
+                                <li>People asking for your parent's phone number or credit card details</li>
+                                <li>Accounts pretending to be someone you know but with strange behavior</li>
+                                <li>Messages creating urgency or fear to trick you into doing something</li>
+                            </ul>
+                            @break
                         @default
                             <p class="text-white/90">Hello {{ $player_name }}! I'm Circuit, your AI guide. I'll help you complete this mission safely. Pay attention to the details and think critically about what you see!</p>
                     @endswitch
@@ -2000,110 +1896,78 @@
                                                 <h3 class="font-game text-lg mb-4 text-center text-blue-100">Chat Simulation Test</h3>
                                                 <p class="text-white/90 mb-4">Time to test your knowledge! You'll see a suspicious message and need to choose how to respond. Your answer will be evaluated and scored.</p>
                                                 
-                                                <div class="mt-6 flex justify-center">
-                                                    <button id="open-chat-simulator" class="px-6 py-4 bg-gradient-to-r from-blue-600 to-purple-700 text-white rounded-xl font-bold hover:from-blue-700 hover:to-purple-800 transform hover:scale-105 transition-all flex items-center gap-3 relative">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <div class="bg-white rounded-lg shadow-lg overflow-hidden mt-6 animate__animated animate__fadeIn">
+                                                    <div class="bg-blue-600 p-3 flex items-center">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                                                         </svg>
-                                                        Start Chat Simulation
-                                                        <div class="alert-badge">1</div>
-                                                    </button>
-                                                </div>
-                                                
-                                                <!-- Full-page Chat Simulator Overlay -->
-                                                <div id="chat-simulator-overlay" class="chat-simulator-overlay">
-                                                    <div class="chat-simulator">
-                                                        <div class="chat-header">
-                                                            <div class="flex items-center gap-3">
-                                                                <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                                    </svg>
-                                                                </div>
-                                                                <div>
-                                                                    <div class="font-bold">GamerBuddy428</div>
-                                                                    <div class="text-xs text-white/70">Online now</div>
-                                                                </div>
-                                                            </div>
-                                                            <button id="close-chat-simulator" class="bg-white/10 hover:bg-white/20 p-2 rounded-full transition">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                                                </svg>
-                                                            </button>
-                                                        </div>
-                                                        
-                                                        <div class="chat-messages-container" id="fullpage-chat-messages">
-                                                            <!-- Initial message -->
-                                                            <div class="flex mb-4">
-                                                                <div class="flex-shrink-0 mr-3">
-                                                                    <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-sm text-white font-bold">
-                                                                        GB
-                                                                    </div>
-                                                                </div>
-                                                                <div class="bg-blue-500 text-white p-3 rounded-lg rounded-tl-none max-w-md">
+                                                        <span class="text-white font-bold">Messenger Chat with: GamerBuddy428</span>
+                                                    </div>
+                                                    <div class="p-4 bg-gray-100">
+                                                        <div class="flex flex-col space-y-4 h-64 overflow-y-auto mb-4 p-2" id="chat-messages">
+                                                            <!-- Incoming message -->
+                                                            <div class="flex">
+                                                                <div class="bg-blue-500 text-white p-3 rounded-lg rounded-tl-none max-w-xs">
                                                                     <p>Hey there! I'm looking for new friends who like gaming. What's your favorite game?</p>
-                                                                    <div class="text-xs text-white/70 text-right mt-1">3:42 PM</div>
                                                                 </div>
                                                             </div>
                                                             
-                                                            <!-- Your responses will be added here by JavaScript -->
+                                                            <!-- Your response will be added here by JavaScript -->
                                                         </div>
                                                         
-                                                        <div class="chat-input" id="fullpage-chat-input">
-                                                            <p class="font-bold text-gray-700 mb-3">How would you respond?</p>
+                                                        <div id="response-options" class="space-y-2">
+                                                            <p class="font-bold text-gray-800 mb-2">How would you respond?</p>
+                                                            <button class="response-option w-full text-left p-3 bg-gray-200 hover:bg-gray-300 rounded-md transition transform hover:scale-102" data-score="1" data-response="I like Minecraft and Roblox. What games do you play?">I like Minecraft and Roblox. What games do you play?</button>
+                                                            <button class="response-option w-full text-left p-3 bg-gray-200 hover:bg-gray-300 rounded-md transition transform hover:scale-102" data-score="0" data-response="I'm 10 years old and I live in Chicago. I like playing online games after school.">I'm 10 years old and I live in Chicago. I like playing online games after school.</button>
+                                                            <button class="response-option w-full text-left p-3 bg-gray-200 hover:bg-gray-300 rounded-md transition transform hover:scale-102" data-score="2" data-response="I enjoy gaming too, but I don't chat with people I don't know. Have a nice day!">I enjoy gaming too, but I don't chat with people I don't know. Have a nice day!</button>
+                                                        </div>
+                                                        
+                                                        <!-- Hidden next stage that will be shown after first response -->
+                                                        <div id="response-stage2" class="hidden space-y-4 mt-4">
+                                                            <div class="flex">
+                                                                <div class="bg-blue-500 text-white p-3 rounded-lg rounded-tl-none max-w-xs">
+                                                                    <p>Cool! Hey, I'm running a gaming tournament this weekend with prizes. I need your parent's credit card to register you. Can you ask them and let me know?</p>
+                                                                </div>
+                                                            </div>
+                                                            
                                                             <div class="space-y-2">
-                                                                <button class="fullpage-response-option w-full text-left p-3 bg-gray-100 hover:bg-gray-200 rounded-md transition transform hover:scale-102 flex justify-between items-center" data-score="1" data-response="I like Minecraft and Roblox. What games do you play?">
-                                                                    <span>I like Minecraft and Roblox. What games do you play?</span>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                                    </svg>
-                                                                </button>
-                                                                <button class="fullpage-response-option w-full text-left p-3 bg-gray-100 hover:bg-gray-200 rounded-md transition transform hover:scale-102 flex justify-between items-center" data-score="0" data-response="I'm 10 years old and I live in Chicago. I like playing online games after school.">
-                                                                    <span>I'm 10 years old and I live in Chicago. I like playing online games after school.</span>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                                    </svg>
-                                                                </button>
-                                                                <button class="fullpage-response-option w-full text-left p-3 bg-gray-100 hover:bg-gray-200 rounded-md transition transform hover:scale-102 flex justify-between items-center" data-score="2" data-response="I enjoy gaming too, but I don't chat with people I don't know. Have a nice day!">
-                                                                    <span>I enjoy gaming too, but I don't chat with people I don't know. Have a nice day!</span>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                                    </svg>
-                                                                </button>
+                                                                <p class="font-bold text-gray-800 mb-2">How would you respond now?</p>
+                                                                <button class="response-option2 w-full text-left p-3 bg-gray-200 hover:bg-gray-300 rounded-md transition transform hover:scale-102" data-score="1" data-response="I need to check with my parents first. Can you send me more information about the tournament?">I need to check with my parents first. Can you send me more information about the tournament?</button>
+                                                                <button class="response-option2 w-full text-left p-3 bg-gray-200 hover:bg-gray-300 rounded-md transition transform hover:scale-102" data-score="0" data-response="Sure, let me ask my dad for his credit card. What details do you need?">Sure, let me ask my dad for his credit card. What details do you need?</button>
+                                                                <button class="response-option2 w-full text-left p-3 bg-gray-200 hover:bg-gray-300 rounded-md transition transform hover:scale-102" data-score="3" data-response="No thanks. Tournaments don't need credit card info to register. I'm going to block you now.">No thanks. Tournaments don't need credit card info to register. I'm going to block you now.</button>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                
-                                                <!-- Results section (initially hidden) -->
-                                                <div id="chat-results" class="hidden mt-6">
-                                                    <div class="bg-blue-100 border border-blue-300 rounded-lg p-4">
-                                                        <h4 class="text-lg font-bold text-blue-800 mb-2">Test Results</h4>
-                                                        <p class="mb-2">Your score: <span id="final-score" class="font-bold">0</span>/10</p>
-                                                        <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2 mb-4">
-                                                            <div id="score-progress" class="bg-blue-600 h-2.5 rounded-full transition-all duration-1000" style="width: 0%"></div>
-                                                        </div>
-                                                        <div id="score-feedback" class="mt-3"></div>
                                                         
-                                                        <div class="mt-4 pt-3 border-t border-blue-200">
-                                                            <h5 class="font-bold mb-2">Remember these safety tips:</h5>
-                                                            <ul class="list-disc pl-5 space-y-1">
-                                                                <li>Never share personal information with strangers online</li>
-                                                                <li>Never give out your parents' credit card or contact information</li>
-                                                                <li>Be suspicious of people asking for personal details</li>
-                                                                <li>Tell a trusted adult if someone asks for this information</li>
-                                                                <li>Block and report accounts that pressure you to share private information</li>
-                                                            </ul>
+                                                        <!-- Results section (initially hidden) -->
+                                                        <div id="chat-results" class="hidden mt-6">
+                                                            <div class="bg-blue-100 border border-blue-300 rounded-lg p-4">
+                                                                <h4 class="text-lg font-bold text-blue-800 mb-2">Test Results</h4>
+                                                                <p class="mb-2">Your score: <span id="final-score" class="font-bold">0</span>/5</p>
+                                                                <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2 mb-4">
+                                                                    <div id="score-progress" class="bg-blue-600 h-2.5 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                                                                </div>
+                                                                <div id="score-feedback" class="mt-3"></div>
+                                                                
+                                                                <div class="mt-4 pt-3 border-t border-blue-200">
+                                                                    <h5 class="font-bold mb-2">Remember these safety tips:</h5>
+                                                                    <ul class="list-disc pl-5 space-y-1">
+                                                                        <li>Never share personal information with strangers online</li>
+                                                                        <li>Never give out your parents' credit card or contact information</li>
+                                                                        <li>Be suspicious of people asking for personal details</li>
+                                                                        <li>Tell a trusted adult if someone asks for this information</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <div class="text-center mt-6">
+                                                                <form action="{{ route('game.submit-mission', $mission['id']) }}" method="POST" class="inline">
+                                                                    @csrf
+                                                                    <input type="hidden" name="social_media_complete" value="1">
+                                                                    <input type="hidden" id="final-score-input" name="social_media_score" value="0">
+                                                                    <button type="submit" class="px-8 py-4 bg-green-600 text-white rounded-full font-bold hover:bg-green-700 transition-all transform hover:scale-105 animate-pulse">Complete Mission</button>
+                                                                </form>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    
-                                                    <div class="text-center mt-6">
-                                                        <form action="{{ route('game.submit-mission', $mission['id']) }}" method="POST" class="inline">
-                                                            @csrf
-                                                            <input type="hidden" name="social_media_complete" value="1">
-                                                            <input type="hidden" id="final-score-input" name="social_media_score" value="0">
-                                                            <button type="submit" class="px-8 py-4 bg-green-600 text-white rounded-full font-bold hover:bg-green-700 transition-all transform hover:scale-105 animate-pulse">Complete Mission</button>
-                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
@@ -2152,266 +2016,1496 @@
                                             document.querySelectorAll('.response-option').forEach(button => {
                                                 button.addEventListener('click', handleFirstResponse);
                                             });
-                                            
-                                            // Setup full-page chat simulator
-                                            const openChatBtn = document.getElementById('open-chat-simulator');
-                                            const closeChatBtn = document.getElementById('close-chat-simulator');
-                                            const chatOverlay = document.getElementById('chat-simulator-overlay');
-                                            
-                                            if (openChatBtn) {
-                                                openChatBtn.addEventListener('click', function() {
-                                                    chatOverlay.classList.add('active');
-                                                    document.body.style.overflow = 'hidden'; // Prevent scrolling behind overlay
-                                                });
-                                            }
-                                            
-                                            if (closeChatBtn) {
-                                                closeChatBtn.addEventListener('click', function() {
-                                                    chatOverlay.classList.remove('active');
-                                                    document.body.style.overflow = ''; // Re-enable scrolling
-                                                    
-                                                    // If chat is complete, show the results section
-                                                    if (chatStage >= 4) {
-                                                        document.getElementById('chat-results').classList.remove('hidden');
-                                                    }
-                                                });
-                                            }
-                                            
-                                            // Set up fullpage chat responses
-                                            document.querySelectorAll('.fullpage-response-option').forEach(button => {
-                                                button.addEventListener('click', handleFullpageResponse);
-                                            });
                                         }
                                         
-                                        // Handle fullpage chat conversation
-                                        let chatStage = 1;
-                                        let chatScore = 0;
+                                        function showStage1() {
+                                            document.querySelectorAll('.social-stage').forEach(stage => {
+                                                stage.classList.add('hidden');
+                                                stage.classList.remove('active');
+                                            });
+                                            stage1.classList.remove('hidden');
+                                            stage1.classList.add('active');
+                                            
+                                            // Update button styles
+                                            document.querySelectorAll('.social-stage-btn').forEach(btn => {
+                                                btn.classList.remove('bg-gradient-to-r', 'from-blue-600', 'to-purple-600', 'text-white');
+                                                btn.classList.add('bg-gray-800/70', 'text-gray-400');
+                                            });
+                                            stage1Btn.classList.add('bg-gradient-to-r', 'from-blue-600', 'to-purple-600', 'text-white');
+                                            stage1Btn.classList.remove('bg-gray-800/70', 'text-gray-400');
+                                            
+                                            // Update assistant text and progress
+                                            assistantText.innerText = "Hi there! I'm SocialShield! I'll help you learn how to spot fake groups and suspicious messages on social media. Let's keep your online social life safe and fun!";
+                                            progressBar.style.width = "33%";
+                                        }
                                         
-                                        function handleFullpageResponse() {
+                                        function showStage2() {
+                                            if (!document.getElementById('social-stage2')) {
+                                                setupStage2();
+                                            }
+                                            
+                                            document.querySelectorAll('.social-stage').forEach(stage => {
+                                                stage.classList.add('hidden');
+                                                stage.classList.remove('active');
+                                            });
+                                            document.getElementById('social-stage2').classList.remove('hidden');
+                                            document.getElementById('social-stage2').classList.add('active');
+                                            
+                                            // Update button styles
+                                            document.querySelectorAll('.social-stage-btn').forEach(btn => {
+                                                btn.classList.remove('bg-gradient-to-r', 'from-blue-600', 'to-purple-600', 'text-white');
+                                                btn.classList.add('bg-gray-800/70', 'text-gray-400');
+                                            });
+                                            stage2Btn.classList.add('bg-gradient-to-r', 'from-blue-600', 'to-purple-600', 'text-white');
+                                            stage2Btn.classList.remove('bg-gray-800/70', 'text-gray-400');
+                                            
+                                            // Update assistant text and progress
+                                            assistantText.innerText = "Be careful with messages from strangers! They might be trying to get your personal information or your parent's details. Always be cautious!";
+                                            progressBar.style.width = "66%";
+                                        }
+                                        
+                                        function showStage3() {
+                                            if (!document.getElementById('social-stage3')) {
+                                                setupStage3();
+                                            }
+                                            
+                                            document.querySelectorAll('.social-stage').forEach(stage => {
+                                                stage.classList.add('hidden');
+                                                stage.classList.remove('active');
+                                            });
+                                            document.getElementById('social-stage3').classList.remove('hidden');
+                                            document.getElementById('social-stage3').classList.add('active');
+                                            
+                                            // Update button styles
+                                            document.querySelectorAll('.social-stage-btn').forEach(btn => {
+                                                btn.classList.remove('bg-gradient-to-r', 'from-blue-600', 'to-purple-600', 'text-white');
+                                                btn.classList.add('bg-gray-800/70', 'text-gray-400');
+                                            });
+                                            stage3Btn.classList.add('bg-gradient-to-r', 'from-blue-600', 'to-purple-600', 'text-white');
+                                            stage3Btn.classList.remove('bg-gray-800/70', 'text-gray-400');
+                                            
+                                            // Update assistant text and progress
+                                            assistantText.innerText = "Time to test your skills! Let's see how you respond to suspicious messages. Remember everything you've learned!";
+                                            progressBar.style.width = "100%";
+                                        }
+                                        
+                                        // Handle chat simulation responses
+                                        let totalScore = 0;
+                                        
+                                        function handleFirstResponse() {
                                             const score = parseInt(this.getAttribute('data-score'));
                                             const response = this.getAttribute('data-response');
-                                            const chatMessages = document.getElementById('fullpage-chat-messages');
-                                            const chatInput = document.getElementById('fullpage-chat-input');
                                             
-                                            // Add user's response
+                                            // Add user response to chat with animation
+                                            const chatMessages = document.getElementById('chat-messages');
                                             const userResponseDiv = document.createElement('div');
-                                            userResponseDiv.className = 'flex justify-end mb-4';
+                                            userResponseDiv.className = 'flex justify-end';
                                             userResponseDiv.innerHTML = `
-                                                <div class="bg-green-500 text-white p-3 rounded-lg rounded-tr-none max-w-md ml-auto">
+                                                <div class="bg-green-500 text-white p-3 rounded-lg rounded-tr-none max-w-xs">
                                                     <p>${response}</p>
-                                                    <div class="text-xs text-white/70 text-right mt-1">Just now</div>
                                                 </div>
                                             `;
                                             chatMessages.appendChild(userResponseDiv);
-                                            chatMessages.scrollTop = chatMessages.scrollHeight;
                                             
                                             // Update score
-                                            chatScore += score;
+                                            totalScore += score;
                                             
-                                            // Show typing indicator
-                                            const typingDiv = document.createElement('div');
-                                            typingDiv.className = 'flex mb-4 typing-indicator-container';
-                                            typingDiv.innerHTML = `
-                                                <div class="flex-shrink-0 mr-3">
-                                                    <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-sm text-white font-bold">
-                                                        GB
-                                                    </div>
-                                                </div>
-                                                <div class="bg-gray-300 p-3 rounded-lg rounded-tl-none max-w-md typing-indicator">
-                                                    <span></span>
-                                                    <span></span>
-                                                    <span></span>
+                                            // Hide first response options and show second stage
+                                            document.getElementById('response-options').classList.add('hidden');
+                                            setTimeout(() => {
+                                                document.getElementById('response-stage2').classList.remove('hidden');
+                                                // Set up event listeners for stage2 responses
+                                                document.querySelectorAll('.response-option2').forEach(button => {
+                                                    button.addEventListener('click', handleSecondResponse);
+                                                });
+                                            }, 1000);
+                                        }
+                                        
+                                        function handleSecondResponse() {
+                                            const score = parseInt(this.getAttribute('data-score'));
+                                            const response = this.getAttribute('data-response');
+                                            
+                                            // Add user response to chat
+                                            const chatMessages = document.getElementById('chat-messages');
+                                            const userResponseDiv = document.createElement('div');
+                                            userResponseDiv.className = 'flex justify-end';
+                                            userResponseDiv.innerHTML = `
+                                                <div class="bg-green-500 text-white p-3 rounded-lg rounded-tr-none max-w-xs">
+                                                    <p>${response}</p>
                                                 </div>
                                             `;
-                                            chatMessages.appendChild(typingDiv);
-                                            chatMessages.scrollTop = chatMessages.scrollHeight;
+                                            chatMessages.appendChild(userResponseDiv);
                                             
-                                            // Clear input options
-                                            chatInput.innerHTML = '';
+                                            // Update total score
+                                            totalScore += score;
                                             
-                                            // Process next chat stage after delay
+                                            // Hide response options and show results
+                                            document.getElementById('response-stage2').classList.add('hidden');
                                             setTimeout(() => {
-                                                // Remove typing indicator
-                                                chatMessages.removeChild(typingDiv);
+                                                document.getElementById('chat-results').classList.remove('hidden');
                                                 
-                                                // Add attacker's response based on current chat stage
-                                                let attackerResponse = '';
-                                                let nextOptions = '';
+                                                // Update score display
+                                                document.getElementById('final-score').textContent = totalScore;
+                                                document.getElementById('final-score-input').value = totalScore;
                                                 
-                                                switch(chatStage) {
-                                                    case 1:
-                                                        attackerResponse = `
-                                                            <div class="flex mb-4">
-                                                                <div class="flex-shrink-0 mr-3">
-                                                                    <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-sm text-white font-bold">
-                                                                        GB
-                                                                    </div>
-                                                                </div>
-                                                                <div class="bg-blue-500 text-white p-3 rounded-lg rounded-tl-none max-w-md">
-                                                                    <p>Cool! I play a lot of Fortnite and Minecraft too! I'm actually part of a gaming team that's recruiting new players. We have tournaments with real prizes! What's your username? I can add you.</p>
-                                                                    <div class="text-xs text-white/70 text-right mt-1">3:45 PM</div>
-                                                                </div>
-                                                            </div>
-                                                        `;
-                                                        
-                                                        nextOptions = `
-                                                            <p class="font-bold text-gray-700 mb-3">How would you respond?</p>
-                                                            <div class="space-y-2">
-                                                                <button class="fullpage-response-option w-full text-left p-3 bg-gray-100 hover:bg-gray-200 rounded-md transition transform hover:scale-102 flex justify-between items-center" data-score="1" data-response="My username is GameKid123. What's the name of your team?">
-                                                                    <span>My username is GameKid123. What's the name of your team?</span>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                                    </svg>
-                                                                </button>
-                                                                <button class="fullpage-response-option w-full text-left p-3 bg-gray-100 hover:bg-gray-200 rounded-md transition transform hover:scale-102 flex justify-between items-center" data-score="2" data-response="I'd need to know more about your team before I share my username. Can you tell me more about these tournaments?">
-                                                                    <span>I'd need to know more about your team before I share my username. Can you tell me more about these tournaments?</span>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                                    </svg>
-                                                                </button>
-                                                                <button class="fullpage-response-option w-full text-left p-3 bg-gray-100 hover:bg-gray-200 rounded-md transition transform hover:scale-102 flex justify-between items-center" data-score="0" data-response="My username is RobertSmith2012. I play on my dad's computer after school. We live in Washington.">
-                                                                    <span>My username is RobertSmith2012. I play on my dad's computer after school. We live in Washington.</span>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                                    </svg>
-                                                                </button>
-                                                            </div>
-                                                        `;
-                                                        break;
-                                                        
-                                                    case 2:
-                                                        attackerResponse = `
-                                                            <div class="flex mb-4">
-                                                                <div class="flex-shrink-0 mr-3">
-                                                                    <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-sm text-white font-bold">
-                                                                        GB
-                                                                    </div>
-                                                                </div>
-                                                                <div class="bg-blue-500 text-white p-3 rounded-lg rounded-tl-none max-w-md">
-                                                                    <p>We're called ProGamerz Elite. We have 5,000 members and big sponsors! I can help you join, but I need a few details to register you for the next tournament. It has a $500 prize! What's your full name and age?</p>
-                                                                    <div class="text-xs text-white/70 text-right mt-1">3:48 PM</div>
-                                                                </div>
-                                                            </div>
-                                                        `;
-                                                        
-                                                        nextOptions = `
-                                                            <p class="font-bold text-gray-700 mb-3">How would you respond?</p>
-                                                            <div class="space-y-2">
-                                                                <button class="fullpage-response-option w-full text-left p-3 bg-gray-100 hover:bg-gray-200 rounded-md transition transform hover:scale-102 flex justify-between items-center" data-score="0" data-response="My name is Robert Smith and I'm 11 years old. I'm excited to join the tournament!">
-                                                                    <span>My name is Robert Smith and I'm 11 years old. I'm excited to join the tournament!</span>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                                                    </svg>
-                                                                </button>
-                                                                <button class="fullpage-response-option w-full text-left p-3 bg-gray-100 hover:bg-gray-200 rounded-md transition transform hover:scale-102 flex justify-between items-center" data-score="1" data-response="I'd need to know more about the tournament. Can you tell me about the prizes and how the tournament works?">
-                                                                    <span>I'd need to know more about the tournament. Can you tell me about the prizes and how the tournament works?</span>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                                                    </svg>
-                                                                </button>
-                                                                <button class="fullpage-response-option w-full text-left p-3 bg-gray-100 hover:bg-gray-200 rounded-md transition transform hover:scale-102 flex justify-between items-center" data-score="2" data-response="I'm 15 years old and I'm interested in joining. Can you tell me about the age requirements?">
-                                                                    <span>I'm 15 years old and I'm interested in joining. Can you tell me about the age requirements?</span>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                                                    </svg>
-                                                                </button>
-                                                            </div>
-                                                        `;
-                                                        break;
-                                                        
-                                                    case 3:
-                                                        attackerResponse = `
-                                                            <div class="flex mb-4">
-                                                                <div class="flex-shrink-0 mr-3">
-                                                                    <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-sm text-white font-bold">
-                                                                        GB
-                                                                    </div>
-                                                                </div>
-                                                                <div class="bg-blue-500 text-white p-3 rounded-lg rounded-tl-none max-w-md">
-                                                                    <p>We're called ProGamerz Elite. We have 5,000 members and big sponsors! I can help you join, but I need a few details to register you for the next tournament. It has a $500 prize! What's your full name and age?</p>
-                                                                    <div class="text-xs text-white/70 text-right mt-1">3:48 PM</div>
-                                                                </div>
-                                                            </div>
-                                                        `;
-                                                        
-                                                        nextOptions = `
-                                                            <p class="font-bold text-gray-700 mb-3">How would you respond?</p>
-                                                            <div class="space-y-2">
-                                                                <button class="fullpage-response-option w-full text-left p-3 bg-gray-100 hover:bg-gray-200 rounded-md transition transform hover:scale-102 flex justify-between items-center" data-score="0" data-response="My name is Robert Smith and I'm 11 years old. I'm excited to join the tournament!">
-                                                                    <span>My name is Robert Smith and I'm 11 years old. I'm excited to join the tournament!</span>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                                                    </svg>
-                                                                </button>
-                                                                <button class="fullpage-response-option w-full text-left p-3 bg-gray-100 hover:bg-gray-200 rounded-md transition transform hover:scale-102 flex justify-between items-center" data-score="1" data-response="I'd need to know more about the tournament. Can you tell me about the prizes and how the tournament works?">
-                                                                    <span>I'd need to know more about the tournament. Can you tell me about the prizes and how the tournament works?</span>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                                                    </svg>
-                                                                </button>
-                                                                <button class="fullpage-response-option w-full text-left p-3 bg-gray-100 hover:bg-gray-200 rounded-md transition transform hover:scale-102 flex justify-between items-center" data-score="2" data-response="I'm 15 years old and I'm interested in joining. Can you tell me about the age requirements?">
-                                                                    <span>I'm 15 years old and I'm interested in joining. Can you tell me about the age requirements?</span>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                                                    </svg>
-                                                                </button>
-                                                            </div>
-                                                        `;
-                                                        break;
-                                                        
-                                                    case 4:
-                                                        attackerResponse = `
-                                                            <div class="flex mb-4">
-                                                                <div class="flex-shrink-0 mr-3">
-                                                                    <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-sm text-white font-bold">
-                                                                        GB
-                                                                    </div>
-                                                                </div>
-                                                                <div class="bg-blue-500 text-white p-3 rounded-lg rounded-tl-none max-w-md">
-                                                                    <p>We're called ProGamerz Elite. We have 5,000 members and big sponsors! I can help you join, but I need a few details to register you for the next tournament. It has a $500 prize! What's your full name and age?</p>
-                                                                    <div class="text-xs text-white/70 text-right mt-1">3:48 PM</div>
-                                                                </div>
-                                                            </div>
-                                                        `;
-                                                        
-                                                        nextOptions = `
-                                                            <p class="font-bold text-gray-700 mb-3">How would you respond?</p>
-                                                            <div class="space-y-2">
-                                                                <button class="fullpage-response-option w-full text-left p-3 bg-gray-100 hover:bg-gray-200 rounded-md transition transform hover:scale-102 flex justify-between items-center" data-score="0" data-response="My name is Robert Smith and I'm 11 years old. I'm excited to join the tournament!">
-                                                                    <span>My name is Robert Smith and I'm 11 years old. I'm excited to join the tournament!</span>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                                                    </svg>
-                                                                </button>
-                                                                <button class="fullpage-response-option w-full text-left p-3 bg-gray-100 hover:bg-gray-200 rounded-md transition transform hover:scale-102 flex justify-between items-center" data-score="1" data-response="I'd need to know more about the tournament. Can you tell me about the prizes and how the tournament works?">
-                                                                    <span>I'd need to know more about the tournament. Can you tell me about the prizes and how the tournament works?</span>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                                                    </svg>
-                                                                </button>
-                                                                <button class="fullpage-response-option w-full text-left p-3 bg-gray-100 hover:bg-gray-200 rounded-md transition transform hover:scale-102 flex justify-between items-center" data-score="2" data-response="I'm 15 years old and I'm interested in joining. Can you tell me about the age requirements?">
-                                                                    <span>I'm 15 years old and I'm interested in joining. Can you tell me about the age requirements?</span>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                                                    </svg>
-                                                                </button>
-                                                            </div>
-                                                        `;
-                                                        break;
+                                                // Update score progress bar
+                                                document.getElementById('score-progress').style.width = (totalScore / 5) * 100 + '%';
+                                                
+                                                // Show appropriate feedback based on score
+                                                const scoreFeedback = document.getElementById('score-feedback');
+                                                if (totalScore >= 4) {
+                                                    scoreFeedback.innerHTML = `
+                                                        <p class="text-green-700 font-bold">Excellent job! You handled these messages safely!</p>
+                                                        <p>You recognized the warning signs and responded appropriately to protect your personal information.</p>
+                                                    `;
+                                                } else if (totalScore >= 2) {
+                                                    scoreFeedback.innerHTML = `
+                                                        <p class="text-yellow-700 font-bold">Good effort, but there's room for improvement.</p>
+                                                        <p>Remember to be more cautious when strangers ask for personal information or credit card details.</p>
+                                                    `;
+                                                } else {
+                                                    scoreFeedback.innerHTML = `
+                                                        <p class="text-red-700 font-bold">You need to be more careful online!</p>
+                                                        <p>Never share personal information with strangers, and always be suspicious of requests for credit card details.</p>
+                                                    `;
                                                 }
+                                            }, 1000);
+                                        }
+                                        
+                                        // Set up stage navigation
+                                        if (stage1) {
+                                            stage1.classList.remove('hidden');
+                                            stage1.classList.add('active');
+                                            
+                                            // Set up event listeners for stage buttons
+                                            if (stage1Btn) {
+                                                stage1Btn.addEventListener('click', showStage1);
+                                                stage2Btn.addEventListener('click', showStage2);
+                                                stage3Btn.addEventListener('click', showStage3);
                                             }
                                         }
                                     });
                                 </script>
                             </div>
                         </div>
+                    @endif
+                @break
+                @default
+                    <h2 class="text-xl font-game mb-4 text-center">{{ $mission['title'] }}</h2>
+                    <p class="text-center mb-6">{{ $mission['description'] }}</p>
+                    <div class="text-center">
+                        <a href="{{ route('game.story') }}" class="btn-secondary">
+                            Back to Story Mode
+                        </a>
                     </div>
-                </div>
-            </div>
+            @endswitch
+        </div>
+        
+        <!-- Navigation -->
+        <div class="flex justify-between">
+            <a href="{{ route('game.story') }}" class="btn-secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mr-2">
+                    <path fill-rule="evenodd" d="M7.28 7.72a.75.75 0 010 1.06l-2.47 2.47H21a.75.75 0 010 1.5H4.81l2.47 2.47a.75.75 0 11-1.06 1.06l-3.75-3.75a.75.75 0 010-1.06l3.75-3.75a.75.75 0 011.06 0z" clip-rule="evenodd" />
+                </svg>
+                Back to Mission List
+            </a>
+            
+            <a href="{{ route('game.village') }}" class="btn-primary">
+                Visit Cyber Village
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 ml-2">
+                    <path fill-rule="evenodd" d="M16.72 7.72a.75.75 0 011.06 0l3.75 3.75a.75.75 0 010 1.06l-3.75 3.75a.75.75 0 11-1.06-1.06l2.47-2.47H3a.75.75 0 010-1.5h16.19l-2.47-2.47a.75.75 0 010-1.06z" clip-rule="evenodd" />
+                </svg>
+            </a>
         </div>
     </div>
 </div>
-@endsection
+@endsection 
+
+@if($mission['id'] == 2)
+<!-- Animate.css for additional animations -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+<!-- Password mission JavaScript -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Stage navigation
+        const stageBtns = document.querySelectorAll('.stage-btn');
+        const stages = document.querySelectorAll('.stage');
+        let currentStage = 1;
+        let stagesCompleted = [false, false, false, false];
+        
+        // Stage 1: Password Categories
+        const passwordItems = document.querySelectorAll('.password-item');
+        const dropZones = document.querySelectorAll('.password-drop-zone');
+        const checkCategoriesBtn = document.getElementById('check-categories');
+        const categoryFeedback = document.getElementById('category-feedback');
+        
+        // Stage 2: Password Strength Tester
+        const passwordInput = document.getElementById('password-input');
+        const strengthMeter = document.getElementById('strength-meter');
+        const strengthText = document.getElementById('strength-text');
+        const nextStage2Btn = document.getElementById('next-stage-2');
+        
+        // Password requirement indicators
+        const lengthCheck = document.getElementById('length-check');
+        const uppercaseCheck = document.getElementById('uppercase-check');
+        const lowercaseCheck = document.getElementById('lowercase-check');
+        const numberCheck = document.getElementById('number-check');
+        const specialCheck = document.getElementById('special-check');
+        
+        // Stage 3: Memorable Strong Password
+        const finalPassword = document.getElementById('final-password');
+        const finalStrengthMeter = document.getElementById('final-strength-meter');
+        const finalStrengthText = document.getElementById('final-strength-text');
+        const finalFeedback = document.getElementById('final-feedback');
+        const nextStage3Btn = document.getElementById('next-stage-3');
+        
+        // Stage 4: Google Login
+        const nextLoginBtn = document.getElementById('next-login');
+        const backToEmailBtn = document.getElementById('back-to-email');
+        const loginStage1 = document.getElementById('login-stage-1');
+        const loginStage2 = document.getElementById('login-stage-2');
+        const loginSuccess = document.getElementById('login-success');
+        const passwordConfirm = document.getElementById('password-confirm');
+        const showPasswordCheck = document.getElementById('show-password');
+        const loginSubmitBtn = document.getElementById('login-submit');
+        const passwordError = document.getElementById('password-error');
+        const completeMissionBtn = document.getElementById('complete-mission');
+        
+        // Form elements
+        const missionForm = document.getElementById('mission-form');
+        const submitMissionBtn = document.getElementById('submit-mission');
+        const stage1CompleteInput = document.getElementById('stage1_complete');
+        const stage2CompleteInput = document.getElementById('stage2_complete');
+        const stage3CompleteInput = document.getElementById('stage3_complete');
+        const stage4CompleteInput = document.getElementById('stage4_complete');
+        const passwordScoreInput = document.getElementById('password_score');
+        const finalPasswordHidden = document.getElementById('final_password_hidden');
+        
+        // Add futuristic animation classes
+        document.querySelectorAll('.btn-cyber').forEach(btn => {
+            btn.classList.add('animate__animated');
+            
+            btn.addEventListener('mouseenter', function() {
+                this.classList.add('animate__pulse');
+            });
+            
+            btn.addEventListener('mouseleave', function() {
+                this.classList.remove('animate__pulse');
+            });
+        });
+        
+        // Enable drag and drop for password items
+        passwordItems.forEach(item => {
+            item.addEventListener('dragstart', function(e) {
+                e.dataTransfer.setData('text/plain', e.target.dataset.strength);
+                e.dataTransfer.setData('text/html', e.target.outerHTML);
+                setTimeout(() => {
+                    e.target.classList.add('opacity-50');
+                }, 0);
+            });
+            
+            item.addEventListener('dragend', function(e) {
+                e.target.classList.remove('opacity-50');
+            });
+        });
+        
+        // Set up drop zones
+        dropZones.forEach(zone => {
+            zone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                zone.classList.add('bg-blue-600/10');
+            });
+            
+            zone.addEventListener('dragleave', function() {
+                zone.classList.remove('bg-blue-600/10');
+            });
+            
+            zone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                zone.classList.remove('bg-blue-600/10');
+                
+                const passwordStrength = e.dataTransfer.getData('text/plain');
+                const passwordHTML = e.dataTransfer.getData('text/html');
+                
+                // Create a temporary element to extract the content
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = passwordHTML;
+                const passwordElement = tempDiv.firstChild;
+                
+                // Add to this drop zone
+                zone.appendChild(passwordElement);
+                
+                // Reattach drag event listeners to the moved element
+                passwordElement.addEventListener('dragstart', function(e) {
+                    e.dataTransfer.setData('text/plain', passwordElement.dataset.strength);
+                    e.dataTransfer.setData('text/html', passwordElement.outerHTML);
+                    setTimeout(() => {
+                        passwordElement.classList.add('opacity-50');
+                    }, 0);
+                });
+                
+                passwordElement.addEventListener('dragend', function() {
+                    passwordElement.classList.remove('opacity-50');
+                });
+            });
+        });
+        
+        // Check categories button
+        checkCategoriesBtn.addEventListener('click', function() {
+            let correctPlacements = 0;
+            let totalItems = 0;
+            
+            dropZones.forEach(zone => {
+                const expectedCategory = zone.dataset.category;
+                const items = zone.querySelectorAll('.password-item');
+                
+                items.forEach(item => {
+                    totalItems++;
+                    if (item.dataset.strength === expectedCategory) {
+                        correctPlacements++;
+                        item.classList.add('border-blue-500', 'bg-blue-900/40');
+                        // Add pulse animation
+                        item.classList.add('animate__animated', 'animate__pulse');
+                    } else {
+                        item.classList.add('border-red-500', 'bg-red-900/40');
+                        item.classList.add('animate__animated', 'animate__headShake');
+                    }
+                });
+            });
+            
+            categoryFeedback.classList.remove('hidden');
+            
+            if (correctPlacements === totalItems) {
+                categoryFeedback.textContent = 'Great job! You correctly categorized all passwords.';
+                categoryFeedback.classList.add('bg-green-500/20', 'border', 'border-green-500/30', 'text-green-300');
+                stagesCompleted[0] = true;
+                stage1CompleteInput.value = "1";
+                
+                // Enable stage 2 button with animation
+                document.getElementById('stage2-btn').classList.remove('bg-gray-800/70', 'text-gray-400');
+                document.getElementById('stage2-btn').classList.add('bg-gradient-to-r', 'from-blue-600', 'to-cyan-600', 'text-white', 'animate__animated', 'animate__pulse');
+                
+                // Auto advance to stage 2 after a short delay
+                setTimeout(() => {
+                    navigateToStage(2);
+                }, 1500);
+            } else {
+                const scorePercentage = Math.round((correctPlacements / totalItems) * 100);
+                categoryFeedback.textContent = `You got ${correctPlacements} out of ${totalItems} correct (${scorePercentage}%). Try again!`;
+                categoryFeedback.classList.add('bg-yellow-500/20', 'border', 'border-yellow-500/30', 'text-yellow-300');
+                
+                // Reset colors after a moment
+                setTimeout(() => {
+                    document.querySelectorAll('.password-item').forEach(item => {
+                        item.classList.remove('border-blue-500', 'bg-blue-900/40', 'border-red-500', 'bg-red-900/40', 'animate__animated', 'animate__pulse', 'animate__headShake');
+                    });
+                }, 2000);
+            }
+        });
+        
+        // Password strength tester
+        passwordInput.addEventListener('input', function() {
+            const password = this.value;
+            const score = calculatePasswordStrength(password);
+            updatePasswordStrength(score);
+            
+            // Update KeyGuard's advice based on password strength and characteristics
+            updateKeyGuardAdvice(password, score);
+            
+            // Enable continue button if password is strong enough
+            if (score >= 4) {
+                nextStage2Btn.classList.remove('hidden');
+                nextStage2Btn.classList.add('animate__animated', 'animate__fadeIn');
+                stagesCompleted[1] = true;
+                stage2CompleteInput.value = "1";
+                passwordScoreInput.value = score;
+            } else {
+                nextStage2Btn.classList.add('hidden');
+                stagesCompleted[1] = false;
+                stage2CompleteInput.value = "0";
+            }
+        });
+        
+        // Final password strength tester
+        finalPassword.addEventListener('input', function() {
+            const password = this.value;
+            const score = calculatePasswordStrength(password);
+            updateFinalPasswordStrength(score);
+            finalPasswordHidden.value = password;
+            
+            // Update KeyGuard's advice for the memorable password
+            updateMemorableKeyGuardAdvice(password, score);
+            
+            // Show feedback based on score
+            if (score >= 4) {
+                finalFeedback.classList.remove('hidden', 'bg-red-900/40', 'border-red-500/30', 'text-red-300', 'bg-yellow-900/40', 'border-yellow-500/30', 'text-yellow-300');
+                finalFeedback.classList.add('bg-green-900/40', 'border-green-500/30', 'text-green-300', 'animate__animated', 'animate__fadeIn');
+                finalFeedback.innerHTML = '<strong>Excellent!</strong> This is a strong, memorable password that would take a long time to crack.';
+                
+                nextStage3Btn.classList.remove('hidden');
+                nextStage3Btn.classList.add('animate__animated', 'animate__fadeIn');
+                stagesCompleted[2] = true;
+                stage3CompleteInput.value = "1";
+            } else if (score >= 2) {
+                finalFeedback.classList.remove('hidden', 'bg-red-900/40', 'border-red-500/30', 'text-red-300', 'bg-green-900/40', 'border-green-500/30', 'text-green-300');
+                finalFeedback.classList.add('bg-yellow-900/40', 'border-yellow-500/30', 'text-yellow-300', 'animate__animated', 'animate__fadeIn');
+                finalFeedback.innerHTML = '<strong>Getting better!</strong> Your password has medium strength. Try adding more complexity to make it stronger.';
+                
+                nextStage3Btn.classList.add('hidden');
+                stagesCompleted[2] = false;
+                stage3CompleteInput.value = "0";
+            } else {
+                finalFeedback.classList.remove('hidden', 'bg-green-900/40', 'border-green-500/30', 'text-green-300', 'bg-yellow-900/40', 'border-yellow-500/30', 'text-yellow-300');
+                finalFeedback.classList.add('bg-red-900/40', 'border-red-500/30', 'text-red-300', 'animate__animated', 'animate__fadeIn');
+                finalFeedback.innerHTML = '<strong>Needs improvement!</strong> This password would be easy to crack. Follow the guidelines above to create a stronger password.';
+                
+                nextStage3Btn.classList.add('hidden');
+                stagesCompleted[2] = false;
+                stage3CompleteInput.value = "0";
+            }
+        });
+        
+        // Continue to stage 3 button
+        nextStage2Btn.addEventListener('click', function() {
+            document.getElementById('stage3-btn').classList.remove('bg-gray-800/70', 'text-gray-400');
+            document.getElementById('stage3-btn').classList.add('bg-gradient-to-r', 'from-green-600', 'to-cyan-600', 'text-white', 'animate__animated', 'animate__pulse');
+            navigateToStage(3);
+        });
+        
+        // Continue to stage 4 button
+        nextStage3Btn.addEventListener('click', function() {
+            document.getElementById('stage4-btn').classList.remove('bg-gray-800/70', 'text-gray-400');
+            document.getElementById('stage4-btn').classList.add('bg-gradient-to-r', 'from-purple-600', 'to-cyan-600', 'text-white', 'animate__animated', 'animate__pulse');
+            navigateToStage(4);
+        });
+        
+        // Google login next button
+        nextLoginBtn.addEventListener('click', function() {
+            loginStage1.classList.add('animate__animated', 'animate__fadeOut');
+            
+            // Update KeyGuard's message
+            updateLoginKeyGuardAdvice("email-entered");
+            
+            setTimeout(() => {
+                loginStage1.classList.add('hidden');
+                loginStage2.classList.remove('hidden');
+                loginStage2.classList.add('animate__animated', 'animate__fadeIn');
+                
+                // Ensure password field is properly initialized after showing
+                setTimeout(() => {
+                    passwordConfirm.value = ""; // Clear any previous value
+                    passwordConfirm.focus(); // Give it focus
+                    passwordConfirm.disabled = false; // Make sure it's not disabled
+                }, 100);
+            }, 300);
+        });
+        
+        // Back to email button
+        backToEmailBtn.addEventListener('click', function() {
+            loginStage2.classList.add('animate__animated', 'animate__fadeOut');
+            
+            // Update KeyGuard's message
+            updateLoginKeyGuardAdvice("default");
+            
+            setTimeout(() => {
+                loginStage2.classList.add('hidden');
+                loginStage1.classList.remove('hidden', 'animate__fadeOut');
+                loginStage1.classList.add('animate__fadeIn');
+            }, 300);
+        });
+        
+        // Handle password confirm input
+        passwordConfirm.addEventListener('input', function() {
+            // Update KeyGuard's message based on password entered
+            if (this.value.length > 0) {
+                updateLoginKeyGuardAdvice("typing-password");
+            } else {
+                updateLoginKeyGuardAdvice("password-empty");
+            }
+            
+            // Make sure the value updates correctly
+            console.log("Password input:", this.value);
+        });
+        
+        // Show password checkbox
+        showPasswordCheck.addEventListener('change', function() {
+            if (this.checked) {
+                passwordConfirm.type = 'text';
+            } else {
+                passwordConfirm.type = 'password';
+            }
+            
+            // Re-focus the field after changing type to ensure it remains active
+            setTimeout(() => {
+                passwordConfirm.focus();
+                
+                // Place cursor at the end of text
+                const length = passwordConfirm.value.length;
+                if (length > 0) {
+                    passwordConfirm.setSelectionRange(length, length);
+                }
+            }, 0);
+        });
+        
+        // Password confirm field direct handling
+        passwordConfirm.addEventListener('click', function() {
+            // Ensure field is enabled on click
+            this.disabled = false;
+        });
+        
+        // Login submit button
+        loginSubmitBtn.addEventListener('click', function() {
+            const enteredPassword = passwordConfirm.value;
+            const savedPassword = finalPassword.value;
+            
+            if (enteredPassword === savedPassword) {
+                // Password matches
+                passwordError.classList.add('hidden');
+                loginStage2.classList.add('animate__animated', 'animate__fadeOut');
+                
+                // Update KeyGuard with success message
+                updateLoginKeyGuardAdvice("success");
+                
+                setTimeout(() => {
+                    loginStage2.classList.add('hidden');
+                    loginSuccess.classList.remove('hidden');
+                    loginSuccess.classList.add('animate__animated', 'animate__fadeIn');
+                    
+                    // Mark stage 4 as complete
+                    stagesCompleted[3] = true;
+                    stage4CompleteInput.value = "1";
+                    
+                    // Enable the form submit button
+                    submitMissionBtn.disabled = false;
+                }, 300);
+            } else {
+                // Password doesn't match
+                passwordError.classList.remove('hidden');
+                passwordError.classList.add('animate__animated', 'animate__headShake');
+                
+                // Update KeyGuard with failure message
+                updateLoginKeyGuardAdvice("failure");
+                
+                // Remove animation class after it completes
+                setTimeout(() => {
+                    passwordError.classList.remove('animate__animated', 'animate__headShake');
+                }, 1000);
+            }
+        });
+        
+        // Function to update KeyGuard's advice in Stage 4
+        function updateLoginKeyGuardAdvice(state) {
+            const assistantText = document.getElementById('login-assistant-text');
+            const assistantContainer = assistantText.closest('.flex');
+            let adviceText = "";
+            
+            // Clear any previous animations
+            assistantContainer.classList.remove('animate__animated', 'animate__bounce', 'animate__tada', 'animate__shakeX', 'animate__heartBeat');
+            
+            switch(state) {
+                case "default":
+                    adviceText = "Now the final test! Can you remember the strong password you created? I'll need you to type it in exactly the same way to prove you can recall it!";
+                    break;
+                case "email-entered":
+                    adviceText = "Great! Now try to remember your strong password. Type it exactly as you created it earlier.";
+                    assistantContainer.classList.add('animate__animated', 'animate__bounce');
+                    break;
+                case "password-empty":
+                    adviceText = "Don't worry if you can't remember right away. Try to recall the memorable passphrase you created!";
+                    break;
+                case "typing-password":
+                    adviceText = "That's it! Keep going! Remember all the special characters and capital letters you used.";
+                    break;
+                case "success":
+                    adviceText = "AMAZING JOB! 🎉 You created AND remembered a super strong password! You're a cyber security champion!";
+                    assistantContainer.classList.add('animate__animated', 'animate__tada');
+                    break;
+                case "failure":
+                    adviceText = "Oops! That's not quite right. Remember that passwords are case-sensitive and every character matters. Try again!";
+                    assistantContainer.classList.add('animate__animated', 'animate__heartBeat');
+                    break;
+                default:
+                    adviceText = "Now the final test! Can you remember the strong password you created? I'll need you to type it in exactly the same way to prove you can recall it!";
+            }
+            
+            // Apply the new advice with animation
+            assistantText.textContent = adviceText;
+        }
+        
+        // Complete mission button
+        completeMissionBtn.addEventListener('click', function() {
+            missionForm.submit();
+        });
+        
+        // Stage navigation
+        stageBtns.forEach((btn, index) => {
+            btn.addEventListener('click', function() {
+                const stageNumber = index + 1;
+                
+                // Only allow navigation to completed stages or the next available stage
+                let canNavigate = false;
+                
+                if (stageNumber === 1) {
+                    canNavigate = true;
+                } else if (stageNumber === 2) {
+                    canNavigate = stagesCompleted[0];
+                } else if (stageNumber === 3) {
+                    canNavigate = stagesCompleted[1];
+                } else if (stageNumber === 4) {
+                    canNavigate = stagesCompleted[2];
+                }
+                
+                if (canNavigate) {
+                    navigateToStage(stageNumber);
+                }
+            });
+        });
+        
+        function navigateToStage(stageNumber) {
+            currentStage = stageNumber;
+            
+            // Update buttons
+            stageBtns.forEach((btn, index) => {
+                if (index + 1 === stageNumber) {
+                    btn.classList.add('active');
+                    
+                    // Set the active button style
+                    btn.classList.remove('bg-gray-800/70', 'text-gray-400');
+                    
+                    if (stageNumber === 1) {
+                        btn.classList.add('bg-gradient-to-r', 'from-blue-600', 'to-cyan-600', 'text-white');
+                    } else if (stageNumber === 2) {
+                        btn.classList.add('bg-gradient-to-r', 'from-blue-600', 'to-cyan-600', 'text-white');
+                    } else if (stageNumber === 3) {
+                        btn.classList.add('bg-gradient-to-r', 'from-green-600', 'to-cyan-600', 'text-white');
+                    } else if (stageNumber === 4) {
+                        btn.classList.add('bg-gradient-to-r', 'from-purple-600', 'to-cyan-600', 'text-white');
+                    }
+                } else {
+                    btn.classList.remove('active');
+                    
+                    // If the stage is completed, keep its color
+                    if ((index === 0 && stagesCompleted[0]) ||
+                        (index === 1 && stagesCompleted[1]) ||
+                        (index === 2 && stagesCompleted[2]) ||
+                        (index === 3 && stagesCompleted[3])) {
+                        // Keep the colored style
+                    } else {
+                        // Reset to default style
+                        if (index + 1 !== stageNumber) {
+                            btn.classList.remove('bg-gradient-to-r', 'from-blue-600', 'to-cyan-600', 'from-green-600', 'from-purple-600', 'text-white');
+                            btn.classList.add('bg-gray-800/70', 'text-gray-400');
+                        }
+                    }
+                }
+            });
+            
+            // Show the correct stage with animation
+            stages.forEach((stage, index) => {
+                if (index + 1 === stageNumber) {
+                    stage.classList.remove('hidden');
+                    stage.classList.add('active', 'animate__animated', 'animate__fadeIn');
+                    stage.style.animationDuration = '0.5s';
+                } else {
+                    stage.classList.add('hidden');
+                    stage.classList.remove('active', 'animate__animated', 'animate__fadeIn');
+                }
+            });
+        }
+        
+        // Calculate password strength
+        function calculatePasswordStrength(password) {
+            let score = 0;
+            
+            // Check password length
+            if (password.length >= 12) {
+                score += 1;
+                lengthCheck.classList.remove('bg-gray-700');
+                lengthCheck.classList.add('bg-green-600');
+                lengthCheck.querySelector('svg').style.display = 'block';
+            } else {
+                lengthCheck.classList.remove('bg-green-600');
+                lengthCheck.classList.add('bg-gray-700');
+                lengthCheck.querySelector('svg').style.display = 'none';
+            }
+            
+            // Check for uppercase letters
+            if (/[A-Z]/.test(password)) {
+                score += 1;
+                uppercaseCheck.classList.remove('bg-gray-700');
+                uppercaseCheck.classList.add('bg-green-600');
+                uppercaseCheck.querySelector('svg').style.display = 'block';
+            } else {
+                uppercaseCheck.classList.remove('bg-green-600');
+                uppercaseCheck.classList.add('bg-gray-700');
+                uppercaseCheck.querySelector('svg').style.display = 'none';
+            }
+            
+            // Check for lowercase letters
+            if (/[a-z]/.test(password)) {
+                score += 1;
+                lowercaseCheck.classList.remove('bg-gray-700');
+                lowercaseCheck.classList.add('bg-green-600');
+                lowercaseCheck.querySelector('svg').style.display = 'block';
+            } else {
+                lowercaseCheck.classList.remove('bg-green-600');
+                lowercaseCheck.classList.add('bg-gray-700');
+                lowercaseCheck.querySelector('svg').style.display = 'none';
+            }
+            
+            // Check for numbers
+            if (/[0-9]/.test(password)) {
+                score += 1;
+                numberCheck.classList.remove('bg-gray-700');
+                numberCheck.classList.add('bg-green-600');
+                numberCheck.querySelector('svg').style.display = 'block';
+            } else {
+                numberCheck.classList.remove('bg-green-600');
+                numberCheck.classList.add('bg-gray-700');
+                numberCheck.querySelector('svg').style.display = 'none';
+            }
+            
+            // Check for special characters
+            if (/[^A-Za-z0-9]/.test(password)) {
+                score += 1;
+                specialCheck.classList.remove('bg-gray-700');
+                specialCheck.classList.add('bg-green-600');
+                specialCheck.querySelector('svg').style.display = 'block';
+            } else {
+                specialCheck.classList.remove('bg-green-600');
+                specialCheck.classList.add('bg-gray-700');
+                specialCheck.querySelector('svg').style.display = 'none';
+            }
+            
+            return score;
+        }
+        
+        // Update password strength UI
+        function updatePasswordStrength(score) {
+            let percentage = (score / 5) * 100;
+            strengthMeter.style.width = percentage + '%';
+            
+            if (score === 0) {
+                strengthMeter.style.backgroundColor = '#ccc';
+                strengthText.textContent = 'None';
+                strengthText.className = 'font-bold text-gray-400';
+            } else if (score === 1) {
+                strengthMeter.style.backgroundColor = '#ef4444';
+                strengthText.textContent = 'Very Weak';
+                strengthText.className = 'font-bold text-red-500';
+            } else if (score === 2) {
+                strengthMeter.style.backgroundColor = '#f97316';
+                strengthText.textContent = 'Weak';
+                strengthText.className = 'font-bold text-orange-500';
+            } else if (score === 3) {
+                strengthMeter.style.backgroundColor = '#eab308';
+                strengthText.textContent = 'Medium';
+                strengthText.className = 'font-bold text-yellow-500';
+            } else if (score === 4) {
+                strengthMeter.style.backgroundColor = '#22c55e';
+                strengthText.textContent = 'Strong';
+                strengthText.className = 'font-bold text-green-500';
+            } else {
+                strengthMeter.style.backgroundColor = '#15803d';
+                strengthText.textContent = 'Very Strong';
+                strengthText.className = 'font-bold text-green-700';
+            }
+        }
+        
+        // Update final password strength UI
+        function updateFinalPasswordStrength(score) {
+            let percentage = (score / 5) * 100;
+            finalStrengthMeter.style.width = percentage + '%';
+            
+            if (score === 0) {
+                finalStrengthMeter.style.backgroundColor = '#ccc';
+                finalStrengthText.textContent = 'None';
+                finalStrengthText.className = 'font-bold text-gray-400';
+            } else if (score === 1) {
+                finalStrengthMeter.style.backgroundColor = '#ef4444';
+                finalStrengthText.textContent = 'Very Weak';
+                finalStrengthText.className = 'font-bold text-red-500';
+            } else if (score === 2) {
+                finalStrengthMeter.style.backgroundColor = '#f97316';
+                finalStrengthText.textContent = 'Weak';
+                finalStrengthText.className = 'font-bold text-orange-500';
+            } else if (score === 3) {
+                finalStrengthMeter.style.backgroundColor = '#eab308';
+                finalStrengthText.textContent = 'Medium';
+                finalStrengthText.className = 'font-bold text-yellow-500';
+            } else if (score === 4) {
+                finalStrengthMeter.style.backgroundColor = '#22c55e';
+                finalStrengthText.textContent = 'Strong';
+                finalStrengthText.className = 'font-bold text-green-500';
+            } else {
+                finalStrengthMeter.style.backgroundColor = '#15803d';
+                finalStrengthText.textContent = 'Very Strong';
+                finalStrengthText.className = 'font-bold text-green-700';
+            }
+        }
+        
+        // Interactive KeyGuard character functions
+        function updateKeyGuardAdvice(password, score) {
+            const assistantText = document.getElementById('password-assistant-text');
+            const assistantContainer = assistantText.closest('.flex');
+            let adviceText = "";
+            
+            // Clear any previous animations
+            assistantContainer.classList.remove('animate__animated', 'animate__bounce', 'animate__tada', 'animate__shakeX');
+            
+            if (password.length === 0) {
+                adviceText = "Hi there! I'm KeyGuard! I'll help you create a super strong password. Start typing, and I'll give you tips to make it stronger!";
+            } else {
+                // Check for specific password characteristics and provide tailored advice
+                if (password.length < 8) {
+                    adviceText = "That's a start! But your password is too short. Try making it longer - at least 12 characters is best!";
+                    assistantContainer.classList.add('animate__animated', 'animate__shakeX');
+                } else if (password.length < 12) {
+                    adviceText = "Getting better! Your password is decent, but still a bit short. Can you make it 12 characters or more?";
+                } else if (!/[A-Z]/.test(password)) {
+                    adviceText = "Good length! Now try adding some UPPERCASE letters to make it stronger!";
+                    assistantContainer.classList.add('animate__animated', 'animate__bounce');
+                } else if (!/[0-9]/.test(password)) {
+                    adviceText = "Looking good! Now add some numbers (like 2, 5, or 9) to make it even stronger!";
+                    assistantContainer.classList.add('animate__animated', 'animate__bounce');
+                } else if (!/[^A-Za-z0-9]/.test(password)) {
+                    adviceText = "Almost there! Add some special characters like @, #, or ! to make your password super strong!";
+                    assistantContainer.classList.add('animate__animated', 'animate__bounce');
+                } else if (score >= 4) {
+                    adviceText = "WOW! That's an AWESOME password! It would take hackers a very long time to crack this. Great job!";
+                    assistantContainer.classList.add('animate__animated', 'animate__tada');
+                } else {
+                    adviceText = "Keep going! Your password is getting stronger, but it could still be better!";
+                }
+            }
+            
+            // Apply the new advice with animation
+            assistantText.textContent = adviceText;
+        }
+        
+        function updateMemorableKeyGuardAdvice(password, score) {
+            const assistantText = document.getElementById('memorable-assistant-text');
+            const assistantContainer = assistantText.closest('.flex');
+            let adviceText = "";
+            
+            // Clear any previous animations
+            assistantContainer.classList.remove('animate__animated', 'animate__bounce', 'animate__tada', 'animate__shakeX');
+            
+            if (password.length === 0) {
+                adviceText = "Great job getting to this stage! Now let's create a password that's both strong AND easy to remember. Try using the passphrase method below!";
+            } else {
+                // Check if the password looks like a passphrase
+                const wordCount = password.split(/[^a-zA-Z]/).filter(word => word.length > 2).length;
+                
+                if (wordCount < 2) {
+                    adviceText = "Try using the passphrase method! Start with several random words like 'elephant banana rocket'";
+                    assistantContainer.classList.add('animate__animated', 'animate__bounce');
+                } else if (!/[0-9]/.test(password)) {
+                    adviceText = "Good start with those words! Now try adding some numbers between or after them.";
+                } else if (!/[^A-Za-z0-9]/.test(password)) {
+                    adviceText = "Looking good! Now add some special characters like @, #, or ! to make it even stronger!";
+                } else if (!/[A-Z]/.test(password) || !/[a-z]/.test(password)) {
+                    adviceText = "Almost there! Make sure to use both UPPERCASE and lowercase letters for maximum strength.";
+                } else if (score >= 4) {
+                    adviceText = "FANTASTIC! This password is both strong AND memorable. The passphrase method works great, doesn't it?";
+                    assistantContainer.classList.add('animate__animated', 'animate__tada');
+                } else {
+                    adviceText = "Keep improving your passphrase! It's getting better, but could be stronger.";
+                }
+            }
+            
+            // Apply the new advice with animation
+            assistantText.textContent = adviceText;
+        }
+        
+        // Fun character animations when transitioning stages
+        nextStage2Btn.addEventListener('click', function() {
+            const assistantText = document.getElementById('password-assistant-text');
+            assistantText.textContent = "Great job! You've created a strong password. Let's move on to make it memorable too!";
+            assistantText.closest('.flex').classList.add('animate__animated', 'animate__tada');
+        });
+        
+        nextStage3Btn.addEventListener('click', function() {
+            const assistantText = document.getElementById('memorable-assistant-text');
+            assistantText.textContent = "Awesome work! Now let's test if you can remember your password by logging in!";
+            assistantText.closest('.flex').classList.add('animate__animated', 'animate__tada');
+        });
+    });
+</script>
+
+<style>
+/* Slow spin animation for cybersecurity elements */
+@keyframes spin-slow {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin-slow {
+    animation: spin-slow 12s linear infinite;
+}
+
+@keyframes pulse-slow {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.9;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.animate-pulse-slow {
+    animation: pulse-slow 3s ease-in-out infinite;
+}
+
+/* Glow effect for buttons */
+.btn-cyber {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-cyber:before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.2) 100%
+    );
+    transform: rotate(45deg);
+    z-index: 0;
+    transition: all 0.5s ease;
+    opacity: 0;
+}
+
+.btn-cyber:hover:before {
+    opacity: 1;
+    animation: shine 1.5s infinite;
+}
+
+@keyframes shine {
+    0% {
+        left: -100%;
+        top: -100%;
+    }
+    100% {
+        left: 100%;
+        top: 100%;
+    }
+}
+</style>
+@endif 
+
+@if($mission['id'] == 1)
+<!-- Animate.css for additional animations -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+<!-- PhishGuard JavaScript for The Mysterious Email Challenge -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Stage navigation
+        const phishingStageBtns = document.querySelectorAll('.phishing-stage-btn');
+        const phishingStages = document.querySelectorAll('.phishing-stage');
+        let currentPhishingStage = 1;
+        let phishingStagesCompleted = [false, false, false, false, false];
+        
+        // PhishGuard character text
+        const phishingAssistantText = document.getElementById('phishing-assistant-text');
+        
+        // Form elements
+        const phishingMissionForm = document.getElementById('phishing-mission-form');
+        const submitPhishingMissionBtn = document.getElementById('submit-phishing-mission');
+        const phishingStage1CompleteInput = document.getElementById('phishing_stage1_complete');
+        const phishingStage2CompleteInput = document.getElementById('phishing_stage2_complete');
+        const phishingStage3CompleteInput = document.getElementById('phishing_stage3_complete');
+        const phishingStage4CompleteInput = document.getElementById('phishing_stage4_complete');
+        const phishingStage5CompleteInput = document.getElementById('phishing_stage5_complete');
+        const phishingTestScoreInput = document.getElementById('phishing_test_score');
+        const totalPhishingScoreInput = document.getElementById('total_phishing_score');
+        const cluesHiddenInput = document.getElementById('clues_hidden');
+        const actionHiddenInput = document.getElementById('action_hidden');
+        
+        // Stage 1: Email Basics
+        const checkBasicsBtn = document.getElementById('check-basics');
+        const clueCheckboxes = document.querySelectorAll('input[name="clues[]"]');
+        const actionRadios = document.querySelectorAll('input[name="action"]');
+        
+        // Stage 2: Outlook Phishing
+        const checkOutlookBtn = document.getElementById('check-outlook');
+        const outlookClueCheckboxes = document.querySelectorAll('input[name="outlook-clues[]"]');
+        
+        // Stage 3: Gmail Phishing
+        const checkGmailBtn = document.getElementById('check-gmail');
+        const gmailClueCheckboxes = document.querySelectorAll('input[name="gmail-clues[]"]');
+        
+        // Stage 4: SMS Scams
+        const checkSmsBtn = document.getElementById('check-sms');
+        const smsClueCheckboxes = document.querySelectorAll('input[name="sms-clues[]"]');
+        const smsActionRadios = document.querySelectorAll('input[name="sms-action"]');
+        
+        // Stage 5: Final Test
+        const checkTestAnswersBtn = document.getElementById('check-test-answers');
+        const testResultsModal = document.getElementById('test-results');
+        const closeResultsBtn = document.getElementById('close-results');
+        const completeTestBtn = document.getElementById('complete-test');
+        const resultsCircle = document.getElementById('results-circle');
+        const resultsPercentage = document.getElementById('results-percentage');
+        const resultsCorrect = document.getElementById('results-correct');
+        const resultsMessage = document.getElementById('results-message');
+        const villainPowerMeter = document.getElementById('villain-power-meter');
+        const villainPower = document.getElementById('villain-power');
+        
+        // Test answers (correct answers for scoring)
+        const correctTestAnswers = {
+            q1: 'b', // Email with spelling errors claiming prize
+            q2: 'c', // Delete it or mark as spam
+            q3: 'b', // support@bankofamerica.com
+            q4: 'b', // Mentioning deadlines and consequences
+            q5: 'b', // Domain name
+            q6: 'c', // Ignore and call bank directly
+            q7: 'c', // Targeted email from school principal
+            q8: 'c', // School email with calendar invite
+            q9: 'b', // Email encryption and digital signatures
+            q10: 'c' // Generic greeting, unexpected doc, non-Google URL
+        };
+        
+        // Add event listeners for stage navigation
+        phishingStageBtns.forEach((btn, index) => {
+            btn.addEventListener('click', function() {
+                const stageNumber = index + 1;
+                let canNavigate = false;
+                
+                if (stageNumber === 1) {
+                    canNavigate = true;
+                } else if (stageNumber === 2) {
+                    canNavigate = phishingStagesCompleted[0];
+                } else if (stageNumber === 3) {
+                    canNavigate = phishingStagesCompleted[1];
+                } else if (stageNumber === 4) {
+                    canNavigate = phishingStagesCompleted[2];
+                } else if (stageNumber === 5) {
+                    canNavigate = phishingStagesCompleted[3];
+                }
+                
+                if (canNavigate) {
+                    navigateToPhishingStage(stageNumber);
+                }
+            });
+        });
+        
+        // [Existing code for previous stages remains the same]
+        // Stage 1: Email Basics check button
+        checkBasicsBtn.addEventListener('click', function() {
+            const selectedClues = Array.from(clueCheckboxes)
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => checkbox.value);
+            
+            const selectedAction = Array.from(actionRadios)
+                .find(radio => radio.checked)?.value;
+            
+            // Store selected values in hidden inputs
+            cluesHiddenInput.value = selectedClues.join(',');
+            actionHiddenInput.value = selectedAction || '';
+            
+            // Calculate score
+            const correctClues = ['sender', 'urgency', 'spelling', 'prize', 'link'];
+            const correctAction = 'report';
+            
+            let score = 0;
+            let totalCorrectItems = 0;
+            
+            // Count correct clues
+            correctClues.forEach(clue => {
+                if (selectedClues.includes(clue)) {
+                    score++;
+                    totalCorrectItems++;
+                }
+            });
+            
+            // Check action
+            if (selectedAction === correctAction) {
+                score++;
+                totalCorrectItems++;
+            }
+            
+            // Maximum score is 6 (5 clues + 1 action)
+            const maxScore = 6;
+            const percentage = (score / maxScore) * 100;
+            
+            // Update PhishGuard's advice
+            updatePhishGuardAdvice('stage1-feedback', percentage, score, maxScore);
+            
+            // Mark stage as complete if score is good enough
+            if (percentage >= 70) {
+                phishingStagesCompleted[0] = true;
+                phishingStage1CompleteInput.value = "1";
+                
+                // Enable Stage 2 button
+                document.getElementById('phishing-stage2-btn').classList.remove('bg-gray-800/70', 'text-gray-400');
+                document.getElementById('phishing-stage2-btn').classList.add('bg-gradient-to-r', 'from-red-600', 'to-purple-600', 'text-white');
+                
+                // Update total score
+                updateTotalPhishingScore();
+                
+                // Auto navigate to next stage after delay
+                setTimeout(() => {
+                    navigateToPhishingStage(2);
+                }, 2500);
+            }
+        });
+        
+        // Stage 2: Outlook check button
+        checkOutlookBtn.addEventListener('click', function() {
+            const selectedOutlookClues = Array.from(outlookClueCheckboxes)
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => checkbox.value);
+            
+            // Calculate score
+            const correctOutlookClues = ['sender-domain', 'generic-greeting', 'urgency', 'hover-link', 'vague-footer'];
+            
+            let score = 0;
+            
+            // Count correct clues
+            correctOutlookClues.forEach(clue => {
+                if (selectedOutlookClues.includes(clue)) {
+                    score++;
+                }
+            });
+            
+            // Maximum score is 5
+            const maxScore = 5;
+            const percentage = (score / maxScore) * 100;
+            
+            // Update PhishGuard's advice
+            updatePhishGuardAdvice('stage2-feedback', percentage, score, maxScore);
+            
+            // Mark stage as complete if score is good enough
+            if (percentage >= 70) {
+                phishingStagesCompleted[1] = true;
+                phishingStage2CompleteInput.value = "1";
+                
+                // Enable Stage 3 button
+                document.getElementById('phishing-stage3-btn').classList.remove('bg-gray-800/70', 'text-gray-400');
+                document.getElementById('phishing-stage3-btn').classList.add('bg-gradient-to-r', 'from-red-600', 'to-purple-600', 'text-white');
+                
+                // Update total score
+                updateTotalPhishingScore();
+                
+                // Auto navigate to next stage after delay
+                setTimeout(() => {
+                    navigateToPhishingStage(3);
+                }, 2500);
+            }
+        });
+        
+        // Stage 3: Gmail check button
+        checkGmailBtn.addEventListener('click', function() {
+            const selectedGmailClues = Array.from(gmailClueCheckboxes)
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => checkbox.value);
+            
+            // Calculate score
+            const correctGmailClues = ['sender-domain', 'generic-greeting', 'urgency', 'payment-method', 'browser-link'];
+            
+            let score = 0;
+            
+            // Count correct clues
+            correctGmailClues.forEach(clue => {
+                if (selectedGmailClues.includes(clue)) {
+                    score++;
+                }
+            });
+            
+            // Maximum score is 5
+            const maxScore = 5;
+            const percentage = (score / maxScore) * 100;
+            
+            // Update PhishGuard's advice
+            updatePhishGuardAdvice('stage3-feedback', percentage, score, maxScore);
+            
+            // Mark stage as complete if score is good enough
+            if (percentage >= 70) {
+                phishingStagesCompleted[2] = true;
+                phishingStage3CompleteInput.value = "1";
+                
+                // Enable Stage 4 button
+                document.getElementById('phishing-stage4-btn').classList.remove('bg-gray-800/70', 'text-gray-400');
+                document.getElementById('phishing-stage4-btn').classList.add('bg-gradient-to-r', 'from-red-600', 'to-purple-600', 'text-white');
+                
+                // Update total score
+                updateTotalPhishingScore();
+                
+                // Auto navigate to next stage after delay
+                setTimeout(() => {
+                    navigateToPhishingStage(4);
+                }, 2500);
+            }
+        });
+        
+        // Stage 4: SMS check button
+        checkSmsBtn.addEventListener('click', function() {
+            const selectedSmsClues = Array.from(smsClueCheckboxes)
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => checkbox.value);
+            
+            const selectedSmsAction = Array.from(smsActionRadios)
+                .find(radio => radio.checked)?.value;
+            
+            // Calculate score
+            const correctSmsClues = ['short-codes', 'suspicious-urls', 'false-urgency', 'unexpected-prizes', 'personal-info'];
+            const correctSmsAction = 'ignore-report';
+            
+            let score = 0;
+            
+            // Count correct clues
+            correctSmsClues.forEach(clue => {
+                if (selectedSmsClues.includes(clue)) {
+                    score++;
+                }
+            });
+            
+            // Check action
+            if (selectedSmsAction === correctSmsAction) {
+                score += 2; // Worth more points
+            }
+            
+            // Maximum score is 7 (5 clues + 2 for action)
+            const maxScore = 7;
+            const percentage = (score / maxScore) * 100;
+            
+            // Update PhishGuard's advice
+            updatePhishGuardAdvice('stage4-feedback', percentage, score, maxScore);
+            
+            // Mark stage as complete if score is good enough
+            if (percentage >= 70) {
+                phishingStagesCompleted[3] = true;
+                phishingStage4CompleteInput.value = "1";
+                
+                // Enable Stage 5 button
+                document.getElementById('phishing-stage5-btn').classList.remove('bg-gray-800/70', 'text-gray-400');
+                document.getElementById('phishing-stage5-btn').classList.add('bg-gradient-to-r', 'from-red-600', 'to-purple-600', 'text-white');
+                
+                // Update total score
+                updateTotalPhishingScore();
+                
+                // Auto navigate to final test stage after delay
+                setTimeout(() => {
+                    navigateToPhishingStage(5);
+                }, 2500);
+            }
+        });
+        
+        // Stage 5: Final Test check answers button
+        checkTestAnswersBtn.addEventListener('click', function() {
+            let correctAnswers = 0;
+            
+            // Check each question against the correct answers
+            for (let i = 1; i <= 10; i++) {
+                const questionRadios = document.querySelectorAll(`input[name="q${i}"]`);
+                const selectedAnswer = Array.from(questionRadios).find(radio => radio.checked)?.value;
+                
+                if (selectedAnswer === correctTestAnswers[`q${i}`]) {
+                    correctAnswers++;
+                }
+            }
+            
+            // Calculate percentage
+            const percentage = (correctAnswers / 10) * 100;
+            
+            // Update villain power meter
+            const newPowerLevel = 100 - (correctAnswers * 10);
+            villainPowerMeter.style.width = `${newPowerLevel}%`;
+            villainPower.textContent = `${newPowerLevel}%`;
+            
+            // Update the results modal
+            resultsPercentage.textContent = `${percentage}%`;
+            resultsCorrect.textContent = correctAnswers;
+            
+            // Animate the results circle
+            const circumference = 2 * Math.PI * 45; // r = 45
+            const offset = circumference - (percentage / 100) * circumference;
+            resultsCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+            resultsCircle.style.strokeDashoffset = offset;
+            
+            // Set the message based on score
+            if (percentage >= 90) {
+                resultsMessage.textContent = "Amazing! You've mastered phishing detection. Captain Clickbait is no match for your cyber security skills!";
+                resultsMessage.classList.add('bg-green-900/40', 'border-green-500/30');
+            } else if (percentage >= 70) {
+                resultsMessage.textContent = "Good job! You've learned a lot about phishing detection. Keep practicing to become even better!";
+                resultsMessage.classList.add('bg-blue-900/40', 'border-blue-500/30');
+            } else if (percentage >= 50) {
+                resultsMessage.textContent = "You're making progress! With more practice, you'll get better at spotting phishing attempts.";
+                resultsMessage.classList.add('bg-yellow-900/40', 'border-yellow-500/30');
+            } else {
+                resultsMessage.textContent = "Don't worry! Phishing can be tricky. Review the lessons and try again to improve your detection skills.";
+                resultsMessage.classList.add('bg-red-900/40', 'border-red-500/30');
+            }
+            
+            // Save score to form input
+            phishingTestScoreInput.value = correctAnswers;
+            
+            // Mark stage as complete
+            phishingStagesCompleted[4] = true;
+            phishingStage5CompleteInput.value = "1";
+            
+            // Update total score
+            updateTotalPhishingScore();
+            
+            // Show the results modal
+            testResultsModal.classList.remove('hidden');
+            testResultsModal.classList.add('animate__animated', 'animate__fadeIn');
+        });
+        
+        // Close results button
+        closeResultsBtn.addEventListener('click', function() {
+            testResultsModal.classList.add('animate__fadeOut');
+            setTimeout(() => {
+                testResultsModal.classList.add('hidden');
+                testResultsModal.classList.remove('animate__fadeOut');
+            }, 300);
+        });
+        
+        // Complete test button
+        completeTestBtn.addEventListener('click', function() {
+            // Close the modal
+            testResultsModal.classList.add('hidden');
+            
+            // Enable and show the submission button
+            submitPhishingMissionBtn.classList.remove('hidden');
+            submitPhishingMissionBtn.disabled = false;
+            
+            // Scroll to the submit button
+            submitPhishingMissionBtn.scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        // Helper function to navigate between stages
+        function navigateToPhishingStage(stageNumber) {
+            currentPhishingStage = stageNumber;
+            
+            // Update stage buttons
+            phishingStageBtns.forEach((btn, index) => {
+                if (index + 1 === stageNumber) {
+                    btn.classList.add('active', 'bg-gradient-to-r', 'from-red-600', 'to-purple-600', 'text-white');
+                    btn.classList.remove('bg-gray-800/70', 'text-gray-400');
+                } else {
+                    btn.classList.remove('active');
+                    
+                    // If this stage is completed, keep its colored style
+                    if (phishingStagesCompleted[index]) {
+                        btn.classList.add('bg-gradient-to-r', 'from-red-600', 'to-purple-600', 'text-white');
+                        btn.classList.remove('bg-gray-800/70', 'text-gray-400');
+                    } else {
+                        btn.classList.remove('bg-gradient-to-r', 'from-red-600', 'to-purple-600', 'text-white');
+                        btn.classList.add('bg-gray-800/70', 'text-gray-400');
+                    }
+                }
+            });
+            
+            // Show the correct stage
+            phishingStages.forEach((stage, index) => {
+                if (index + 1 === stageNumber) {
+                    stage.classList.remove('hidden');
+                    stage.classList.add('active', 'animate__animated', 'animate__fadeIn');
+                } else {
+                    stage.classList.add('hidden');
+                    stage.classList.remove('active', 'animate__animated', 'animate__fadeIn');
+                }
+            });
+            
+            // Update PhishGuard's advice
+            updatePhishGuardStageAdvice(stageNumber);
+            
+            // If entering final test stage, show Captain Clickbait introduction with animation
+            if (stageNumber === 5) {
+                // Animate villain power meter to 100%
+                villainPowerMeter.style.width = '100%';
+                villainPower.textContent = '100%';
+            }
+        }
+        
+        // Update PhishGuard's advice based on the stage
+        function updatePhishGuardStageAdvice(stage) {
+            const assistantContainer = phishingAssistantText.closest('.flex');
+            assistantContainer.classList.remove('animate__animated', 'animate__bounce', 'animate__tada', 'animate__shakeX');
+            
+            switch(stage) {
+                case 1:
+                    phishingAssistantText.textContent = "Hi there! I'm PhishGuard! I'll help you spot tricky emails and messages that might be trying to steal your information. Let's learn how to stay safe online!";
+                    assistantContainer.classList.add('animate__animated', 'animate__bounce');
+                    break;
+                case 2:
+                    phishingAssistantText.textContent = "Great job on the basics! Now let's look at a tricky Outlook email. Microsoft account security emails are often faked by scammers. Can you spot the signs?";
+                    assistantContainer.classList.add('animate__animated', 'animate__bounce');
+                    break;
+                case 3:
+                    phishingAssistantText.textContent = "You're getting good at this! PayPal is another company scammers love to imitate. Let's see if you can spot the tricks in this Gmail message.";
+                    assistantContainer.classList.add('animate__animated', 'animate__bounce');
+                    break;
+                case 4:
+                    phishingAssistantText.textContent = "Time for a new challenge! Phishing doesn't just happen in emails - text messages (SMS) can also contain scams. These are called 'smishing' attacks!";
+                    assistantContainer.classList.add('animate__animated', 'animate__bounce');
+                    break;
+                case 5:
+                    phishingAssistantText.textContent = "You've learned the basics of spotting phishing! Now it's time to face Captain Clickbait's final test. Answer the questions to show how much you've learned!";
+                    assistantContainer.classList.add('animate__animated', 'animate__tada');
+                    break;
+            }
+        }
+        
+        // Update PhishGuard's advice based on score
+        function updatePhishGuardAdvice(stage, percentage, score, maxScore) {
+            const assistantContainer = phishingAssistantText.closest('.flex');
+            assistantContainer.classList.remove('animate__animated', 'animate__bounce', 'animate__tada', 'animate__shakeX');
+            
+            if (percentage >= 90) {
+                phishingAssistantText.textContent = `Amazing job! You found ${score} out of ${maxScore} clues! You're a cyber detective! 🕵️‍♂️`;
+                assistantContainer.classList.add('animate__animated', 'animate__tada');
+            } else if (percentage >= 70) {
+                phishingAssistantText.textContent = `Good work! You found ${score} out of ${maxScore} clues. You're getting really good at spotting phishing!`;
+                assistantContainer.classList.add('animate__animated', 'animate__bounce');
+            } else if (percentage >= 50) {
+                phishingAssistantText.textContent = `You found ${score} out of ${maxScore} clues. Let's try to find more of the warning signs next time!`;
+                assistantContainer.classList.add('animate__animated', 'animate__bounce');
+            } else {
+                phishingAssistantText.textContent = `You found ${score} out of ${maxScore} clues. Phishing can be tricky! Take another look at the message and try again.`;
+                assistantContainer.classList.add('animate__animated', 'animate__shakeX');
+            }
+        }
+        
+        // Calculate total score across all stages and test
+        function updateTotalPhishingScore() {
+            let totalScore = 0;
+            
+            // Add scores for each completed stage
+            if (phishingStagesCompleted[0]) totalScore += 6;
+            if (phishingStagesCompleted[1]) totalScore += 5;
+            if (phishingStagesCompleted[2]) totalScore += 5;
+            if (phishingStagesCompleted[3]) totalScore += 7;
+            
+            // Add test score if available (up to 10 points)
+            const testScore = parseInt(phishingTestScoreInput.value) || 0;
+            totalScore += testScore;
+            
+            // Set the total score in the form
+            totalPhishingScoreInput.value = totalScore;
+        }
+    });
+</script>
 
 <style>
 /* Villain animation effects */
@@ -2486,8 +3580,4 @@
     }
 }
 </style>
-
-@endswitch
-
-@endsection
-
+@endif 
