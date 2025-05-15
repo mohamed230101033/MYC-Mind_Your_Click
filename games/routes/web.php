@@ -24,7 +24,11 @@ Route::prefix('game')->name('game.')->group(function () {
     Route::get('/story', [GameController::class, 'storyMode'])->name('story');
     Route::get('/mission/{id}', [GameController::class, 'mission'])->name('mission');
     Route::post('/mission/{id}', [GameController::class, 'submitMission'])->name('submit-mission');
-    Route::get('/village', [GameController::class, 'village'])->name('village');
+    // Encryption Game Routes
+    Route::get('/secret-code', [GameController::class, 'secretCode'])->name('secret-code');
+    Route::post('/secret-code/decrypt', [GameController::class, 'submitDecryption'])->name('secret-code.decrypt');
+    Route::get('/secret-code/level/{level}', [GameController::class, 'secretCodeLevel'])->name('secret-code.level');
+    Route::post('/secret-code/level/{level}', [GameController::class, 'submitSecretCodeLevel'])->name('secret-code.submit-level');
     Route::get('/challenge', [GameController::class, 'challenge'])->name('challenge');
     Route::post('/challenge', [GameController::class, 'submitChallenge'])->name('submit-challenge');
     Route::get('/time-travel', [GameController::class, 'timeTravel'])->name('time-travel');

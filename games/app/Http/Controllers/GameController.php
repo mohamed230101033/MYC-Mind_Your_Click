@@ -12,8 +12,11 @@ class GameController extends Controller
      */
     public function welcome()
     {
-        // Reset any existing game session if returning to welcome page
-        Session::forget(['player_name', 'current_level', 'shield_level', 'badges', 'completed_missions']);
+        // Only reset session if explicitly requested
+        if (request()->has('reset')) {
+            Session::forget(['player_name', 'current_level', 'shield_level', 'badges', 'completed_missions']);
+            return view('welcome')->with('success', 'Game progress reset!');
+        }
         
         return view('welcome');
     }
@@ -27,6 +30,12 @@ class GameController extends Controller
             'player_name' => 'required|string|max:20',
         ]);
         
+        // Prevent overwriting existing game session
+        if (Session::has('player_name')) {
+            return redirect()->route('game.story')
+                ->with('error', 'Game already in progress. To start a new game, reset from the welcome page.');
+        }
+        
         // Store player information in session
         Session::put('player_name', $request->player_name);
         Session::put('current_level', 1);
@@ -34,7 +43,6 @@ class GameController extends Controller
         Session::put('badges', []);
         Session::put('completed_missions', []);
         
-        // Redirect to the game dashboard or intro
         return redirect()->route('game.intro');
     }
     
@@ -83,9 +91,8 @@ class GameController extends Controller
             return redirect()->route('welcome')->with('error', 'Please enter your name first!');
         }
         
-        // Get mission details (in real app, would come from database)
         $missions = $this->getMissions();
-        $mission = collect($missions)->firstWhere('id', $id);
+        $mission = collect($missions)->firstWhere('id', (int)$id);
         
         if (!$mission) {
             return redirect()->route('game.story')->with('error', 'Mission not found!');
@@ -117,7 +124,6 @@ class GameController extends Controller
             return redirect()->route('welcome')->with('error', 'Please enter your name first!');
         }
         
-        // Get mission details
         $missions = $this->getMissions();
         $mission = collect($missions)->firstWhere('id', (int)$id);
         
@@ -128,82 +134,66 @@ class GameController extends Controller
         // Handle different mission submissions based on ID
         switch ((int)$id) {
             case 1: // The Mysterious Email
-                // Check if we're using the new multi-stage phishing challenge
                 if ($request->has('phishing_stage1_complete')) {
-                    // Get data from the enhanced phishing challenge
+                    // Validate new phishing challenge inputs
+                    $request->validate([
+                        'phishing_stage1_complete' => 'boolean',
+                        'phishing_stage2_complete' => 'boolean',
+                        'phishing_stage3_complete' => 'boolean',
+                        'phishing_stage4_complete' => 'boolean',
+                        'total_phishing_score' => 'integer|min:0|max:23',
+                    ]);
+                    
                     $phishingStage1Complete = (bool) $request->input('phishing_stage1_complete', 0);
                     $phishingStage2Complete = (bool) $request->input('phishing_stage2_complete', 0);
                     $phishingStage3Complete = (bool) $request->input('phishing_stage3_complete', 0);
                     $phishingStage4Complete = (bool) $request->input('phishing_stage4_complete', 0);
                     $totalPhishingScore = (int) $request->input('total_phishing_score', 0);
                     
-                    // Calculate stage completion and score
                     $stagesCompleted = ($phishingStage1Complete ? 1 : 0) + 
                                       ($phishingStage2Complete ? 1 : 0) + 
                                       ($phishingStage3Complete ? 1 : 0) + 
                                       ($phishingStage4Complete ? 1 : 0);
                     
-                    // Maximum possible score is 23 (6 + 5 + 5 + 7)
                     $maxScore = 23;
                     $percentage = ($totalPhishingScore / $maxScore) * 100;
                     
-                    // Increase shield level based on score and stages completed
                     $shieldLevel = Session::get('shield_level', 0);
                     $increase = 0;
+                    $message = '';
+                    $badge = null;
                     
                     if ($percentage >= 90 && $stagesCompleted >= 4) {
-                        $increase = 5; // Excellent - completed all stages with high score
-                        $message = "Outstanding! You're a phishing detection expert! You completed all stages with a nearly perfect score!";
+                        $increase = 5;
+                        $message = "Outstanding! You're a phishing detection expert!";
+                        if ($stagesCompleted >= 4 && !in_array('phishing_master', Session::get('badges', []))) {
+                            $badge = 'phishing_master';
+                        } elseif ($shieldLevel + 5 >= 5 && !in_array('phishing_expert', Session::get('badges', []))) {
+                            $badge = 'phishing_expert';
+                        }
                     } elseif ($percentage >= 75 && $stagesCompleted >= 3) {
-                        $increase = 4; // Very good - completed most stages with good score
-                        $message = "Great job! You've mastered multiple types of phishing detection and scored very well!";
+                        $increase = 4;
+                        $message = "Great job! You've mastered multiple types of phishing detection!";
                     } elseif ($percentage >= 60 && $stagesCompleted >= 2) {
-                        $increase = 3; // Good - completed at least 2 stages with decent score
-                        $message = "Good work! You've learned to spot phishing in different contexts!";
+                        $increase = 3;
+                        $message = "Good work! You've learned to spot phishing!";
                     } elseif ($percentage >= 40 && $stagesCompleted >= 1) {
-                        $increase = 2; // Decent - completed at least basics with okay score
-                        $message = "Nice effort! You're learning the basics of phishing detection.";
+                        $increase = 2;
+                        $message = "Nice effort! You're learning phishing detection.";
                     } else {
-                        $increase = 1; // Completed something
-                        $message = "You've taken your first steps in learning to spot phishing attempts!";
+                        $increase = 1;
+                        $message = "First steps in spotting phishing!";
                     }
                     
-                    Session::put('shield_level', $shieldLevel + $increase);
-                    
-                    // Add to completed missions if not already completed
-                    $completedMissions = Session::get('completed_missions', []);
-                    if (!in_array($id, $completedMissions)) {
-                        $completedMissions[] = $id;
-                        Session::put('completed_missions', $completedMissions);
-                    }
-                    
-                    // Check if player earned a badge - enhanced badge for multi-stage completion
-                    $earnedBadge = false;
-                    $newShieldLevel = $shieldLevel + $increase;
-                    
-                    if (($stagesCompleted >= 4) && !in_array('phishing_master', Session::get('badges', []))) {
-                        $badges = Session::get('badges', []);
-                        $badges[] = 'phishing_master';
-                        Session::put('badges', $badges);
-                        $earnedBadge = 'phishing_master';
-                    } elseif (($newShieldLevel >= 5) && !in_array('phishing_expert', Session::get('badges', []))) {
-                        $badges = Session::get('badges', []);
-                        $badges[] = 'phishing_expert';
-                        Session::put('badges', $badges);
-                        $earnedBadge = 'phishing_expert';
-                    }
-                    
-                    if ($earnedBadge) {
-                        return redirect()->route('game.story')
-                            ->with('success', $message . ' You earned a new badge!')
-                            ->with('badge', $earnedBadge);
-                    }
-                    
-                    return redirect()->route('game.story')
-                        ->with('success', $message . ' Shield level increased by ' . $increase . '!');
+                    return $this->completeMission($id, $increase, $message, $badge);
                 }
                 
-                // Legacy code for the original phishing challenge
+                // Legacy phishing challenge
+                $request->validate([
+                    'clues' => 'array',
+                    'action' => 'required|string',
+                ]);
+                
                 $clues = $request->input('clues', []);
                 $action = $request->input('action');
                 
@@ -211,200 +201,132 @@ class GameController extends Controller
                 $correctAction = 'report';
                 
                 $score = 0;
-                
-                // Calculate score based on clues found (1 point each)
                 foreach ($correctClues as $clue) {
                     if (in_array($clue, $clues)) {
                         $score++;
                     }
                 }
-                
-                // Add 5 points for the correct action
                 if ($action === $correctAction) {
                     $score += 5;
                 }
                 
-                // Maximum score is 10 points
                 $maxScore = 10;
                 $percentage = ($score / $maxScore) * 100;
                 
-                // Increase shield level based on score
                 $shieldLevel = Session::get('shield_level', 0);
                 $increase = 0;
+                $message = '';
+                $badge = null;
                 
                 if ($percentage >= 90) {
-                    $increase = 3; // Excellent
-                    $message = "Excellent work! You spotted all the signs of phishing.";
+                    $increase = 3;
+                    $message = "Excellent work! You spotted all phishing signs.";
                 } elseif ($percentage >= 70) {
-                    $increase = 2; // Good
-                    $message = "Good job! You caught most of the phishing clues.";
+                    $increase = 2;
+                    $message = "Good job! You caught most phishing clues.";
                 } elseif ($percentage >= 50) {
-                    $increase = 1; // Okay
-                    $message = "Not bad, but you missed some important phishing signs.";
+                    $increase = 1;
+                    $message = "Not bad, but you missed some phishing signs.";
                 } else {
-                    $increase = 0; // Needs improvement
-                    $message = "You need more practice spotting phishing attempts.";
+                    $increase = 0;
+                    $message = "You need more practice spotting phishing.";
                 }
                 
-                Session::put('shield_level', $shieldLevel + $increase);
-                
-                // Add to completed missions if not already completed
-                $completedMissions = Session::get('completed_missions', []);
-                if (!in_array($id, $completedMissions)) {
-                    $completedMissions[] = $id;
-                    Session::put('completed_missions', $completedMissions);
+                if ($shieldLevel + $increase >= 5 && !in_array('phishing_expert', Session::get('badges', []))) {
+                    $badge = 'phishing_expert';
                 }
                 
-                // Check if player earned a badge
-                $earnedBadge = false;
-                $newShieldLevel = $shieldLevel + $increase;
-                
-                if (($newShieldLevel >= 5) && !in_array('phishing_expert', Session::get('badges', []))) {
-                    $badges = Session::get('badges', []);
-                    $badges[] = 'phishing_expert';
-                    Session::put('badges', $badges);
-                    $earnedBadge = 'phishing_expert';
-                }
-                
-                if ($earnedBadge) {
-                    return redirect()->route('game.story')
-                        ->with('success', $message . ' You earned a new badge!')
-                        ->with('badge', $earnedBadge);
-                }
-                
-                return redirect()->route('game.story')
-                    ->with('success', $message . ' Shield level increased by ' . $increase . '!');
+                return $this->completeMission($id, $increase, $message, $badge);
                 
             case 2: // Password Peril
-                // Get data from form
+                $request->validate([
+                    'stage1_complete' => 'boolean',
+                    'stage2_complete' => 'boolean',
+                    'stage3_complete' => 'boolean',
+                    'stage4_complete' => 'boolean',
+                    'password_score' => 'integer|min:0|max:5',
+                    'final_password' => 'string|nullable',
+                ]);
+                
                 $stage1Complete = (bool) $request->input('stage1_complete', 0);
-                $stage2Complete = (bool) $request->input('stage2_complete', 0); 
+                $stage2Complete = (bool) $request->input('stage2_complete', 0);
                 $stage3Complete = (bool) $request->input('stage3_complete', 0);
                 $stage4Complete = (bool) $request->input('stage4_complete', 0);
                 $passwordScore = (int) $request->input('password_score', 0);
-                $finalPassword = $request->input('final_password', '');
                 
-                // Calculate overall score
                 $score = 0;
-                
-                // Add points for each completed stage
                 if ($stage1Complete) $score += 2;
                 if ($stage2Complete) $score += 3;
                 if ($stage3Complete) $score += 3;
-                if ($stage4Complete) $score += 7; // Google login confirmation gets the most points
-                
-                // Add bonus points for password strength (0-5)
+                if ($stage4Complete) $score += 7;
                 $score += min($passwordScore, 5);
                 
-                // Maximum score is 20 points
                 $maxScore = 20;
                 $percentage = ($score / $maxScore) * 100;
                 
-                // Increase shield level based on score
                 $shieldLevel = Session::get('shield_level', 0);
                 $increase = 0;
+                $message = '';
+                $badge = null;
                 
                 if ($percentage >= 90) {
-                    $increase = 4; // Excellent
-                    $message = "Outstanding! You're a password security master. Your strong, memorable password and successful login prove you know how to protect your accounts.";
+                    $increase = 4;
+                    $message = "Outstanding! You're a password security master.";
                 } elseif ($percentage >= 75) {
-                    $increase = 3; // Very Good
-                    $message = "Great job! You've created a strong password and successfully completed the security verification process.";
+                    $increase = 3;
+                    $message = "Great job! You've created a strong password.";
                 } elseif ($percentage >= 60) {
-                    $increase = 2; // Good
-                    $message = "Good work! Your password skills are getting stronger, but there's still room for improvement.";
+                    $increase = 2;
+                    $message = "Good work! Your password skills are improving.";
                 } elseif ($percentage >= 40) {
-                    $increase = 1; // Okay
-                    $message = "Not bad, but you need more practice with creating and remembering strong passwords.";
+                    $increase = 1;
+                    $message = "Not bad, but practice creating stronger passwords.";
                 } else {
-                    $increase = 0; // Needs improvement
-                    $message = "Keep practicing creating stronger passwords! Remember that your online security depends on good password habits.";
+                    $increase = 0;
+                    $message = "Keep practicing strong password habits!";
                 }
-                
-                Session::put('shield_level', $shieldLevel + $increase);
-                
-                // Add to completed missions if not already completed
-                $completedMissions = Session::get('completed_missions', []);
-                if (!in_array($id, $completedMissions)) {
-                    $completedMissions[] = $id;
-                    Session::put('completed_missions', $completedMissions);
-                }
-                
-                // Check if player earned a badge
-                $earnedBadge = false;
-                $newShieldLevel = $shieldLevel + $increase;
                 
                 if ($stage4Complete && !in_array('password_master', Session::get('badges', []))) {
-                    $badges = Session::get('badges', []);
-                    $badges[] = 'password_master';
-                    Session::put('badges', $badges);
-                    $earnedBadge = 'password_master';
+                    $badge = 'password_master';
                 }
                 
-                if ($earnedBadge) {
-                    return redirect()->route('game.story')
-                        ->with('success', $message . ' You earned the Password Master badge!')
-                        ->with('badge', $earnedBadge);
-                }
-                
-                return redirect()->route('game.story')
-                    ->with('success', $message . ' Shield level increased by ' . $increase . '!');
+                return $this->completeMission($id, $increase, $message, $badge);
                 
             case 3: // Social Media Mayhem
-                if ($request->has('social_media_complete')) {
-                    // Get the score from the social media challenge
+                $request->validate([
+                    'social_media_complete' => 'boolean',
+                    'social_media_score' => 'integer|min:0|max:5',
+                ]);
+                
+                if ($request->input('social_media_complete')) {
                     $socialMediaScore = (int) $request->input('social_media_score', 0);
                     
-                    // Calculate shield level increase based on score
                     $shieldLevel = Session::get('shield_level', 0);
                     $increase = 0;
+                    $message = '';
+                    $badge = null;
                     
-                    // Maximum score is 5
                     if ($socialMediaScore >= 5) {
-                        $increase = 5; // Perfect score
-                        $message = "Outstanding! You're a social media safety expert! You've learned how to spot fake groups and avoid sharing personal information.";
+                        $increase = 5;
+                        $message = "Outstanding! You're a social media safety expert!";
                     } elseif ($socialMediaScore >= 4) {
-                        $increase = 4; // Excellent score
-                        $message = "Great job! You've mastered most of the social media safety skills!";
+                        $increase = 4;
+                        $message = "Great job! You've mastered social media safety!";
+                        if ($socialMediaScore >= 4 && !in_array('social_expert', Session::get('badges', []))) {
+                            $badge = 'social_expert';
+                        }
                     } elseif ($socialMediaScore >= 3) {
-                        $increase = 3; // Good score
-                        $message = "Good work! You're learning how to stay safe on social media!";
+                        $increase = 3;
+                        $message = "Good work! You're learning social media safety!";
                     } elseif ($socialMediaScore >= 2) {
-                        $increase = 2; // Decent score
-                        $message = "Nice effort! You're understanding some social media dangers.";
+                        $increase = 2;
+                        $message = "Nice effort! You understand some social media dangers.";
                     } else {
-                        $increase = 1; // At least they completed it
-                        $message = "You've taken your first steps in learning social media safety!";
+                        $increase = 1;
+                        $message = "First steps in social media safety!";
                     }
                     
-                    Session::put('shield_level', $shieldLevel + $increase);
-                    
-                    // Add to completed missions if not already completed
-                    $completedMissions = Session::get('completed_missions', []);
-                    if (!in_array($id, $completedMissions)) {
-                        $completedMissions[] = $id;
-                        Session::put('completed_missions', $completedMissions);
-                    }
-                    
-                    // Check if player earned a badge
-                    $earnedBadge = false;
-                    $newShieldLevel = $shieldLevel + $increase;
-                    
-                    if (($socialMediaScore >= 4) && !in_array('social_expert', Session::get('badges', []))) {
-                        $badges = Session::get('badges', []);
-                        $badges[] = 'social_expert';
-                        Session::put('badges', $badges);
-                        $earnedBadge = 'social_expert';
-                    }
-                    
-                    if ($earnedBadge) {
-                        return redirect()->route('game.story')
-                            ->with('success', $message . ' You earned a new badge!')
-                            ->with('badge', $earnedBadge);
-                    }
-                    
-                    return redirect()->route('game.story')
-                        ->with('success', $message . ' Shield level increased by ' . $increase . '!');
+                    return $this->completeMission($id, $increase, $message, $badge);
                 }
                 
                 return redirect()->route('game.story')
@@ -417,7 +339,34 @@ class GameController extends Controller
     }
     
     /**
-     * Show the cyber village
+     * Complete a mission and update session data
+     */
+    private function completeMission($missionId, $shieldIncrease, $message, $badge = null)
+    {
+        $shieldLevel = Session::get('shield_level', 0);
+        Session::put('shield_level', $shieldLevel + $shieldIncrease);
+        
+        $completedMissions = Session::get('completed_missions', []);
+        if (!in_array($missionId, $completedMissions)) {
+            $completedMissions[] = $missionId;
+            Session::put('completed_missions', $completedMissions);
+        }
+        
+        $response = redirect()->route('game.story')
+            ->with('success', $message . ' Shield level increased by ' . $shieldIncrease . '!');
+        
+        if ($badge && !in_array($badge, Session::get('badges', []))) {
+            $badges = Session::get('badges', []);
+            $badges[] = $badge;
+            Session::put('badges', $badges);
+            $response = $response->with('badge', $badge);
+        }
+        
+        return $response;
+    }
+    
+    /**
+     * Show the village hub
      */
     public function village()
     {
@@ -430,38 +379,43 @@ class GameController extends Controller
         $locations = [
             [
                 'id' => 'home',
-                'name' => 'Home',
-                'description' => 'Practice staying safe at home online',
-                'icon' => 'home'
+                'name' => 'Cyber Home',
+                'description' => 'Learn about basic online safety and protecting your digital home.',
+                'icon' => 'home',
+                'route' => 'game.secret-code'
             ],
             [
                 'id' => 'school',
-                'name' => 'School',
-                'description' => 'Learn about digital safety at school',
-                'icon' => 'academic-cap'
+                'name' => 'Digital Academy',
+                'description' => 'Master password security and safe browsing practices.',
+                'icon' => 'academic-cap',
+                'route' => 'game.secret-code'
             ],
             [
                 'id' => 'game-shop',
-                'name' => 'Game Shop',
-                'description' => 'Spot scams in online game stores',
-                'icon' => 'puzzle-piece'
+                'name' => 'Game Center',
+                'description' => 'Practice identifying online scams and phishing attempts.',
+                'icon' => 'puzzle-piece',
+                'route' => 'game.secret-code'
             ],
             [
-                'id' => 'social-park',
-                'name' => 'Social Park',
-                'description' => 'Navigate social media dangers safely',
-                'icon' => 'users'
+                'id' => 'social-hub',
+                'name' => 'Social Hub',
+                'description' => 'Learn about social media safety and privacy.',
+                'icon' => 'users',
+                'route' => 'game.mission',
+                'params' => ['id' => 3]
             ]
         ];
         
-        return view('game.village', [
+        return view('game.villageGame.village', [
             'player_name' => $playerName,
             'locations' => $locations
         ]);
     }
     
     /**
-     * Show the fake vs real challenge mode
+     * Show a random challenge
      */
     public function challenge()
     {
@@ -471,7 +425,6 @@ class GameController extends Controller
             return redirect()->route('welcome')->with('error', 'Please enter your name first!');
         }
         
-        // Get a random challenge
         $challenges = $this->getChallenges();
         $challenge = $challenges[array_rand($challenges)];
         
@@ -501,19 +454,18 @@ class GameController extends Controller
         $isCorrect = $request->answer === $challenge['correct_answer'];
         
         if ($isCorrect) {
-            // Increase shield level
             $shieldLevel = Session::get('shield_level', 0);
             Session::put('shield_level', $shieldLevel + 1);
             
-            // Check if player earned a badge
             if (($shieldLevel + 1) % 5 === 0) {
                 $badges = Session::get('badges', []);
-                $badges[] = 'level_' . (($shieldLevel + 1) / 5);
+                $badge = 'level_' . (($shieldLevel + 1) / 5);
+                $badges[] = $badge;
                 Session::put('badges', $badges);
                 
                 return redirect()->route('game.challenge')
                     ->with('success', 'Correct! You earned a new badge!')
-                    ->with('badge', 'level_' . (($shieldLevel + 1) / 5));
+                    ->with('badge', $badge);
             }
             
             return redirect()->route('game.challenge')
@@ -532,6 +484,10 @@ class GameController extends Controller
     {
         $playerName = Session::get('player_name');
         
+        if (!$playerName) {
+            return redirect()->route('welcome')->with('error', 'Please enter your name first!');
+        }
+        
         return view('game.time-travel', [
             'player_name' => $playerName,
             'cyberAttacks' => $this->getCyberAttacks()
@@ -544,21 +500,21 @@ class GameController extends Controller
     public function timeTravelAttack($attack)
     {
         $playerName = Session::get('player_name');
-        $cyberAttacks = $this->getCyberAttacks();
         
+        if (!$playerName) {
+            return redirect()->route('welcome')->with('error', 'Please enter your name first!');
+        }
+        
+        $cyberAttacks = $this->getCyberAttacks();
         $attackDetails = collect($cyberAttacks)->firstWhere('id', $attack);
         
         if (!$attackDetails) {
             return redirect()->route('game.time-travel')->with('error', 'This cyber attack is not in our records.');
         }
         
-        // Get the chronological order of attacks
         $attackOrder = ['morris-worm', 'i-love-you', 'stuxnet', 'wannacry', 'solarwinds'];
-        
-        // Find current attack index
         $currentIndex = array_search($attack, $attackOrder);
         
-        // Get previous and next attack IDs
         $previousAttack = ($currentIndex > 0) ? $attackOrder[$currentIndex - 1] : null;
         $nextAttack = ($currentIndex < count($attackOrder) - 1) ? $attackOrder[$currentIndex + 1] : null;
         
@@ -582,7 +538,7 @@ class GameController extends Controller
     }
     
     /**
-     * Get all missions data (this would normally come from a database)
+     * Get all missions data
      */
     private function getMissions()
     {
@@ -631,7 +587,7 @@ class GameController extends Controller
     }
     
     /**
-     * Get all challenges data (this would normally come from a database)
+     * Get all challenges data
      */
     private function getChallenges()
     {
@@ -667,9 +623,9 @@ class GameController extends Controller
     }
     
     /**
-     * Get cyber attacks data for time travel feature.
+     * Get cyber attacks data for time travel feature
      */
-    protected function getCyberAttacks()
+    private function getCyberAttacks()
     {
         return [
             'morris-worm' => [
@@ -799,4 +755,145 @@ class GameController extends Controller
             ]
         ];
     }
-} 
+
+/**
+ * Show the secret code game hub
+ */
+public function secretCode()
+{
+    $playerName = Session::get('player_name');
+    
+    if (!$playerName) {
+        return redirect()->route('welcome')->with('error', 'Please enter your name first!');
+    }
+
+    $levels = [
+        [
+            'id' => 1,
+            'name' => 'Reverse Code',
+            'description' => 'Learn to decode messages by reading them backwards!',
+            'difficulty' => 'Easy',
+            'unlocked' => true
+        ],
+        [
+            'id' => 2,
+            'name' => 'Caesar\'s Secret',
+            'description' => 'Shift the letters to reveal hidden messages',
+            'difficulty' => 'Medium',
+            'unlocked' => Session::get('completed_levels', []) ? in_array(1, Session::get('completed_levels', [])) : false
+        ],
+        [
+            'id' => 3,
+            'name' => 'Symbol Cipher',
+            'description' => 'Replace symbols with letters to crack the code',
+            'difficulty' => 'Hard',
+            'unlocked' => Session::get('completed_levels', []) ? in_array(2, Session::get('completed_levels', [])) : false
+        ]
+    ];
+
+    return view('game.secret-code.hub', ['player_name' => $playerName, 'levels' => $levels]);
+}
+
+/**
+ * Show a specific secret code level
+ */
+public function secretCodeLevel($level)
+{
+    $playerName = Session::get('player_name');
+    
+    if (!$playerName) {
+        return redirect()->route('welcome')->with('error', 'Please enter your name first!');
+    }
+
+    // Check if level is unlocked
+    if ($level > 1) {
+        $completedLevels = Session::get('completed_levels', []);
+        if (!in_array($level - 1, $completedLevels)) {
+            return redirect()->route('secret-code')->with('error', 'Complete the previous level first!');
+        }
+    }
+
+    $scenario = $this->getSecretCodeScenario($level);
+
+    return view('game.secret-code.level', compact('playerName', 'scenario', 'level'));
+}
+
+/**
+ * Handle secret code level submission
+ */
+public function submitSecretCodeLevel(Request $request, $level)
+{
+    $request->validate([
+        'answer' => 'required|string'
+    ]);
+
+    $scenario = $this->getSecretCodeScenario($level);
+    $answer = strtolower(trim($request->answer));
+    $correct = strtolower(trim($scenario['answer']));
+
+    if ($answer === $correct) {
+        $completedLevels = Session::get('completed_levels', []);
+        if (!in_array($level, $completedLevels)) {
+            $completedLevels[] = $level;
+            Session::put('completed_levels', $completedLevels);
+        }
+
+        $message = 'Great job! You\'ve cracked the code!';
+        $increase = 2; // Each level gives 2 shield points
+
+        $this->completeMission('secret-code-' . $level, $increase, $message);
+        return redirect()->route('game.secret-code')->with('success', $message);
+    }
+
+    return redirect()->back()->with('error', 'That\'s not quite right. Try again!');
+}
+
+/**
+ * Get the scenario for a specific secret code level
+ */
+private function getSecretCodeScenario($level)
+{
+    switch ($level) {
+        case 1:
+            return [
+                'title' => 'The Reverse Code',
+                'description' => 'Agent, we need your help! Some messages are written backwards. Can you decode them?',
+                'message' => '!terces ruoy peek ot rebmemer ,kcatta na tneverp oT',
+                'hint' => 'Read the message from right to left',
+                'answer' => 'To prevent an attack, remember to keep your secret!',
+                'type' => 'reverse'
+            ];
+
+        case 2:
+            return [
+                'title' => 'Caesar\'s Secret',
+                'description' => 'Each letter has been shifted 3 places forward in the alphabet!',
+                'message' => 'Nhhs brxu sdvvzrug vdih dqg vhfuhw',
+                'hint' => 'A becomes D, B becomes E, C becomes F...',
+                'answer' => 'Keep your password safe and secret',
+                'type' => 'caesar',
+                'shift' => 3
+            ];
+
+        case 3:
+            return [
+                'title' => 'Symbol Cipher',
+                'description' => 'Each letter has been replaced with a symbol. Use the key to decode the message!',
+                'message' => '☆●●■ ▲◆ ☆●◇▼●●',
+                'hint' => 'Here\'s part of the key: ☆=K, ●=E, ◇=A',
+                'answer' => 'keep it secret',
+                'type' => 'symbol',
+                'key' => [
+                    '☆' => 'K', '●' => 'E', '◇' => 'A', '▼' => 'C',
+                    '▲' => 'I', '■' => 'P', '◆' => 'T', '♥' => 'H',
+                    '♦' => 'L', '▪' => 'M', '▫' => 'N', '▶' => 'O',
+                    '◈' => 'R', '◎' => 'S', '□' => 'U', '▬' => 'V',
+                    '▮' => 'W', '▯' => 'X', '△' => 'Y', '▷' => 'Z'
+                ]
+            ];
+
+        default:
+            abort(404);
+    }
+}
+}
