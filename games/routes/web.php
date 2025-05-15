@@ -28,6 +28,7 @@ Route::prefix('game')->name('game.')->group(function () {
     Route::get('/challenge', [GameController::class, 'challenge'])->name('challenge');
     Route::post('/challenge', [GameController::class, 'submitChallenge'])->name('submit-challenge');
     Route::get('/time-travel', [GameController::class, 'timeTravel'])->name('time-travel');
+    Route::get('/time-travel/random', [GameController::class, 'randomTimeTravel'])->name('time-travel.random');
     Route::get('/time-travel/{attack}', [GameController::class, 'timeTravelAttack'])->name('time-travel.attack');
 });
 

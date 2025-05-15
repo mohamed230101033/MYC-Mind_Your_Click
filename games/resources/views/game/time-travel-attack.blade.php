@@ -1,12 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="space-background min-h-screen relative overflow-hidden">
-    <video autoplay muted loop class="video-background">
-        <source src="{{ asset('images/earth.mp4') }}" type="video/mp4">
+<div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: -100;">
+    <video autoplay muted loop style="position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; transform: translateX(-50%) translateY(-50%);">
+        <source src="{{ asset('earth.mp4') }}" type="video/mp4">
     </video>
-    
-    <div class="container mx-auto px-4 py-8 relative z-10">
+</div>
+
+<div class="min-h-screen relative">
+    <div class="container mx-auto px-4 py-8 relative">
         <div class="mb-6 flex justify-between items-center">
             <a href="{{ route('game.time-travel') }}" class="text-blue-300 hover:text-blue-100 transition flex items-center" id="back-button">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
@@ -167,35 +169,38 @@
 </div>
 
 @push('scripts')
+<script src="{{ asset('js/time-travel.js') }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Quiz handling
         const quizForm = document.getElementById('quiz-form');
         const quizResult = document.getElementById('quiz-result');
         
-        quizForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const selectedOption = document.querySelector('input[name="quiz-answer"]:checked');
-            
-            if (!selectedOption) {
-                return;
-            }
-            
-            const correctAnswer = {{ $attack['quiz']['correct_answer'] }};
-            const isCorrect = parseInt(selectedOption.value) === correctAnswer;
-            
-            quizResult.classList.remove('hidden');
-            quizResult.classList.remove('bg-green-800', 'bg-red-800', 'text-green-100', 'text-red-100');
-            
-            if (isCorrect) {
-                quizResult.classList.add('bg-green-600', 'text-white');
-                quizResult.textContent = "Correct! You've learned about this cyber attack! 🎉";
-            } else {
-                quizResult.classList.add('bg-red-600', 'text-white');
-                quizResult.textContent = "Oops! That's not right. Try reviewing the information about this attack. 😊";
-            }
-        });
+        if (quizForm) {
+            quizForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const selectedOption = document.querySelector('input[name="quiz-answer"]:checked');
+                
+                if (!selectedOption) {
+                    return;
+                }
+                
+                const correctAnswer = {{ $attack['quiz']['correct_answer'] }};
+                const isCorrect = parseInt(selectedOption.value) === correctAnswer;
+                
+                quizResult.classList.remove('hidden');
+                quizResult.classList.remove('bg-green-800', 'bg-red-800', 'text-green-100', 'text-red-100');
+                
+                if (isCorrect) {
+                    quizResult.classList.add('bg-green-600', 'text-white');
+                    quizResult.textContent = "Correct! You've learned about this cyber attack! 🎉";
+                } else {
+                    quizResult.classList.add('bg-red-600', 'text-white');
+                    quizResult.textContent = "Oops! That's not right. Try reviewing the information about this attack. 😊";
+                }
+            });
+        }
     });
 </script>
 @endpush

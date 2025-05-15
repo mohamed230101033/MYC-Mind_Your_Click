@@ -14,6 +14,9 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+    <!-- Custom Styles -->
+    <link href="{{ asset('css/space-background.css') }}" rel="stylesheet">
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -126,6 +129,21 @@
         .social-stage.active {
             display: block;
         }
+        
+        /* Time Travel Effect Styles */
+        .time-travel-active {
+            animation: timeTravel 3s forwards;
+        }
+        
+        @keyframes timeTravel {
+            0% { filter: brightness(1) blur(0); }
+            50% { filter: brightness(1.5) blur(5px); }
+            100% { filter: brightness(1) blur(0); }
+        }
+        
+        #warp-container {
+            pointer-events: none;
+        }
     </style>
 
     <!-- Scripts -->
@@ -143,6 +161,7 @@
                     <li><a href="{{ route('game.story') }}" class="hover:text-primary-200 transition">Story Mode</a></li>
                     <li><a href="{{ route('game.village') }}" class="hover:text-primary-200 transition">Cyber Village</a></li>
                     <li><a href="{{ route('game.challenge') }}" class="hover:text-primary-200 transition">Challenges</a></li>
+                    <li><a href="{{ route('game.time-travel') }}" class="hover:text-primary-200 transition">Cyber Time Travel</a></li>
                 </ul>
             </nav>
             <div class="md:hidden">
@@ -161,6 +180,7 @@
                     <li><a href="{{ route('game.story') }}" class="block hover:bg-primary-600 p-2 rounded">Story Mode</a></li>
                     <li><a href="{{ route('game.village') }}" class="block hover:bg-primary-600 p-2 rounded">Cyber Village</a></li>
                     <li><a href="{{ route('game.challenge') }}" class="block hover:bg-primary-600 p-2 rounded">Challenges</a></li>
+                    <li><a href="{{ route('game.time-travel') }}" class="block hover:bg-primary-600 p-2 rounded">Cyber Time Travel</a></li>
                 </ul>
             </nav>
         </div>
@@ -192,5 +212,12 @@
             menu.classList.toggle('hidden');
         });
     </script>
+
+    <!-- Time Travel Script -->
+    @if(Route::is('game.time-travel') || Route::is('game.time-travel.attack'))
+    <script src="{{ asset('js/time-travel.js') }}"></script>
+    @endif
+
+    @stack('scripts')
 </body>
 </html> 

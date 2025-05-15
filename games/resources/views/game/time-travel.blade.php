@@ -1,12 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="space-background min-h-screen relative overflow-hidden">
-    <video autoplay muted loop class="video-background">
-        <source src="{{ asset('images/galaxy.mp4') }}" type="video/mp4">
+<div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: -100;">
+    <video autoplay muted loop style="position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; transform: translateX(-50%) translateY(-50%);">
+        <source src="{{ asset('galaxy.mp4') }}" type="video/mp4">
     </video>
-    
-    <div class="container mx-auto px-4 py-8 relative z-10">
+</div>
+
+<div class="min-h-screen relative">
+    <div class="container mx-auto px-4 py-8 relative">
         <div class="text-center mb-8">
             <h1 class="text-4xl md:text-5xl font-game text-white mb-4">Cyber Time Travel</h1>
             <p class="text-lg text-blue-100 max-w-3xl mx-auto">Join our adventure through time to discover famous cyber attacks and learn how to protect yourself online!</p>
@@ -17,14 +19,14 @@
             <p class="text-white mb-6 text-lg">Ready to travel through time and discover the most important cyber events in history? Our special time machine will take you on an exciting journey!</p>
             
             <div class="flex flex-col md:flex-row justify-center gap-4">
-                <button id="travel-button" class="travel-button">
+                <a href="{{ route('game.time-travel.random') }}" class="travel-button" id="travel-button">
                     <span class="mr-2">Random Time Travel</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
                     </svg>
-                </button>
+                </a>
                 
-                <a href="#" data-attack="morris-worm" id="sequential-travel" class="travel-button sequential-button">
+                <a href="{{ route('game.time-travel.attack', 'morris-worm') }}" class="travel-button sequential-button">
                     <span class="mr-2">Start From Beginning</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -50,7 +52,7 @@
                                 <img src="{{ asset('images/cyber-attacks/morris-worm.jpg') }}" alt="Morris Worm" class="w-full h-40 object-cover transform transition">
                             </div>
                             <p class="text-gray-300 mb-3 text-lg">One of the first computer worms that spread through the early internet, affecting many computers.</p>
-                            <a href="#" data-attack="morris-worm" class="attack-link text-blue-400 hover:text-blue-300 inline-flex items-center transition">
+                            <a href="{{ route('game.time-travel.attack', 'morris-worm') }}" class="attack-link text-blue-400 hover:text-blue-300 inline-flex items-center transition" data-attack="morris-worm">
                                 <span>Travel to 1988</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -72,7 +74,7 @@
                                 <img src="{{ asset('images/cyber-attacks/i-love-you.jpg') }}" alt="ILOVEYOU Virus" class="w-full h-40 object-cover transform transition">
                             </div>
                             <p class="text-gray-300 mb-3 text-lg">A harmful computer worm that spread through email attachments, causing problems for many computers.</p>
-                            <a href="#" data-attack="i-love-you" class="attack-link text-blue-400 hover:text-blue-300 inline-flex items-center transition">
+                            <a href="{{ route('game.time-travel.attack', 'i-love-you') }}" class="attack-link text-blue-400 hover:text-blue-300 inline-flex items-center transition" data-attack="i-love-you">
                                 <span>Travel to 2000</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -94,7 +96,7 @@
                                 <img src="{{ asset('images/cyber-attacks/stuxnet.jpg') }}" alt="Stuxnet" class="w-full h-40 object-cover transform transition">
                             </div>
                             <p class="text-gray-300 mb-3 text-lg">A special type of computer program designed to affect machines in factories, showing how cyber attacks can impact the real world.</p>
-                            <a href="#" data-attack="stuxnet" class="attack-link text-blue-400 hover:text-blue-300 inline-flex items-center transition">
+                            <a href="{{ route('game.time-travel.attack', 'stuxnet') }}" class="attack-link text-blue-400 hover:text-blue-300 inline-flex items-center transition" data-attack="stuxnet">
                                 <span>Travel to 2010</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -116,7 +118,7 @@
                                 <img src="{{ asset('images/cyber-attacks/wannacry.jpg') }}" alt="WannaCry Ransomware" class="w-full h-40 object-cover transform transition">
                             </div>
                             <p class="text-gray-300 mb-3 text-lg">A global computer attack that locked people's files and asked for money to unlock them. It affected hospitals, schools, and companies.</p>
-                            <a href="#" data-attack="wannacry" class="attack-link text-blue-400 hover:text-blue-300 inline-flex items-center transition">
+                            <a href="{{ route('game.time-travel.attack', 'wannacry') }}" class="attack-link text-blue-400 hover:text-blue-300 inline-flex items-center transition" data-attack="wannacry">
                                 <span>Travel to 2017</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -138,7 +140,7 @@
                                 <img src="{{ asset('images/cyber-attacks/solarwinds.jpg') }}" alt="SolarWinds Attack" class="w-full h-40 object-cover transform transition">
                             </div>
                             <p class="text-gray-300 mb-3 text-lg">A sneaky attack that hid in software updates, allowing hackers to access many important computer systems without being noticed.</p>
-                            <a href="#" data-attack="solarwinds" class="attack-link text-blue-400 hover:text-blue-300 inline-flex items-center transition">
+                            <a href="{{ route('game.time-travel.attack', 'solarwinds') }}" class="attack-link text-blue-400 hover:text-blue-300 inline-flex items-center transition" data-attack="solarwinds">
                                 <span>Travel to 2020</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -159,6 +161,10 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script src="{{ asset('js/time-travel.js') }}"></script>
+@endpush
 
 @push('styles')
 <style>
@@ -185,6 +191,22 @@
     .backdrop-blur-md {
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
+    }
+    
+    /* Animation for time travel */
+    .time-travel-active {
+        animation: timeTravel 3s forwards;
+    }
+    
+    @keyframes timeTravel {
+        0% { filter: brightness(1) blur(0); }
+        50% { filter: brightness(1.5) blur(5px); }
+        100% { filter: brightness(1) blur(0); }
+    }
+    
+    /* Warp container styling */
+    #warp-container {
+        pointer-events: none;
     }
 </style>
 @endpush
