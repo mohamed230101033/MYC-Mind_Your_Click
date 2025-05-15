@@ -91,6 +91,15 @@ class GameController extends Controller
             return redirect()->route('game.story')->with('error', 'Mission not found!');
         }
         
+        // For Social Media Mayhem (mission 3), check if missions 1 and 2 are completed
+        if ((int)$id === 3) {
+            $completedMissions = Session::get('completed_missions', []);
+            if (!in_array(1, $completedMissions) || !in_array(2, $completedMissions)) {
+                return redirect()->route('game.story')
+                    ->with('error', 'You need to complete "The Mysterious Email" and "Password Peril" missions first!');
+            }
+        }
+        
         return view('game.mission', [
             'player_name' => $playerName,
             'mission' => $mission
@@ -340,6 +349,66 @@ class GameController extends Controller
                 
                 return redirect()->route('game.story')
                     ->with('success', $message . ' Shield level increased by ' . $increase . '!');
+                
+            case 3: // Social Media Mayhem
+                if ($request->has('social_media_complete')) {
+                    // Get the score from the social media challenge
+                    $socialMediaScore = (int) $request->input('social_media_score', 0);
+                    
+                    // Calculate shield level increase based on score
+                    $shieldLevel = Session::get('shield_level', 0);
+                    $increase = 0;
+                    
+                    // Maximum score is 5
+                    if ($socialMediaScore >= 5) {
+                        $increase = 5; // Perfect score
+                        $message = "Outstanding! You're a social media safety expert! You've learned how to spot fake groups and avoid sharing personal information.";
+                    } elseif ($socialMediaScore >= 4) {
+                        $increase = 4; // Excellent score
+                        $message = "Great job! You've mastered most of the social media safety skills!";
+                    } elseif ($socialMediaScore >= 3) {
+                        $increase = 3; // Good score
+                        $message = "Good work! You're learning how to stay safe on social media!";
+                    } elseif ($socialMediaScore >= 2) {
+                        $increase = 2; // Decent score
+                        $message = "Nice effort! You're understanding some social media dangers.";
+                    } else {
+                        $increase = 1; // At least they completed it
+                        $message = "You've taken your first steps in learning social media safety!";
+                    }
+                    
+                    Session::put('shield_level', $shieldLevel + $increase);
+                    
+                    // Add to completed missions if not already completed
+                    $completedMissions = Session::get('completed_missions', []);
+                    if (!in_array($id, $completedMissions)) {
+                        $completedMissions[] = $id;
+                        Session::put('completed_missions', $completedMissions);
+                    }
+                    
+                    // Check if player earned a badge
+                    $earnedBadge = false;
+                    $newShieldLevel = $shieldLevel + $increase;
+                    
+                    if (($socialMediaScore >= 4) && !in_array('social_expert', Session::get('badges', []))) {
+                        $badges = Session::get('badges', []);
+                        $badges[] = 'social_expert';
+                        Session::put('badges', $badges);
+                        $earnedBadge = 'social_expert';
+                    }
+                    
+                    if ($earnedBadge) {
+                        return redirect()->route('game.story')
+                            ->with('success', $message . ' You earned a new badge!')
+                            ->with('badge', $earnedBadge);
+                    }
+                    
+                    return redirect()->route('game.story')
+                        ->with('success', $message . ' Shield level increased by ' . $increase . '!');
+                }
+                
+                return redirect()->route('game.story')
+                    ->with('error', 'Challenge not completed properly.');
                 
             default:
                 return redirect()->route('game.story')
