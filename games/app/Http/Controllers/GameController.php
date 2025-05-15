@@ -457,6 +457,51 @@ class GameController extends Controller
     }
     
     /**
+     * Show the Cyber Time Travel page
+     */
+    public function timeTravel()
+    {
+        $playerName = Session::get('player_name');
+        
+        return view('game.time-travel', [
+            'player_name' => $playerName,
+            'cyberAttacks' => $this->getCyberAttacks()
+        ]);
+    }
+    
+    /**
+     * Show details for a specific cyber attack
+     */
+    public function timeTravelAttack($attack)
+    {
+        $playerName = Session::get('player_name');
+        $cyberAttacks = $this->getCyberAttacks();
+        
+        $attackDetails = collect($cyberAttacks)->firstWhere('id', $attack);
+        
+        if (!$attackDetails) {
+            return redirect()->route('game.time-travel')->with('error', 'This cyber attack is not in our records.');
+        }
+        
+        // Get the chronological order of attacks
+        $attackOrder = ['morris-worm', 'i-love-you', 'stuxnet', 'wannacry', 'solarwinds'];
+        
+        // Find current attack index
+        $currentIndex = array_search($attack, $attackOrder);
+        
+        // Get previous and next attack IDs
+        $previousAttack = ($currentIndex > 0) ? $attackOrder[$currentIndex - 1] : null;
+        $nextAttack = ($currentIndex < count($attackOrder) - 1) ? $attackOrder[$currentIndex + 1] : null;
+        
+        return view('game.time-travel-attack', [
+            'player_name' => $playerName,
+            'attack' => $attackDetails,
+            'previousAttack' => $previousAttack,
+            'nextAttack' => $nextAttack
+        ]);
+    }
+    
+    /**
      * Get all missions data (this would normally come from a database)
      */
     private function getMissions()
@@ -538,6 +583,140 @@ class GameController extends Controller
                 'correct_answer' => 'fake',
                 'explanation' => 'A flashlight app should only need access to your camera flash. It doesn\'t need your contacts or location to work properly.'
             ],
+        ];
+    }
+    
+    /**
+     * Get cyber attacks data for time travel feature.
+     */
+    private function getCyberAttacks()
+    {
+        return [
+            'morris-worm' => [
+                'id' => 'morris-worm',
+                'name' => 'Morris Worm',
+                'date' => 'November 2, 1988',
+                'image' => 'images/cyber-attacks/morris-worm.jpg',
+                'description' => '<p>The Morris Worm was one of the first recognized computer worms distributed via the Internet, and the first to gain significant attention. It was written by Robert Tappan Morris, a student at Cornell University.</p><p>The worm exploited vulnerabilities in UNIX sendmail, finger, and rsh/rexec, as well as weak passwords. It was originally designed to gauge the size of the internet by infecting UNIX systems and asking them to report back. However, a design flaw caused the worm to replicate uncontrollably, causing denial of service attacks.</p>',
+                'impact' => '<p>The Morris Worm infected approximately 6,000 computers (about 10% of the internet at that time). It caused computers to slow down to the point of being unusable, effectively shutting down much of the internet for several days.</p><p>It is estimated to have caused between $100,000 and $10 million in damages due to lost access to the internet and the cost of eradicating the worm. The incident led to the formation of the Computer Emergency Response Team (CERT), which is still active today in coordinating responses to large-scale cyber threats.</p>',
+                'protection' => '<p>To protect against similar attacks today:</p><ul><li>Keep systems up-to-date with security patches</li><li>Use strong passwords</li><li>Implement network segmentation</li><li>Deploy intrusion detection systems</li><li>Use firewalls to filter network traffic</li></ul>',
+                'created_by' => 'Robert Tappan Morris, a Cornell University graduate student',
+                'target' => 'UNIX systems connected to the early internet',
+                'damage' => 'An estimated $100,000-$10 million in system downtime and cleanup',
+                'method' => 'Exploited vulnerabilities in sendmail, finger, and rsh/rexec',
+                'significance' => 'First major internet worm; led to creation of CERT',
+                'threat_level' => 'High',
+                'quiz' => [
+                    'question' => 'What was unique about the Morris Worm compared to modern malware?',
+                    'options' => [
+                        'It was designed to steal financial information',
+                        'It was not intended to cause damage but a flaw caused it to spread uncontrollably',
+                        'It targeted military infrastructure specifically',
+                        'It was created by a nation-state actor'
+                    ],
+                    'correct_answer' => 1
+                ]
+            ],
+            'i-love-you' => [
+                'id' => 'i-love-you',
+                'name' => 'ILOVEYOU Virus',
+                'date' => 'May 4, 2000',
+                'image' => 'images/cyber-attacks/i-love-you.jpg',
+                'description' => '<p>The ILOVEYOU virus, also known as the "Love Bug," was a computer worm that attacked tens of millions of Windows computers when it was first released. It started spreading as an email message with the subject line "ILOVEYOU" and an attachment named "LOVE-LETTER-FOR-YOU.TXT.vbs".</p><p>When the attachment was opened, the malicious VBScript code would send copies of itself to all contacts in the victim\'s Microsoft Outlook address book and make harmful changes to the victim\'s system, including overwriting image files.</p>',
+                'impact' => '<p>The ILOVEYOU virus infected over 50 million computers worldwide in just 10 days. It caused an estimated $5.5-8.7 billion in damages. It essentially brought email systems around the world to a halt as companies and governments shut down their email to prevent infection.</p><p>Notable organizations affected included the British Parliament, the Pentagon, and even major corporations like Ford Motor Company. The incident highlighted how vulnerable systems were to social engineering attacks, as users readily opened the attachment thinking it was from someone they knew.</p>',
+                'protection' => '<p>To protect against similar attacks today:</p><ul><li>Never open email attachments from unknown senders</li><li>Be suspicious of unexpected attachments, even from known senders</li><li>Use up-to-date antivirus software</li><li>Disable automatic script execution in email clients</li><li>Apply user awareness training to recognize phishing attempts</li></ul>',
+                'created_by' => 'Onel de Guzman, a computer science student from the Philippines',
+                'target' => 'Windows computers with Microsoft Outlook',
+                'damage' => 'An estimated $5.5-8.7 billion in damages',
+                'method' => 'Email attachment with malicious VBScript that self-replicated',
+                'significance' => 'One of the most damaging and widespread computer viruses in history',
+                'threat_level' => 'Severe',
+                'quiz' => [
+                    'question' => 'What file extension did the ILOVEYOU virus use to trick users?',
+                    'options' => [
+                        '.exe',
+                        '.doc',
+                        '.vbs',
+                        '.zip'
+                    ],
+                    'correct_answer' => 2
+                ]
+            ],
+            'stuxnet' => [
+                'id' => 'stuxnet',
+                'name' => 'Stuxnet',
+                'date' => 'June 2010',
+                'image' => 'images/cyber-attacks/stuxnet.jpg',
+                'description' => '<p>Stuxnet was one of the first computer malware programs known to target industrial control systems, specifically those used in Iran\'s uranium enrichment facilities. It was a highly sophisticated computer worm believed to have been created by the United States and Israel.</p><p>The malware specifically targeted Siemens SCADA systems and programmable logic controllers (PLCs). It exploited multiple zero-day vulnerabilities and used stolen digital certificates to appear legitimate. Once Stuxnet infected a system, it would look for specific industrial control hardware connected to centrifuge motors.</p>',
+                'impact' => '<p>Stuxnet is believed to have destroyed nearly one-fifth of Iran\'s nuclear centrifuges by causing them to spin out of control while displaying normal operational data to monitoring systems. This physical destruction of equipment by malware was unprecedented.</p><p>Beyond the immediate damage, Stuxnet marked a new era in cyber warfare. It demonstrated that cyber attacks could cause real-world physical damage to critical infrastructure. The code itself has since been studied and repurposed by other threat actors, increasing the risk to industrial systems worldwide.</p>',
+                'protection' => '<p>To protect against similar attacks today:</p><ul><li>Implement air-gapped networks for critical systems</li><li>Use application whitelisting on industrial control systems</li><li>Deploy specialized industrial control system security monitoring</li><li>Regularly audit physical access to control systems</li><li>Establish robust change management procedures</li></ul>',
+                'created_by' => 'Believed to be a joint effort between the United States and Israel',
+                'target' => 'Iran\'s nuclear program, specifically uranium enrichment centrifuges',
+                'damage' => 'Destroyed approximately 1,000 IR-1 centrifuges at Natanz nuclear facility',
+                'method' => 'Zero-day exploits, stolen digital certificates, and targeting of PLCs',
+                'significance' => 'First known malware to cause physical destruction; changed cyber warfare',
+                'threat_level' => 'Critical',
+                'quiz' => [
+                    'question' => 'What made Stuxnet fundamentally different from previous malware?',
+                    'options' => [
+                        'It was the first malware to use encryption',
+                        'It was designed to cause physical damage to equipment',
+                        'It was the first malware to spread via email',
+                        'It was the first malware to target Windows systems'
+                    ],
+                    'correct_answer' => 1
+                ]
+            ],
+            'wannacry' => [
+                'id' => 'wannacry',
+                'name' => 'WannaCry Ransomware',
+                'date' => 'May 12, 2017',
+                'image' => 'images/cyber-attacks/wannacry.jpg',
+                'description' => '<p>WannaCry was a worldwide ransomware attack that targeted computers running Microsoft Windows by encrypting data and demanding ransom payments in Bitcoin cryptocurrency. The attack began on May 12, 2017, and within a day had infected more than 230,000 computers in over 150 countries.</p><p>The ransomware exploited the EternalBlue vulnerability in Microsoft\'s Server Message Block (SMB) protocol. This exploit had been discovered and developed by the U.S. National Security Agency (NSA) but was leaked by a group called The Shadow Brokers a month before the attack.</p>',
+                'impact' => '<p>WannaCry infected over 230,000 computers across 150 countries. Major organizations affected included the National Health Service (NHS) in the UK, FedEx, Telefónica, and many others. The estimated damages ranged from hundreds of millions to billions of dollars.</p><p>The attack was particularly impactful on healthcare systems, with the NHS having to cancel appointments and surgeries. It highlighted the critical importance of timely security patching, as Microsoft had released a patch for the EternalBlue vulnerability two months before the attack, but many organizations had not applied it.</p>',
+                'protection' => '<p>To protect against similar attacks today:</p><ul><li>Keep operating systems and software up-to-date with security patches</li><li>Maintain regular, air-gapped backups of critical data</li><li>Implement network segmentation to prevent lateral movement</li><li>Deploy ransomware-specific protection tools</li><li>Conduct regular security awareness training for all staff</li></ul>',
+                'created_by' => 'Lazarus Group, believed to be linked to North Korea',
+                'target' => 'Windows systems vulnerable to the EternalBlue exploit',
+                'damage' => 'Estimated damages of $4-8 billion globally',
+                'method' => 'Exploitation of EternalBlue vulnerability in SMB protocol',
+                'significance' => 'Largest ransomware attack at the time; changed how organizations view patching',
+                'threat_level' => 'Critical',
+                'quiz' => [
+                    'question' => 'Which vulnerability did WannaCry exploit?',
+                    'options' => [
+                        'Heartbleed',
+                        'EternalBlue',
+                        'Shellshock',
+                        'Meltdown'
+                    ],
+                    'correct_answer' => 1
+                ]
+            ],
+            'solarwinds' => [
+                'id' => 'solarwinds',
+                'name' => 'SolarWinds Supply Chain Attack',
+                'date' => 'December 2020',
+                'image' => 'images/cyber-attacks/solarwinds.jpg',
+                'description' => '<p>The SolarWinds attack was a sophisticated supply chain attack that inserted malicious code into SolarWinds\' Orion software system. The attackers gained access to SolarWinds\' build system and inserted malware (SUNBURST) into Orion software updates that were distributed to thousands of customers between March and June 2020.</p><p>When organizations installed these legitimate-seeming updates, they unknowingly installed a backdoor that allowed the attackers to access their systems. The attack was particularly sophisticated, using advanced evasion techniques and carefully targeting specific high-value victims for additional exploitation.</p>',
+                'impact' => '<p>Around 18,000 organizations installed the compromised updates, including many U.S. government agencies such as the Treasury Department, Department of Homeland Security, and the Pentagon. Also affected were major companies like Microsoft, Cisco, and FireEye (which first discovered the breach).</p><p>The attack gave the perpetrators access to sensitive government and corporate networks for up to nine months before discovery. The full extent of data exfiltration may never be known, but the breach is considered one of the most significant cyber espionage campaigns ever conducted against the United States.</p>',
+                'protection' => '<p>To protect against similar supply chain attacks today:</p><ul><li>Implement a zero-trust security model</li><li>Verify the integrity of software updates</li><li>Monitor network traffic for unusual patterns</li><li>Enforce principle of least privilege for all accounts</li><li>Conduct security assessments of third-party vendors</li></ul>',
+                'created_by' => 'APT29 (Cozy Bear), believed to be Russian intelligence (SVR)',
+                'target' => 'Government agencies and major corporations via SolarWinds Orion software',
+                'damage' => 'Billions in remediation costs and untold intelligence value to attackers',
+                'method' => 'Supply chain attack via trojanized software updates',
+                'significance' => 'Demonstrated vulnerability of software supply chains; changed security practices',
+                'threat_level' => 'Critical',
+                'quiz' => [
+                    'question' => 'What made the SolarWinds attack particularly dangerous?',
+                    'options' => [
+                        'It encrypted all victim data like ransomware',
+                        'It was delivered through legitimate software updates from a trusted vendor',
+                        'It targeted home users primarily',
+                        'It spread automatically between networks without human intervention'
+                    ],
+                    'correct_answer' => 1
+                ]
+            ]
         ];
     }
 } 

@@ -27,6 +27,8 @@ Route::prefix('game')->name('game.')->group(function () {
     Route::get('/village', [GameController::class, 'village'])->name('village');
     Route::get('/challenge', [GameController::class, 'challenge'])->name('challenge');
     Route::post('/challenge', [GameController::class, 'submitChallenge'])->name('submit-challenge');
+    Route::get('/time-travel', [GameController::class, 'timeTravel'])->name('time-travel');
+    Route::get('/time-travel/{attack}', [GameController::class, 'timeTravelAttack'])->name('time-travel.attack');
 });
 
 // Simple routes for the remaining pages in the app

@@ -12,6 +12,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ asset('css/space-background.css') }}">
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -80,6 +83,8 @@
             }
         }
     </script>
+    
+    @stack('styles')
 </head>
 <body class="font-sans antialiased bg-gray-50 min-h-screen">
     <header class="bg-primary-700 text-white p-4 shadow-md">
@@ -94,6 +99,7 @@
                     <li><a href="{{ route('game.story') }}" class="hover:text-primary-200 transition">Story Mode</a></li>
                     <li><a href="{{ route('game.village') }}" class="hover:text-primary-200 transition">Cyber Village</a></li>
                     <li><a href="{{ route('game.challenge') }}" class="hover:text-primary-200 transition">Challenges</a></li>
+                    <li><a href="{{ route('game.time-travel') }}" class="hover:text-primary-200 transition">Cyber Time Travel</a></li>
                 </ul>
             </nav>
             <div class="md:hidden">
@@ -112,6 +118,7 @@
                     <li><a href="{{ route('game.story') }}" class="block hover:bg-primary-600 p-2 rounded">Story Mode</a></li>
                     <li><a href="{{ route('game.village') }}" class="block hover:bg-primary-600 p-2 rounded">Cyber Village</a></li>
                     <li><a href="{{ route('game.challenge') }}" class="block hover:bg-primary-600 p-2 rounded">Challenges</a></li>
+                    <li><a href="{{ route('game.time-travel') }}" class="block hover:bg-primary-600 p-2 rounded">Cyber Time Travel</a></li>
                 </ul>
             </nav>
         </div>
@@ -143,5 +150,10 @@
             menu.classList.toggle('hidden');
         });
     </script>
+
+    @stack('scripts')
+    
+    <!-- Time Travel Script -->
+    <script src="{{ asset('js/time-travel.js') }}"></script>
 </body>
 </html> 
