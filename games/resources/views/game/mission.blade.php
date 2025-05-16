@@ -42,7 +42,7 @@
                 <div class="w-12 h-12 rounded-full bg-secondary-100 flex-shrink-0 flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 text-secondary-600">
                         <path d="M16.5 7.5h-9v9h9v-9z" />
-                        <path fill-rule="evenodd" d="M8.25 2.25A.75.75 0 019 3v.75h2.25V3a.75.75 0 011.5 0v.75H15V3a.75.75 0 011.5 0v.75h.75a3 3 0 013 3v.75H21A.75.75 0 0121 9h-.75v2.25H21a.75.75 0 010 1.5h-.75V15H21a.75.75 0 010 1.5h-.75v.75a3 3 0 01-3 3h-.75V21a.75.75 0 01-1.5 0v-.75h-2.25V21a.75.75 0 01-1.5 0v-.75H9V21a.75.75 0 01-1.5 0v-.75h-.75a3 3 0 01-3-3v-.75H3A.75.75 0 013 15h.75v-2.25H3a.75.75 0 010-1.5h.75V9H3a.75.75 0 010-1.5h.75v-.75a3 3 0 013-3h.75V3a.75.75 0 01.75-.75zM6 6.75A.75.75 0 016.75 6h10.5a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75H6.75a.75.75 0 01-.75-.75V6.75z" clip-rule="evenodd" />
+                        <path fill-rule="evenodd" d="M8.25 2.25A.75.75 0 019 3v.75h2.25V3a.75.75 0 011.5 0v.75H15V3a.75.75 0 011.5 0v.75H16.5A.75.75 0 0116.5 6v12a.75.75 0 01-1.5 0V6a.75.75 0 01.75-.75H9a.75.75 0 01-.75-.75V3a.75.75 0 01.75-.75H15a.75.75 0 01.75.75v.75h1.5A.75.75 0 0118 6v12a.75.75 0 01-1.5 0V6h-1.5a.75.75 0 01-.75-.75V3z" clip-rule="evenodd" />
                     </svg>
                 </div>
                 <div class="flex-1">
@@ -1537,150 +1537,114 @@
                     <h2 class="text-xl font-game mb-4 text-center">Social Media Mayhem Challenge</h2>
                     
                     @php
-                        $completedMissions = session('completed_missions', []);
-                        $isMission1Completed = in_array(1, $completedMissions);
-                        $isMission2Completed = in_array(2, $completedMissions);
-                        $canAccessMission = $isMission1Completed && $isMission2Completed;
+                        // Always allow access to Social Media Mayhem mission
+                        $canAccessMission = true;
                     @endphp
                     
-                    @if(!$canAccessMission)
-                        <div class="bg-white/5 backdrop-blur-xl border border-red-500/30 p-6 rounded-xl shadow-2xl text-white mb-6 relative overflow-hidden">
-                            <div class="flex flex-col items-center justify-center py-12">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-red-500 mb-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                </svg>
-                                <h3 class="text-xl font-bold mb-4 text-center">Mission Locked!</h3>
-                                <p class="text-white/90 text-center mb-6 max-w-xl">
-                                    You need to complete both "The Mysterious Email" and "Password Peril" missions before you can access Social Media Mayhem.
-                                </p>
-                                <div class="grid grid-cols-2 gap-4 w-full max-w-md">
-                                    <div class="bg-white/10 p-4 rounded-lg text-center {{ $isMission1Completed ? 'border-green-500' : 'border-red-500' }} border">
-                                        <p class="font-bold">The Mysterious Email</p>
-                                        @if($isMission1Completed)
-                                            <span class="text-green-400">Completed ✓</span>
-                                        @else
-                                            <span class="text-red-400">Not Completed ✗</span>
-                                        @endif
-                                    </div>
-                                    <div class="bg-white/10 p-4 rounded-lg text-center {{ $isMission2Completed ? 'border-green-500' : 'border-red-500' }} border">
-                                        <p class="font-bold">Password Peril</p>
-                                        @if($isMission2Completed)
-                                            <span class="text-green-400">Completed ✓</span>
-                                        @else
-                                            <span class="text-red-400">Not Completed ✗</span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="mt-8">
-                                    <a href="{{ route('game.story') }}" class="px-6 py-3 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition-all">Return to Story Mode</a>
-                                </div>
+                    <div class="bg-white/5 backdrop-blur-xl border border-purple-500/30 p-6 rounded-xl shadow-2xl text-white mb-6 relative overflow-hidden">
+                        <!-- Futuristic background elements -->
+                        <div class="absolute inset-0 bg-gradient-to-br from-purple-900/30 to-blue-900/30"></div>
+                        <div class="absolute inset-0">
+                            <div class="grid grid-cols-12 grid-rows-12 gap-2 opacity-10">
+                                @for ($i = 0; $i < 144; $i++)
+                                    <div class="h-6 w-full bg-purple-500/30 rounded"></div>
+                                @endfor
                             </div>
                         </div>
-                    @else
-                        <div class="bg-white/5 backdrop-blur-xl border border-purple-500/30 p-6 rounded-xl shadow-2xl text-white mb-6 relative overflow-hidden">
-                            <!-- Futuristic background elements -->
-                            <div class="absolute inset-0 bg-gradient-to-br from-purple-900/30 to-blue-900/30"></div>
-                            <div class="absolute inset-0">
-                                <div class="grid grid-cols-12 grid-rows-12 gap-2 opacity-10">
-                                    @for ($i = 0; $i < 144; $i++)
-                                        <div class="h-6 w-full bg-purple-500/30 rounded"></div>
-                                    @endfor
+                        
+                        <!-- Animated cybersecurity elements -->
+                        <div class="absolute top-0 right-0 h-32 w-32 opacity-20">
+                            <svg viewBox="0 0 100 100" class="animate-spin-slow">
+                                <circle cx="50" cy="50" r="40" stroke="rgba(139, 92, 246, 0.5)" stroke-width="2" fill="none" />
+                                <circle cx="50" cy="50" r="30" stroke="rgba(59, 130, 246, 0.5)" stroke-width="2" fill="none" />
+                                <path d="M50 10 L50 90 M10 50 L90 50" stroke="rgba(236, 72, 153, 0.5)" stroke-width="2" />
+                            </svg>
+                        </div>
+                        
+                        <div class="relative z-10">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <!-- SocialShield Character -->
+                                    <div class="relative mr-4">
+                                        <div class="absolute -top-1 -left-1 w-24 h-24 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 animate-pulse-slow opacity-50"></div>
+                                        <img src="https://cdn-icons-png.flaticon.com/512/2371/2371580.png" alt="SocialShield" class="w-20 h-20 object-contain relative z-10 animate__animated animate__bounce">
+                                </div>
+                                    <div>
+                                        <h2 class="text-2xl font-game mb-1 text-blue-300">CYBER MISSION: <span class="text-yellow-300">Social Media Mayhem</span></h2>
+                                        <p class="text-white/90">Help SocialShield defeat the mischievous Profile Phantom!</p>
+                            </div>
+                                </div>
+                                <!-- Villain Character -->
+                                <div class="relative">
+                                    <div class="absolute -top-1 -left-1 w-24 h-24 rounded-full bg-gradient-to-r from-red-500 to-purple-500 animate-pulse-slow opacity-50"></div>
+                                    <div class="relative overflow-hidden w-20 h-20 rounded-full border-2 border-red-500/50 bg-gray-900/60">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/1680/1680422.png" alt="Profile Phantom" class="w-16 h-16 object-contain absolute top-2 left-2 animate__animated animate__pulse animate__infinite">
+                                    </div>
+                                    <div class="absolute -bottom-2 right-0 bg-red-600 text-white text-xs px-2 py-1 rounded-full animate__animated animate__flash animate__infinite">VILLAIN</div>
                                 </div>
                             </div>
                             
-                            <!-- Animated cybersecurity elements -->
-                            <div class="absolute top-0 right-0 h-32 w-32 opacity-20">
-                                <svg viewBox="0 0 100 100" class="animate-spin-slow">
-                                    <circle cx="50" cy="50" r="40" stroke="rgba(139, 92, 246, 0.5)" stroke-width="2" fill="none" />
-                                    <circle cx="50" cy="50" r="30" stroke="rgba(59, 130, 246, 0.5)" stroke-width="2" fill="none" />
-                                    <path d="M50 10 L50 90 M10 50 L90 50" stroke="rgba(236, 72, 153, 0.5)" stroke-width="2" />
-                                </svg>
+                            <!-- Mission Intro -->
+                            <div class="mt-6 bg-blue-900/40 p-4 rounded-lg border border-blue-500/30 animate__animated animate__fadeIn">
+                                <div class="flex items-start">
+                                    <div class="mr-3 flex-shrink-0 mt-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-400 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="mb-2 text-lg font-bold text-blue-200">MISSION BRIEFING:</p>
+                                        <p class="text-white/90">Hey there, <span class="text-yellow-300 font-bold">{{ $player_name }}</span>! Profile Phantom is creating fake social media accounts and groups to trick kids. Complete all three challenges to earn your <span class="text-cyan-300 font-bold">Cyber Safety Badges</span> and protect the digital world!</p>
+                                    </div>
+                                </div>
                             </div>
                             
-                            <div class="relative z-10">
-                                <div class="flex justify-between items-center">
-                                    <div class="flex items-center">
-                                        <!-- SocialShield Character -->
-                                        <div class="relative mr-4">
-                                            <div class="absolute -top-1 -left-1 w-24 h-24 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 animate-pulse-slow opacity-50"></div>
-                                            <img src="https://cdn-icons-png.flaticon.com/512/2371/2371580.png" alt="SocialShield" class="w-20 h-20 object-contain relative z-10 animate__animated animate__bounce">
+                            <!-- Badge Collection Preview -->
+                            <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-gradient-to-br from-purple-900/40 to-blue-900/40 p-4 rounded-lg border border-purple-500/30 text-center">
+                                    <div class="w-16 h-16 mx-auto relative mb-2">
+                                        <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full opacity-20 animate-pulse-slow"></div>
+                                        <img src="https://cdn-icons-png.flaticon.com/512/3487/3487884.png" alt="Detective Badge" class="w-full h-full object-contain relative z-10">
                                     </div>
-                                        <div>
-                                            <h2 class="text-2xl font-game mb-1 text-blue-300">CYBER MISSION: <span class="text-yellow-300">Social Media Mayhem</span></h2>
-                                            <p class="text-white/90">Help SocialShield defeat the mischievous Profile Phantom!</p>
+                                    <h3 class="text-lg font-bold text-white">Detective Badge</h3>
+                                    <p class="text-xs text-purple-200 mt-1">Spot the Fake!</p>
                                 </div>
+                                <div class="bg-gradient-to-br from-purple-900/40 to-blue-900/40 p-4 rounded-lg border border-purple-500/30 text-center">
+                                    <div class="w-16 h-16 mx-auto relative mb-2">
+                                        <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full opacity-20 animate-pulse-slow"></div>
+                                        <img src="https://cdn-icons-png.flaticon.com/512/1792/1792525.png" alt="Escape Artist Badge" class="w-full h-full object-contain relative z-10">
                                     </div>
-                                    <!-- Villain Character -->
-                                    <div class="relative">
-                                        <div class="absolute -top-1 -left-1 w-24 h-24 rounded-full bg-gradient-to-r from-red-500 to-purple-500 animate-pulse-slow opacity-50"></div>
-                                        <div class="relative overflow-hidden w-20 h-20 rounded-full border-2 border-red-500/50 bg-gray-900/60">
-                                            <img src="https://cdn-icons-png.flaticon.com/512/1680/1680422.png" alt="Profile Phantom" class="w-16 h-16 object-contain absolute top-2 left-2 animate__animated animate__pulse animate__infinite">
-                                        </div>
-                                        <div class="absolute -bottom-2 right-0 bg-red-600 text-white text-xs px-2 py-1 rounded-full animate__animated animate__flash animate__infinite">VILLAIN</div>
+                                    <h3 class="text-lg font-bold text-white">Escape Artist Badge</h3>
+                                    <p class="text-xs text-purple-200 mt-1">Navigate the Maze!</p>
+                                </div>
+                                <div class="bg-gradient-to-br from-purple-900/40 to-blue-900/40 p-4 rounded-lg border border-purple-500/30 text-center">
+                                    <div class="w-16 h-16 mx-auto relative mb-2">
+                                        <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full opacity-20 animate-pulse-slow"></div>
+                                        <img src="https://cdn-icons-png.flaticon.com/512/4295/4295970.png" alt="Chat Guardian Badge" class="w-full h-full object-contain relative z-10">
+                                    </div>
+                                    <h3 class="text-lg font-bold text-white">Chat Guardian Badge</h3>
+                                    <p class="text-xs text-purple-200 mt-1">Master Safe Chats!</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Game Navigation Tabs -->
+                            <div class="mt-8">
+                                <div class="flex justify-center mb-8">
+                                    <div class="flex items-center space-x-3 bg-gray-900/50 p-1 rounded-full">
+                                        <button id="social-stage1-btn" class="px-5 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-bold social-stage-btn active transition-all duration-300">Spot the Fake</button>
+                                        <button id="social-stage2-btn" class="px-5 py-2 bg-gray-800/70 text-gray-400 rounded-full font-bold social-stage-btn transition-all duration-300">Hacker Maze</button>
+                                        <button id="social-stage3-btn" class="px-5 py-2 bg-gray-800/70 text-gray-400 rounded-full font-bold social-stage-btn transition-all duration-300">Chat Simulator</button>
                                     </div>
                                 </div>
                                 
-                                <!-- Mission Intro -->
-                                <div class="mt-6 bg-blue-900/40 p-4 rounded-lg border border-blue-500/30 animate__animated animate__fadeIn">
-                                    <div class="flex items-start">
-                                        <div class="mr-3 flex-shrink-0 mt-1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-400 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                    </svg>
-                                                </div>
-                                        <div>
-                                            <p class="mb-2 text-lg font-bold text-blue-200">MISSION BRIEFING:</p>
-                                            <p class="text-white/90">Hey there, <span class="text-yellow-300 font-bold">{{ $player_name }}</span>! Profile Phantom is creating fake social media accounts and groups to trick kids. Complete all three challenges to earn your <span class="text-cyan-300 font-bold">Cyber Safety Badges</span> and protect the digital world!</p>
-                                            </div>
-                                                </div>
-                                            </div>
-                                
-                                <!-- Badge Collection Preview -->
-                                <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    <div class="bg-gradient-to-br from-purple-900/40 to-blue-900/40 p-4 rounded-lg border border-purple-500/30 text-center">
-                                        <div class="w-16 h-16 mx-auto relative mb-2">
-                                            <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full opacity-20 animate-pulse-slow"></div>
-                                            <img src="https://cdn-icons-png.flaticon.com/512/3487/3487884.png" alt="Detective Badge" class="w-full h-full object-contain relative z-10">
-                                        </div>
-                                        <h3 class="text-lg font-bold text-white">Detective Badge</h3>
-                                        <p class="text-xs text-purple-200 mt-1">Spot the Fake!</p>
+                                <!-- Progress indicator -->
+                                <div class="mb-6 px-4">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-sm text-purple-300">Mission Progress:</span>
+                                        <span class="text-sm text-purple-300" id="mission-progress-text">1/3 Challenges</span>
                                     </div>
-                                    <div class="bg-gradient-to-br from-purple-900/40 to-blue-900/40 p-4 rounded-lg border border-purple-500/30 text-center">
-                                        <div class="w-16 h-16 mx-auto relative mb-2">
-                                            <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full opacity-20 animate-pulse-slow"></div>
-                                            <img src="https://cdn-icons-png.flaticon.com/512/1792/1792525.png" alt="Escape Artist Badge" class="w-full h-full object-contain relative z-10">
-                                        </div>
-                                        <h3 class="text-lg font-bold text-white">Escape Artist Badge</h3>
-                                        <p class="text-xs text-purple-200 mt-1">Navigate the Maze!</p>
-                                    </div>
-                                    <div class="bg-gradient-to-br from-purple-900/40 to-blue-900/40 p-4 rounded-lg border border-purple-500/30 text-center">
-                                        <div class="w-16 h-16 mx-auto relative mb-2">
-                                            <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full opacity-20 animate-pulse-slow"></div>
-                                            <img src="https://cdn-icons-png.flaticon.com/512/4295/4295970.png" alt="Chat Guardian Badge" class="w-full h-full object-contain relative z-10">
-                                        </div>
-                                        <h3 class="text-lg font-bold text-white">Chat Guardian Badge</h3>
-                                        <p class="text-xs text-purple-200 mt-1">Master Safe Chats!</p>
-                                        </div>
-                                    </div>
-                                    
-                                <!-- Game Navigation Tabs -->
-                                <div class="mt-8">
-                                    <div class="flex justify-center mb-8">
-                                        <div class="flex items-center space-x-3 bg-gray-900/50 p-1 rounded-full">
-                                            <button id="social-stage1-btn" class="px-5 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-bold social-stage-btn active transition-all duration-300">Spot the Fake</button>
-                                            <button id="social-stage2-btn" class="px-5 py-2 bg-gray-800/70 text-gray-400 rounded-full font-bold social-stage-btn transition-all duration-300">Hacker Maze</button>
-                                            <button id="social-stage3-btn" class="px-5 py-2 bg-gray-800/70 text-gray-400 rounded-full font-bold social-stage-btn transition-all duration-300">Chat Simulator</button>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Progress indicator -->
-                                    <div class="mb-6 px-4">
-                                        <div class="flex justify-between items-center mb-2">
-                                            <span class="text-sm text-purple-300">Mission Progress:</span>
-                                            <span class="text-sm text-purple-300" id="mission-progress-text">1/3 Challenges</span>
-                                        </div>
-                                        <div class="h-3 bg-gray-800/60 rounded-full overflow-hidden">
-                                            <div id="mission-progress-bar" class="h-full bg-gradient-to-r from-purple-600 to-blue-600 rounded-full" style="width: 33%"></div>
+                                    <div class="h-3 bg-gray-800/60 rounded-full overflow-hidden">
+                                        <div id="mission-progress-bar" class="h-full bg-gradient-to-r from-purple-600 to-blue-600 rounded-full" style="width: 33%"></div>
                                     </div>
                                 </div>
                                 
@@ -2106,21 +2070,14 @@
                                                         </div>
                             </div>
                         </div>
-                    @endif
-                @break
-                @default
-                    <h2 class="text-xl font-game mb-4 text-center">{{ $mission['title'] }}</h2>
-                    <p class="text-center mb-6">{{ $mission['description'] }}</p>
-                    <div class="text-center">
-                        <a href="{{ route('game.story') }}" class="btn-secondary">
-                            Back to Story Mode
-                        </a>
                     </div>
-            @endswitch
+                </div>
+            </div>
         </div>
         
         <!-- Navigation -->
         <div class="flex justify-between">
+            @endswitch
             <a href="{{ route('game.story') }}" class="btn-secondary">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mr-2">
                     <path fill-rule="evenodd" d="M7.28 7.72a.75.75 0 010 1.06l-2.47 2.47H21a.75.75 0 010 1.5H4.81l2.47 2.47a.75.75 0 11-1.06 1.06l-3.75-3.75a.75.75 0 010-1.06l3.75-3.75a.75.75 0 011.06 0z" clip-rule="evenodd" />
@@ -2957,6 +2914,12 @@
         const cluesHiddenInput = document.getElementById('clues_hidden');
         const actionHiddenInput = document.getElementById('action_hidden');
         
+        // Add event listener for submit button
+        submitPhishingMissionBtn.addEventListener('click', function() {
+            updateTotalPhishingScore();
+            phishingMissionForm.submit();
+        });
+        
         // Stage 1: Email Basics
         const checkBasicsBtn = document.getElementById('check-basics');
         const clueCheckboxes = document.querySelectorAll('input[name="clues[]"]');
@@ -3025,7 +2988,7 @@
             });
         });
         
-        // [Existing code for previous stages remains the same]
+        // [Existing code for rest of the stages remains the same]
         // Stage 1: Email Basics check button
         checkBasicsBtn.addEventListener('click', function() {
             const selectedClues = Array.from(clueCheckboxes)
@@ -3307,8 +3270,17 @@
             submitPhishingMissionBtn.classList.remove('hidden');
             submitPhishingMissionBtn.disabled = false;
             
+            // Update the total score before enabling submission
+            updateTotalPhishingScore();
+            
+            // Make the button visually stand out
+            submitPhishingMissionBtn.classList.add('animate__animated', 'animate__pulse');
+            
             // Scroll to the submit button
             submitPhishingMissionBtn.scrollIntoView({ behavior: 'smooth' });
+            
+            // Log to console for debugging
+            console.log('Complete button clicked, submit button should be visible and enabled');
         });
         
         // Helper function to navigate between stages
@@ -3870,38 +3842,45 @@
             initQuiz();
         }
         
-        // Add demo completion buttons for other games
+        // Add demo completion buttons for all games
         const demoButtons = [
+            { id: 'complete-spot-fake', stage: 0, input: spotFakeInput },
             { id: 'complete-hacker-maze', stage: 1, input: mazeInput },
             { id: 'complete-chat-sim', stage: 2, input: chatInput }
         ];
         
         demoButtons.forEach(button => {
-            const container = socialStages[button.stage].querySelector('.text-center');
+            const container = stages[button.stage].querySelector('.text-center');
             
             if (container) {
+                // Check if a complete button already exists
+                const existingBtn = container.querySelector('[data-complete-btn="true"]');
+                if (existingBtn) return; // Skip if button already exists
+                
                 const demoBtn = document.createElement('button');
-                demoBtn.className = 'mt-4 px-4 py-2 bg-purple-600 hover:bg-purple-700 transition text-white rounded-lg';
-                demoBtn.textContent = 'Demo: Mark Complete';
+                demoBtn.setAttribute('data-complete-btn', 'true');
+                demoBtn.className = 'mt-6 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold rounded-lg shadow-lg transition-all transform hover:scale-105 shadow-purple-500/20';
+                demoBtn.innerHTML = '<span class="flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>Complete Challenge</span>';
                 
                 demoBtn.addEventListener('click', function() {
                     stagesCompleted[button.stage] = true;
                     button.input.value = "1";
                     updateProgress();
                     
-                    // Update UI
-                    socialStageBtns[button.stage].classList.remove('bg-gray-800/70', 'text-gray-400');
-                    socialStageBtns[button.stage].classList.add('bg-gradient-to-r', 'from-purple-600', 'to-blue-600', 'text-white');
+                    stageBtns[button.stage].classList.remove('bg-gray-800/70', 'text-gray-400');
+                    stageBtns[button.stage].classList.add('bg-gradient-to-r', 'from-purple-600', 'to-blue-600', 'text-white');
                     
-                    // Disable button
                     this.disabled = true;
-                    this.textContent = 'Completed!';
-                    this.className = 'mt-4 px-4 py-2 bg-green-600 text-white rounded-lg cursor-not-allowed';
+                    this.innerHTML = '<span class="flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>Completed!</span>';
+                    this.className = 'mt-6 px-6 py-3 bg-green-600 text-white font-bold rounded-lg cursor-not-allowed';
                     
-                    // Auto navigate to next uncompleted stage if available
-                    const nextUncompleted = stagesCompleted.findIndex(complete => !complete);
-                    if (nextUncompleted !== -1) {
-                        setTimeout(() => navigateToStage(nextUncompleted + 1), 1000);
+                    // Add automatic navigation to next stage when a stage is completed
+                    if (button.stage === 0) {
+                        // If Spot the Fake is completed, move to Hacker Maze
+                        setTimeout(() => showStage(2), 1000);
+                    } else if (button.stage === 1) {
+                        // If Hacker Maze is completed, move to Chat Simulation
+                        setTimeout(() => showStage(3), 1000);
                     }
                 });
                 
@@ -3996,45 +3975,107 @@
             });
         }
         
-        // Add demo completion buttons for all games
-        const demoButtons = [
-            { id: 'complete-spot-fake', stage: 0, input: spotFakeInput },
-            { id: 'complete-hacker-maze', stage: 1, input: mazeInput },
-            { id: 'complete-chat-sim', stage: 2, input: chatInput }
-        ];
+        // Add functionality for the Escape the Hacker Maze game
+        const btnStart = document.getElementById('btn-start');
+        const btnPause = document.getElementById('btn-pause');
+        const btnJump = document.getElementById('btn-jump');
+        const player = document.getElementById('player');
+        const gameOverScreen = document.getElementById('game-over-screen');
+        const levelComplete = document.getElementById('level-complete');
+        const btnRetry = document.getElementById('btn-retry');
+        const btnContinue = document.getElementById('btn-continue');
         
-        demoButtons.forEach(button => {
-            const container = stages[button.stage].querySelector('.text-center');
+        if (btnStart && player) {
+            let isGameRunning = false;
+            let score = 0;
+            let level = 1;
             
-            if (container) {
-                const demoBtn = document.createElement('button');
-                demoBtn.className = 'mt-4 px-4 py-2 bg-purple-600 hover:bg-purple-700 transition text-white rounded-lg';
-                demoBtn.textContent = 'Demo: Mark Complete';
+            function updateGameUI() {
+                // Update score and level display
+                document.getElementById('game-score').textContent = score;
+                document.getElementById('game-level').textContent = level;
+            }
+            
+            function startGame() {
+                isGameRunning = true;
+                btnStart.classList.add('hidden');
+                btnPause.classList.remove('hidden');
+                gameOverScreen.classList.add('hidden');
                 
-                demoBtn.addEventListener('click', function() {
-                    stagesCompleted[button.stage] = true;
-                    button.input.value = "1";
-                    updateProgress();
-                    
-                    stageBtns[button.stage].classList.remove('bg-gray-800/70', 'text-gray-400');
-                    stageBtns[button.stage].classList.add('bg-gradient-to-r', 'from-purple-600', 'to-blue-600', 'text-white');
-                    
-                    this.disabled = true;
-                    this.textContent = 'Completed!';
-                    this.className = 'mt-4 px-4 py-2 bg-green-600 text-white rounded-lg cursor-not-allowed';
-                    
-                    // Add automatic navigation to next stage when a stage is completed
-                    if (button.stage === 0) {
-                        // If Spot the Fake is completed, move to Hacker Maze
-                        setTimeout(() => showStage(2), 1000);
-                    } else if (button.stage === 1) {
-                        // If Hacker Maze is completed, move to Chat Simulation
-                        setTimeout(() => showStage(3), 1000);
+                // Simple animation to show the game is running
+                player.classList.add('animate__animated', 'animate__bounce');
+                
+                // Add space bar control for jump
+                document.addEventListener('keydown', function(e) {
+                    if (e.code === 'Space' && isGameRunning) {
+                        jumpPlayer();
                     }
                 });
                 
-                container.appendChild(demoBtn);
+                updateGameUI();
             }
-        });
+            
+            function pauseGame() {
+                isGameRunning = false;
+                btnPause.classList.add('hidden');
+                btnStart.textContent = 'Resume Game';
+                btnStart.classList.remove('hidden');
+            }
+            
+            function jumpPlayer() {
+                if (!isGameRunning) return;
+                
+                player.classList.remove('animate__bounce');
+                player.classList.add('animate__animated', 'animate__bounceUp');
+                
+                setTimeout(() => {
+                    player.classList.remove('animate__bounceUp');
+                    if (isGameRunning) {
+                        player.classList.add('animate__bounce');
+                    }
+                }, 500);
+                
+                // Increase score
+                score += 10;
+                updateGameUI();
+                
+                // Check if level complete
+                if (score >= 100) {
+                    completeLevel();
+                }
+            }
+            
+            function completeLevel() {
+                isGameRunning = false;
+                levelComplete.classList.remove('hidden');
+            }
+            
+            // Event listeners
+            btnStart.addEventListener('click', startGame);
+            btnPause.addEventListener('click', pauseGame);
+            btnJump.addEventListener('click', jumpPlayer);
+            btnRetry.addEventListener('click', function() {
+                score = 0;
+                level = 1;
+                gameOverScreen.classList.add('hidden');
+                startGame();
+            });
+            
+            btnContinue.addEventListener('click', function() {
+                levelComplete.classList.add('hidden');
+                
+                // Mark the maze game as complete
+                stagesCompleted[1] = true;
+                mazeInput.value = "1";
+                updateProgress();
+                
+                // Update UI
+                stageBtns[1].classList.remove('bg-gray-800/70', 'text-gray-400');
+                stageBtns[1].classList.add('bg-gradient-to-r', 'from-purple-600', 'to-blue-600', 'text-white');
+                
+                // Navigate to chat simulation (stage 3)
+                setTimeout(() => showStage(3), 1000);
+            });
+        }
     });
 </script>

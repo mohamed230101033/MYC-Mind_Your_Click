@@ -102,8 +102,7 @@
                 </a>
                 
                 <!-- Mission 3 -->
-                <a href="{{ (in_array(1, $completed_missions) && in_array(2, $completed_missions)) ? route('game.mission', 3) : '#' }}" 
-                   class="block transition transform hover:scale-105 {{ !(in_array(1, $completed_missions) && in_array(2, $completed_missions)) ? 'opacity-60 cursor-not-allowed' : '' }}">
+                <a href="{{ route('game.mission', 3) }}" class="block transition transform hover:scale-105">
                     <div class="game-card bg-white/5 hover:bg-white/10 border border-white/10 p-5 rounded-xl">
                         <div class="flex items-center mb-3">
                             <div class="mr-4 w-14 h-14 rounded-lg bg-danger-100 flex items-center justify-center">
@@ -122,14 +121,7 @@
                         <p class="text-white/80">Profile Phantom is creating fake accounts to trick kids. Can you spot the fakes?</p>
                         <div class="mt-3 flex justify-between items-center">
                             <span class="text-xs px-2 py-1 bg-primary-800 rounded">Difficulty: Medium</span>
-                            @if(!(in_array(1, $completed_missions) && in_array(2, $completed_missions)))
-                                <span class="text-white/50 flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mr-1">
-                                        <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 00-5.25 5.25v3a3 3 0 00-3 3v6.75a3 3 0 003 3h10.5a3 3 0 003-3v-6.75a3 3 0 00-3-3v-3c0-2.9-2.35-5.25-5.25-5.25zm3.75 8.25v-3a3.75 3.75 0 10-7.5 0v3h7.5z" clip-rule="evenodd" />
-                                    </svg>
-                                    Locked
-                                </span>
-                            @elseif(in_array(3, $completed_missions))
+                            @if(in_array(3, $completed_missions))
                                 <span class="text-green-400 flex items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mr-1">
                                         <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />

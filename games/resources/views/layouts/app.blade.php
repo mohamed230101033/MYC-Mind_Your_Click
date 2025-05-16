@@ -245,11 +245,11 @@
                 <ul class="flex space-x-6">
                     <li><a href="{{ route('home') }}" class="hover:text-primary-200 transition">Home</a></li>
                     <li><a href="{{ route('game.story') }}" class="hover:text-primary-200 transition">Story Mode</a></li>
-                    <li><a href="{{ route('game.village') }}" class="hover:text-primary-200 transition">Cyber Village</a></li>
-                    <li><a href="{{ route('game.truth-detective') }}" class="hover:text-primary-200 transition">Truth Detective</a></li>
+
+                    
 
                     <li><a href="{{ route('game.secret-code') }}" class="hover:text-primary-200 transition">Secret Code Game</a></li>
-                    <li><a href="{{ route('game.challenge') }}" class="hover:text-primary-200 transition">Challenges</a></li>
+                   
                     <li><a href="{{ route('game.time-travel') }}" class="hover:text-primary-200 transition">Cyber Time Travel</a></li>
                 </ul>
             </nav>
@@ -267,11 +267,11 @@
                 <ul class="flex flex-col space-y-2">
                     <li><a href="{{ route('home') }}" class="block hover:bg-primary-600 p-2 rounded">Home</a></li>
                     <li><a href="{{ route('game.story') }}" class="block hover:bg-primary-600 p-2 rounded">Story Mode</a></li>
-                    <li><a href="{{ route('game.village') }}" class="block hover:bg-primary-600 p-2 rounded">Cyber Village</a></li>
-                    <li><a href="{{ route('game.truth-detective') }}" class="block hover:bg-primary-600 p-2 rounded">Truth Detective</a></li>
+                
+                
 
                     <li><a href="{{ route('game.secret-code') }}" class="block hover:bg-primary-600 p-2 rounded">Secret Code Game</a></li>
-                    <li><a href="{{ route('game.challenge') }}" class="block hover:bg-primary-600 p-2 rounded">Challenges</a></li>
+                   
                     <li><a href="{{ route('game.time-travel') }}" class="block hover:bg-primary-600 p-2 rounded">Cyber Time Travel</a></li>
                 </ul>
             </nav>

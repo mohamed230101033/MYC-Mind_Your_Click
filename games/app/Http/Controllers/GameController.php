@@ -106,15 +106,6 @@ class GameController extends Controller
             return redirect()->route('game.story')->with('error', 'Mission not found!');
         }
         
-        // For Social Media Mayhem (mission 3), check if missions 1 and 2 are completed
-        if ((int)$id === 3) {
-            $completedMissions = Session::get('completed_missions', []);
-            if (!in_array(1, $completedMissions) || !in_array(2, $completedMissions)) {
-                return redirect()->route('game.story')
-                    ->with('error', 'You need to complete "The Mysterious Email" and "Password Peril" missions first!');
-            }
-        }
-        
         return view('game.mission', [
             'player_name' => $playerName,
             'mission' => $mission
@@ -424,8 +415,6 @@ class GameController extends Controller
     
     /**
      * Show the Truth Detective Hub
-=======
-     * Show a random challenge
      */
     public function truthDetectiveHub()
     {
@@ -500,19 +489,19 @@ class GameController extends Controller
         $request->validate([
             'decision' => 'required|string|in:real,fake', // 'real' or 'fake'
         ]);
-        
+
         $allCases = $this->getTruthDetectiveCases();
         $case = collect($allCases)->firstWhere('id', (int)$caseId);
-        
+
         if (!$case) {
             return redirect()->route('game.truth-detective')->with('error', 'Case not found!');
         }
-        
+
         $isCorrect = $request->decision === $case['correct_answer'];
         $feedbackMessage = $isCorrect ? $case['feedback']['correct'] : $case['feedback']['incorrect'];
         $trustPointsEarned = 0;
         $newBadgeEarned = null;
-        
+
         if ($isCorrect) {
             $trustPointsEarned = $case['points_reward'];
             $currentTrustPoints = Session::get('trust_points', 0);
@@ -529,35 +518,33 @@ class GameController extends Controller
                 if (!in_array($case['badge_reward'], $currentBadges)) {
                     $currentBadges[] = $case['badge_reward'];
                     Session::put('truth_detective_badges', $currentBadges);
-                    $newBadgeEarned = $case['badge_reward']; // You'll need badge details (name, image)
+                    $newBadgeEarned = $case['badge_reward'];
                     $feedbackMessage .= " You've earned the " . $case['badge_reward_name'] . " badge!";
                 }
+            }
 
             $shieldLevel = Session::get('shield_level', 0);
             Session::put('shield_level', $shieldLevel + 1);
-            
+
             if (($shieldLevel + 1) % 5 === 0) {
                 $badges = Session::get('badges', []);
                 $badge = 'level_' . (($shieldLevel + 1) / 5);
                 $badges[] = $badge;
                 Session::put('badges', $badges);
-                
+
                 return redirect()->route('game.challenge')
                     ->with('success', 'Correct! You earned a new badge!')
                     ->with('badge', $badge);
-
             }
-             return redirect()->route('game.truth-detective.case', ['caseId' => $caseId])
+
+            return redirect()->route('game.truth-detective.case', ['caseId' => $caseId])
                 ->with('success', $feedbackMessage)
-                ->with('decision_made', true) // To show feedback on the case page
+                ->with('decision_made', true)
                 ->with('is_correct', true);
-
-
         } else {
-            // Optional: Deduct points or other penalty? For now, just feedback.
             return redirect()->route('game.truth-detective.case', ['caseId' => $caseId])
                 ->with('error', $feedbackMessage)
-                ->with('decision_made', true) // To show feedback on the case page
+                ->with('decision_made', true)
                 ->with('is_correct', false);
         }
     }
