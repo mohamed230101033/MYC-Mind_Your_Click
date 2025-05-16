@@ -12,6 +12,9 @@ class GameController extends Controller
      */
     public function welcome()
     {
+        // Reset any existing game session if returning to welcome page
+        Session::forget(['player_name', 'current_level', 'shield_level', 'badges', 'completed_missions', 'trust_points', 'completed_truth_cases', 'truth_detective_badges']);
+
         // Only reset session if explicitly requested
         if (request()->has('reset')) {
             Session::forget(['player_name', 'current_level', 'shield_level', 'badges', 'completed_missions']);
@@ -39,9 +42,14 @@ class GameController extends Controller
         // Store player information in session
         Session::put('player_name', $request->player_name);
         Session::put('current_level', 1);
-        Session::put('shield_level', 0);
-        Session::put('badges', []);
-        Session::put('completed_missions', []);
+        Session::put('shield_level', 0); // General game shield
+        Session::put('badges', []); // General game badges
+        Session::put('completed_missions', []); // Story mode missions
+
+        // Truth Detective specific session data
+        Session::put('trust_points', 0);
+        Session::put('completed_truth_cases', []);
+        Session::put('truth_detective_badges', []); 
         
         return redirect()->route('game.intro');
     }
@@ -415,45 +423,116 @@ class GameController extends Controller
     }
     
     /**
+     * Show the Truth Detective Hub
+=======
      * Show a random challenge
      */
-    public function challenge()
+    public function truthDetectiveHub()
     {
         $playerName = Session::get('player_name');
-        
+        if (!$playerName) {
+            return redirect()->route('welcome')->with('error', 'Please enter your name first!');
+        }
+
+        $cases = $this->getTruthDetectiveCases();
+        $completedCases = Session::get('completed_truth_cases', []);
+        $trustPoints = Session::get('trust_points', 0);
+        $earnedBadges = Session::get('truth_detective_badges', []);
+
+
+        // Categorize cases
+        $rookieCases = collect($cases)->where('difficulty_level', 1)->all();
+        $agentCases = collect($cases)->where('difficulty_level', 2)->all();
+        $investigatorCases = collect($cases)->where('difficulty_level', 3)->all();
+
+        return view('game.truth-detective-hub', [
+            'player_name' => $playerName,
+            'rookieCases' => $rookieCases,
+            'agentCases' => $agentCases,
+            'investigatorCases' => $investigatorCases,
+            'completedCases' => $completedCases,
+            'trustPoints' => $trustPoints,
+            'earnedBadges' => $earnedBadges,
+        ]);
+    }
+
+    /**
+     * Show a specific Truth Detective case
+     */
+    public function startTruthDetectiveCase($caseId)
+    {
+        $playerName = Session::get('player_name');
         if (!$playerName) {
             return redirect()->route('welcome')->with('error', 'Please enter your name first!');
         }
         
+        $case = collect($this->getTruthDetectiveCases())->firstWhere('id', (int)$caseId);
+
+        if (!$case) {
+            return redirect()->route('game.truth-detective')->with('error', 'Case not found!');
+        }
+
         $challenges = $this->getChallenges();
         $challenge = $challenges[array_rand($challenges)];
         
-        return view('game.challenge', [
+        $completedCases = Session::get('completed_truth_cases', []);
+        if(in_array($caseId, $completedCases)){
+             // Optionally, allow replaying or show a "completed" status
+            // For now, just show the case
+        }
+
+        return view('game.truth-detective-case', [
             'player_name' => $playerName,
-            'challenge' => $challenge
+            'case' => $case,
         ]);
     }
     
     /**
-     * Handle challenge submission
+     * Handle Truth Detective case submission
      */
-    public function submitChallenge(Request $request)
+    public function submitTruthDetectiveCase(Request $request, $caseId)
     {
+        $playerName = Session::get('player_name');
+        if (!$playerName) {
+            return redirect()->route('welcome')->with('error', 'Please enter your name first!');
+        }
+
         $request->validate([
-            'challenge_id' => 'required|integer',
-            'answer' => 'required|string',
+            'decision' => 'required|string|in:real,fake', // 'real' or 'fake'
         ]);
         
-        $challenges = $this->getChallenges();
-        $challenge = collect($challenges)->firstWhere('id', $request->challenge_id);
+        $allCases = $this->getTruthDetectiveCases();
+        $case = collect($allCases)->firstWhere('id', (int)$caseId);
         
-        if (!$challenge) {
-            return redirect()->route('game.challenge')->with('error', 'Challenge not found!');
+        if (!$case) {
+            return redirect()->route('game.truth-detective')->with('error', 'Case not found!');
         }
         
-        $isCorrect = $request->answer === $challenge['correct_answer'];
+        $isCorrect = $request->decision === $case['correct_answer'];
+        $feedbackMessage = $isCorrect ? $case['feedback']['correct'] : $case['feedback']['incorrect'];
+        $trustPointsEarned = 0;
+        $newBadgeEarned = null;
         
         if ($isCorrect) {
+            $trustPointsEarned = $case['points_reward'];
+            $currentTrustPoints = Session::get('trust_points', 0);
+            Session::put('trust_points', $currentTrustPoints + $trustPointsEarned);
+
+            $completedCases = Session::get('completed_truth_cases', []);
+            if (!in_array($caseId, $completedCases)) {
+                $completedCases[] = $caseId;
+                Session::put('completed_truth_cases', $completedCases);
+            }
+
+            if (!empty($case['badge_reward'])) {
+                $currentBadges = Session::get('truth_detective_badges', []);
+                if (!in_array($case['badge_reward'], $currentBadges)) {
+                    $currentBadges[] = $case['badge_reward'];
+                    Session::put('truth_detective_badges', $currentBadges);
+                    $newBadgeEarned = $case['badge_reward']; // You'll need badge details (name, image)
+                    $feedbackMessage .= " You've earned the " . $case['badge_reward_name'] . " badge!";
+                }
+
             $shieldLevel = Session::get('shield_level', 0);
             Session::put('shield_level', $shieldLevel + 1);
             
@@ -466,15 +545,21 @@ class GameController extends Controller
                 return redirect()->route('game.challenge')
                     ->with('success', 'Correct! You earned a new badge!')
                     ->with('badge', $badge);
+
             }
-            
-            return redirect()->route('game.challenge')
-                ->with('success', 'Correct! Your cyber shield got stronger!');
+             return redirect()->route('game.truth-detective.case', ['caseId' => $caseId])
+                ->with('success', $feedbackMessage)
+                ->with('decision_made', true) // To show feedback on the case page
+                ->with('is_correct', true);
+
+
+        } else {
+            // Optional: Deduct points or other penalty? For now, just feedback.
+            return redirect()->route('game.truth-detective.case', ['caseId' => $caseId])
+                ->with('error', $feedbackMessage)
+                ->with('decision_made', true) // To show feedback on the case page
+                ->with('is_correct', false);
         }
-        
-        return redirect()->route('game.challenge')
-            ->with('error', 'That\'s not right. Try again!')
-            ->with('explanation', $challenge['explanation']);
     }
     
     /**
@@ -587,41 +672,64 @@ class GameController extends Controller
     }
     
     /**
+     * Get Truth Detective Cases data
      * Get all challenges data
      */
-    private function getChallenges()
+    private function getTruthDetectiveCases()
     {
         return [
             [
                 'id' => 1,
-                'title' => 'Spot the Phishing Email',
-                'description' => 'Which of these emails is trying to trick you?',
-                'fake_content' => 'URGENT: Your account will be deleted! Click here to login immediately: secure-account-verify.com',
-                'real_content' => 'Your monthly newsletter from Kids Science Magazine. Check out our dinosaur facts!',
-                'correct_answer' => 'fake',
-                'explanation' => 'The fake email creates urgency and fear, has a suspicious link, and doesn\'t address you by name.'
+                'title' => 'The Suspicious Scholarship Email',
+                'age_group' => '9-11', // Rookie
+                'difficulty_level' => 1, // 1 for Rookie, 2 for Agent, 3 for Investigator
+                'difficulty_name' => 'Rookie',
+                'storyline' => "You've received an email about a 'FREE SCHOLARSHIP!' It sounds amazing, but is it too good to be true? Investigate the email carefully.",
+                'image_to_investigate' => 'images/truth-detective/scholarship-email-fake.png', // Path to image
+                'clues' => [
+                    ['id' => 'clue1_1', 'text' => "Sender's email address looks unofficial: 'scholarship_free@mail-web.com'", 'area_coords' => '10,20,100,50'], // Example: top,left,bottom,right
+                    ['id' => 'clue1_2', 'text' => "Generic greeting: 'Dear Student'", 'area_coords' => '60,20,80,150'],
+                    ['id' => 'clue1_3', 'text' => "Urgent call to action: 'Click NOW to claim!'", 'area_coords' => '100,20,120,200'],
+                    ['id' => 'clue1_4', 'text' => "Spelling mistakes: 'Congradulations!'", 'area_coords' => '130,20,150,180'],
+                    ['id' => 'clue1_5', 'text' => "Asks for personal info too early: 'Send your full name, address, and parent's bank details.'", 'area_coords' => '160,20,200,300'],
+                ],
+                'correct_answer' => 'fake', // 'real' or 'fake'
+                'feedback' => [
+                    'correct' => "Excellent detective work! You correctly identified this as a SCAM email. It had many red flags like a suspicious sender, urgency, and asking for too much personal info.",
+                    'incorrect' => "Not quite! This email was a fake. Real scholarship offers usually come from official school or organization emails and don't ask for bank details upfront. Look for clues like the sender's address and urgent language."
+                ],
+                'points_reward' => 100,
+                'badge_reward' => 'phishing_spotter', // Badge ID
+                'badge_reward_name' => 'Phishing Spotter',
             ],
             [
                 'id' => 2,
-                'title' => 'Secure Website?',
-                'description' => 'Which website address (URL) is safer to visit?',
-                'fake_content' => 'http://amazom.com/games-sale',
-                'real_content' => 'https://amazon.com/games',
-                'correct_answer' => 'real',
-                'explanation' => 'The real URL has "https" (secure) and the correct spelling of Amazon. The fake one misspelled Amazon (amazom) and uses "http" which is less secure.'
-            ],
-            [
-                'id' => 3,
-                'title' => 'App Permissions',
-                'description' => 'Which app request seems suspicious?',
-                'fake_content' => 'This flashlight app needs access to your contacts, location, and camera',
-                'real_content' => 'This drawing app needs access to storage and camera',
+                'title' => 'Is This News Site Real?',
+                'age_group' => '12-14', // Field Agent
+                'difficulty_level' => 2,
+                'difficulty_name' => 'Field Agent',
+                'storyline' => "You found an article online: 'ALIENS LAND IN LOCAL PARK - Confirmed by Mayor!'. The headline is shocking! But is the news source trustworthy?",
+                'image_to_investigate' => 'images/truth-detective/fake-news-site.png', // Path to image of a fake news website
+                'clues' => [
+                    ['id' => 'clue2_1', 'text' => "Website URL is misspelled: 'www.truenews-reportz.com'", 'area_coords' => '10,20,40,250'],
+                    ['id' => 'clue2_2', 'text' => "No 'About Us' or 'Contact' page found.", 'area_coords' => '50,300,80,400'],
+                    ['id' => 'clue2_3', 'text' => "The article has many pop-up ads.", 'area_coords' => '0,0,400,400'], // General observation
+                    ['id' => 'clue2_4', 'text' => "Other reputable news sites are not reporting this story.", 'area_coords' => '0,0,0,0'], // External check
+                    ['id' => 'clue2_5', 'text' => "The author is listed as 'Anonymous الخبر الصحفي'", 'area_coords' => '300,20,330,200'],
+                ],
                 'correct_answer' => 'fake',
-                'explanation' => 'A flashlight app should only need access to your camera flash. It doesn\'t need your contacts or location to work properly.'
+                'feedback' => [
+                    'correct' => "Great investigation! You spotted that this news site was FAKE. Weird URLs, no contact info, and sensational headlines not found elsewhere are big red flags.",
+                    'incorrect' => "Be careful! This news site was designed to look real but it's fake. Always check the website's URL, look for an 'About Us' page, and see if other trusted news sources are reporting the same story."
+                ],
+                'points_reward' => 150,
+                'badge_reward' => 'misinfo_buster',
+                'badge_reward_name' => 'Misinformation Buster',
             ],
+            // Add more cases for different age groups and topics (e.g., fake social media profiles, scam online stores)
         ];
     }
-    
+
     /**
      * Get cyber attacks data for time travel feature
      */

@@ -89,6 +89,13 @@ document.addEventListener('DOMContentLoaded', function() {
      * @param {string} soundPath - Path to the sound file
      */
     function playSoundEffect(soundPath) {
+        // Use the global sound manager if available
+        if (typeof soundManager !== 'undefined') {
+            soundManager.play('timeTravel');
+            return;
+        }
+        
+        // Fallback to direct audio playback
         try {
             const soundEffect = new Audio(soundPath);
             soundEffect.volume = 0.5;

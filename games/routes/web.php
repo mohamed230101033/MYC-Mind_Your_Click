@@ -24,6 +24,11 @@ Route::prefix('game')->name('game.')->group(function () {
     Route::get('/story', [GameController::class, 'storyMode'])->name('story');
     Route::get('/mission/{id}', [GameController::class, 'mission'])->name('mission');
     Route::post('/mission/{id}', [GameController::class, 'submitMission'])->name('submit-mission');
+    Route::get('/village', [GameController::class, 'village'])->name('village');
+    Route::get('/truth-detective', [GameController::class, 'truthDetectiveHub'])->name('truth-detective');
+    Route::get('/truth-detective/case/{caseId}', [GameController::class, 'startTruthDetectiveCase'])->name('truth-detective.case');
+    Route::post('/truth-detective/case/{caseId}', [GameController::class, 'submitTruthDetectiveCase'])->name('truth-detective.submit');
+
     // Encryption Game Routes
     Route::get('/secret-code', [GameController::class, 'secretCode'])->name('secret-code');
     Route::post('/secret-code/decrypt', [GameController::class, 'submitDecryption'])->name('secret-code.decrypt');

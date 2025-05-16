@@ -14,6 +14,9 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <!-- Custom Styles -->
     <link href="{{ asset('css/space-background.css') }}" rel="stylesheet">
 
@@ -144,6 +147,89 @@
         #warp-container {
             pointer-events: none;
         }
+        
+        /* Achievement animations */
+        .animate-pulse-subtle {
+            animation: pulse-subtle 2s infinite;
+        }
+        
+        .animate-bounce-subtle {
+            animation: bounce-subtle 1s infinite;
+        }
+        
+        @keyframes pulse-subtle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        @keyframes bounce-subtle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        /* Achievement notification styles */
+        .achievement-notification {
+            z-index: 9999;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Power-up styles */
+        .power-ups-container {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .power-up-btn {
+            background: linear-gradient(135deg, #2a3f5f, #1e293b);
+            border: 2px solid rgba(99, 102, 241, 0.4);
+            border-radius: 8px;
+            padding: 8px;
+            position: relative;
+            transition: all 0.2s;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .power-up-btn:hover {
+            transform: scale(1.1);
+            border-color: rgba(99, 102, 241, 0.8);
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+        }
+        
+        .power-up-icon {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+        
+        .power-up-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Notification styles */
+        .notification {
+            z-index: 9999;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .notification.show {
+            opacity: 1;
+        }
     </style>
 
     <!-- Scripts -->
@@ -159,6 +245,9 @@
                 <ul class="flex space-x-6">
                     <li><a href="{{ route('home') }}" class="hover:text-primary-200 transition">Home</a></li>
                     <li><a href="{{ route('game.story') }}" class="hover:text-primary-200 transition">Story Mode</a></li>
+                    <li><a href="{{ route('game.village') }}" class="hover:text-primary-200 transition">Cyber Village</a></li>
+                    <li><a href="{{ route('game.truth-detective') }}" class="hover:text-primary-200 transition">Truth Detective</a></li>
+
                     <li><a href="{{ route('game.secret-code') }}" class="hover:text-primary-200 transition">Secret Code Game</a></li>
                     <li><a href="{{ route('game.challenge') }}" class="hover:text-primary-200 transition">Challenges</a></li>
                     <li><a href="{{ route('game.time-travel') }}" class="hover:text-primary-200 transition">Cyber Time Travel</a></li>
@@ -178,6 +267,9 @@
                 <ul class="flex flex-col space-y-2">
                     <li><a href="{{ route('home') }}" class="block hover:bg-primary-600 p-2 rounded">Home</a></li>
                     <li><a href="{{ route('game.story') }}" class="block hover:bg-primary-600 p-2 rounded">Story Mode</a></li>
+                    <li><a href="{{ route('game.village') }}" class="block hover:bg-primary-600 p-2 rounded">Cyber Village</a></li>
+                    <li><a href="{{ route('game.truth-detective') }}" class="block hover:bg-primary-600 p-2 rounded">Truth Detective</a></li>
+
                     <li><a href="{{ route('game.secret-code') }}" class="block hover:bg-primary-600 p-2 rounded">Secret Code Game</a></li>
                     <li><a href="{{ route('game.challenge') }}" class="block hover:bg-primary-600 p-2 rounded">Challenges</a></li>
                     <li><a href="{{ route('game.time-travel') }}" class="block hover:bg-primary-600 p-2 rounded">Cyber Time Travel</a></li>
@@ -190,21 +282,37 @@
         @yield('content')
     </main>
 
-    <footer class="bg-gray-800 text-white py-6 mt-12">
+    <footer class="bg-primary-900 text-white py-6 mt-12">
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="mb-4 md:mb-0">
-                    <img src="{{ asset('images/shield-logo.svg') }}" alt="MYC Logo" class="w-8 h-8 inline-block mr-2">
-                    <span class="font-game text-xl">MYC: Mind Your Click</span>
+                    <h3 class="text-xl font-bold mb-2">MYC - Mind Your Click</h3>
+                    <p class="text-sm text-gray-300">Teaching safe online navigation for children</p>
                 </div>
-                <div class="text-center md:text-left">
-                    <p class="text-sm">An educational cybersecurity game for kids aged 7-13</p>
-                    <p class="text-xs mt-2 text-gray-400">&copy; {{ date('Y') }} Cybersecurity Education Team</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-300 hover:text-white transition">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-300 hover:text-white transition">
+                        <i class="fab fa-facebook text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-300 hover:text-white transition">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
                 </div>
+            </div>
+            <div class="border-t border-gray-700 mt-6 pt-6 text-center text-sm text-gray-400">
+                <p>&copy; {{ date('Y') }} MYC-Mind Your Click. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
+    <!-- Core JS Files -->
+    <script src="{{ asset('js/sound-manager.js') }}"></script>
+    <script src="{{ asset('js/game-timer.js') }}"></script>
+    <script src="{{ asset('js/achievements.js') }}"></script>
+    <script src="{{ asset('js/confetti.js') }}"></script>
+    
     <script>
         // Mobile menu toggle
         document.getElementById('mobile-menu-button')?.addEventListener('click', function() {
