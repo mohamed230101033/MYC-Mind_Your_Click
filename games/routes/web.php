@@ -28,6 +28,14 @@ Route::prefix('game')->name('game.')->group(function () {
     Route::get('/truth-detective', [GameController::class, 'truthDetectiveHub'])->name('truth-detective');
     Route::get('/truth-detective/case/{caseId}', [GameController::class, 'startTruthDetectiveCase'])->name('truth-detective.case');
     Route::post('/truth-detective/case/{caseId}', [GameController::class, 'submitTruthDetectiveCase'])->name('truth-detective.submit');
+
+    // Encryption Game Routes
+    Route::get('/secret-code', [GameController::class, 'secretCode'])->name('secret-code');
+    Route::post('/secret-code/decrypt', [GameController::class, 'submitDecryption'])->name('secret-code.decrypt');
+    Route::get('/secret-code/level/{level}', [GameController::class, 'secretCodeLevel'])->name('secret-code.level');
+    Route::post('/secret-code/level/{level}', [GameController::class, 'submitSecretCodeLevel'])->name('secret-code.submit-level');
+    Route::get('/challenge', [GameController::class, 'challenge'])->name('challenge');
+    Route::post('/challenge', [GameController::class, 'submitChallenge'])->name('submit-challenge');
     Route::get('/time-travel', [GameController::class, 'timeTravel'])->name('time-travel');
     Route::get('/time-travel/random', [GameController::class, 'randomTimeTravel'])->name('time-travel.random');
     Route::get('/time-travel/{attack}', [GameController::class, 'timeTravelAttack'])->name('time-travel.attack');
