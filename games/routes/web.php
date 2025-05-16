@@ -25,8 +25,9 @@ Route::prefix('game')->name('game.')->group(function () {
     Route::get('/mission/{id}', [GameController::class, 'mission'])->name('mission');
     Route::post('/mission/{id}', [GameController::class, 'submitMission'])->name('submit-mission');
     Route::get('/village', [GameController::class, 'village'])->name('village');
-    Route::get('/challenge', [GameController::class, 'challenge'])->name('challenge');
-    Route::post('/challenge', [GameController::class, 'submitChallenge'])->name('submit-challenge');
+    Route::get('/truth-detective', [GameController::class, 'truthDetectiveHub'])->name('truth-detective');
+    Route::get('/truth-detective/case/{caseId}', [GameController::class, 'startTruthDetectiveCase'])->name('truth-detective.case');
+    Route::post('/truth-detective/case/{caseId}', [GameController::class, 'submitTruthDetectiveCase'])->name('truth-detective.submit');
     Route::get('/time-travel', [GameController::class, 'timeTravel'])->name('time-travel');
     Route::get('/time-travel/random', [GameController::class, 'randomTimeTravel'])->name('time-travel.random');
     Route::get('/time-travel/{attack}', [GameController::class, 'timeTravelAttack'])->name('time-travel.attack');
