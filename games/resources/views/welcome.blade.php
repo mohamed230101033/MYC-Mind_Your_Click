@@ -6,244 +6,397 @@
         <title>Mind Your Click - Cybersecurity Game for Kids</title>
         
         <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Nunito:wght@400;600;700&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
-        
-        <!-- Animate.css for animations -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&family=Fredoka:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
         
         <!-- Tailwind CSS -->
         <script src="https://cdn.tailwindcss.com"></script>
-        <script>
-            tailwind.config = {
-                theme: {
-                    extend: {
-                        colors: {
-                            primary: {
-                                50: '#f0f9ff',
-                                100: '#e0f2fe',
-                                200: '#bae6fd',
-                                300: '#7dd3fc',
-                                400: '#38bdf8',
-                                500: '#0ea5e9',
-                                600: '#0284c7',
-                                700: '#0369a1',
-                                800: '#075985',
-                                900: '#0c4a6e',
-                                950: '#082f49',
-                            },
-                            secondary: {
-                                50: '#fdf4ff',
-                                100: '#fae8ff',
-                                200: '#f5d0fe',
-                                300: '#f0abfc',
-                                400: '#e879f9',
-                                500: '#d946ef',
-                                600: '#c026d3',
-                                700: '#a21caf',
-                                800: '#86198f',
-                                900: '#701a75',
-                                950: '#4a044e',
-                            },
-                            danger: {
-                                50: '#fef2f2',
-                                100: '#fee2e2',
-                                200: '#fecaca',
-                                300: '#fca5a5',
-                                400: '#f87171',
-                                500: '#ef4444',
-                                600: '#dc2626',
-                                700: '#b91c1c',
-                                800: '#991b1b',
-                                900: '#7f1d1d',
-                                950: '#450a0a',
-                            },
-                            success: {
-                                50: '#f0fdf4',
-                                100: '#dcfce7',
-                                200: '#bbf7d0',
-                                300: '#86efac',
-                                400: '#4ade80',
-                                500: '#22c55e',
-                                600: '#16a34a',
-                                700: '#15803d',
-                                800: '#166534',
-                                900: '#14532d',
-                                950: '#052e16',
-                            },
-                        },
-                        fontFamily: {
-                            'game': ['Righteous', 'cursive'],
-                            'sans': ['Nunito', 'sans-serif'],
-                            'kids': ['Comic Neue', 'cursive'],
-                        }
-                    }
-                }
-            }
-        </script>
+        
         <style>
-            .floating {
-                animation: floating 3s ease-in-out infinite;
+            :root {
+                --hero-blue: #1a91ff;
+                --hero-green: #00d68f;
+                --hero-purple: #9164fa;
+                --hero-orange: #ff901a;
+                --hero-pink: #ff5a8a;
+                --light-bg: #f0f5ff;
             }
-            @keyframes floating {
-                0% { transform: translateY(0px); }
-                50% { transform: translateY(-10px); }
-                100% { transform: translateY(0px); }
+            
+            body {
+                font-family: 'Fredoka', sans-serif;
+                background-color: var(--light-bg);
+                color: #2d3748;
+                overflow-x: hidden;
             }
-            .bg-pattern {
-                background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%239C92AC' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            
+            /* Cartoon-style panel */
+            .hero-panel {
+                background-color: white;
+                border-radius: 24px;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+                position: relative;
+                overflow: hidden;
+                z-index: 10;
             }
-            .bubble {
+            
+            .hero-panel::before {
+                content: '';
                 position: absolute;
-                border-radius: 50%;
-                background: rgba(255, 255, 255, 0.3);
-                animation: float 8s ease-in-out infinite;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 8px;
+                background: linear-gradient(90deg, var(--hero-blue), var(--hero-purple), var(--hero-green));
+                z-index: 5;
+            }
+            
+            /* Digital world background elements */
+            .digital-item {
+                position: absolute;
+                z-index: 1;
+                filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+                animation: float 6s ease-in-out infinite;
+            }
+            
+            @keyframes float {
+                0%, 100% { transform: translateY(0) rotate(0deg); }
+                50% { transform: translateY(-20px) rotate(5deg); }
+            }
+            
+            /* Typing animation cursor */
+            .typing::after {
+                content: '|';
+                animation: cursor 1s infinite step-end;
+            }
+            
+            @keyframes cursor {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0; }
+            }
+            
+            /* Button styles */
+            .hero-button {
+                background: linear-gradient(to right, var(--hero-green), var(--hero-blue));
+                color: white;
+                font-weight: 600;
+                padding: 0.75rem 1.5rem;
+                border-radius: 50px;
+                box-shadow: 0 8px 15px rgba(26, 145, 255, 0.3);
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+                font-size: 1.2rem;
+                transform-style: preserve-3d;
+                transform: perspective(1000px);
+            }
+            
+            .hero-button:hover {
+                transform: translateY(-5px) scale(1.05);
+                box-shadow: 0 12px 20px rgba(26, 145, 255, 0.4);
+            }
+            
+            .hero-button:active {
+                transform: translateY(2px);
+            }
+            
+            /* Input field styling */
+            .hero-input {
+                background-color: #f0f5ff;
+                border: 3px solid #d2e1ff;
+                border-radius: 50px;
+                padding: 0.75rem 1.5rem;
+                font-size: 1.2rem;
+                font-weight: 500;
+                color: #4a5568;
+                transition: all 0.3s ease;
+                width: 100%;
+                text-align: center;
+                box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+            }
+            
+            .hero-input:focus {
+                outline: none;
+                border-color: var(--hero-blue);
+                box-shadow: 0 0 0 3px rgba(26, 145, 255, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.05);
+            }
+            
+            /* Bouncing animation */
+            .bounce {
+                animation: bounce 2s ease infinite;
+            }
+            
+            @keyframes bounce {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-15px); }
+            }
+            
+            /* Wiggle animation */
+            .wiggle {
+                animation: wiggle 2.5s ease-in-out infinite;
+            }
+            
+            @keyframes wiggle {
+                0%, 100% { transform: rotate(0deg); }
+                25% { transform: rotate(-5deg); }
+                75% { transform: rotate(5deg); }
+            }
+            
+            /* Spin animation */
+            .spin-slow {
+                animation: spin 8s linear infinite;
+            }
+            
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+            
+            /* Pulse animation */
+            .pulse {
+                animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            }
+            
+            @keyframes pulse {
+                0%, 100% { opacity: 1; transform: scale(1); }
+                50% { opacity: 0.8; transform: scale(1.05); }
+            }
+            
+            /* Loading animation */
+            .loading-bar {
+                height: 10px;
+                border-radius: 5px;
+                background: linear-gradient(90deg, var(--hero-blue), var(--hero-purple));
+                width: 0%;
+                animation: loadingAnim 2s ease-in-out forwards;
+            }
+            
+            @keyframes loadingAnim {
+                0% { width: 0%; }
+                100% { width: 100%; }
+            }
+            
+            /* Binary rain effect */
+            .binary-rain {
+                position: absolute;
+                top: -20px;
+                color: rgba(26, 145, 255, 0.1);
+                font-family: monospace;
+                font-size: 14px;
+                animation: rain 10s linear infinite;
                 z-index: -1;
             }
-            @keyframes float {
-                0% { transform: translateY(0) rotate(0); }
-                50% { transform: translateY(-20px) rotate(180deg); }
-                100% { transform: translateY(0) rotate(360deg); }
+            
+            @keyframes rain {
+                0% { transform: translateY(-20px); }
+                100% { transform: translateY(800px); }
             }
         </style>
     </head>
-    <body class="bg-gradient-to-b from-blue-100 to-purple-100 dark:from-gray-900 dark:to-blue-900 bg-pattern min-h-screen font-kids">
-        <!-- Animated bubbles background -->
-        <div class="bubble" style="width: 80px; height: 80px; left: 10%; top: 10%; animation-delay: 0s;"></div>
-        <div class="bubble" style="width: 50px; height: 50px; left: 20%; top: 40%; animation-delay: 1s;"></div>
-        <div class="bubble" style="width: 70px; height: 70px; left: 80%; top: 15%; animation-delay: 2s;"></div>
-        <div class="bubble" style="width: 40px; height: 40px; left: 70%; top: 70%; animation-delay: 3s;"></div>
-        <div class="bubble" style="width: 60px; height: 60px; left: 30%; top: 80%; animation-delay: 4s;"></div>
-        <div class="bubble" style="width: 90px; height: 90px; left: 90%; top: 60%; animation-delay: 5s;"></div>
+    <body>
+        <!-- Digital world background elements -->
+        <div class="digital-item" style="top: 15%; left: 10%; animation-delay: 0s;">
+            <img src="https://cdn-icons-png.flaticon.com/512/2313/2313448.png" alt="Shield" class="w-16 h-16 bounce">
+        </div>
+        <div class="digital-item" style="top: 70%; left: 80%; animation-delay: 1s;">
+            <img src="https://cdn-icons-png.flaticon.com/512/2313/2313470.png" alt="Lock" class="w-24 h-24 wiggle">
+        </div>
+        <div class="digital-item" style="top: 20%; left: 85%; animation-delay: 2s;">
+            <img src="https://cdn-icons-png.flaticon.com/512/2313/2313459.png" alt="Cloud" class="w-20 h-20 pulse">
+        </div>
+        <div class="digital-item" style="top: 75%; left: 15%; animation-delay: 1.5s;">
+            <img src="https://cdn-icons-png.flaticon.com/512/2313/2313491.png" alt="Wifi" class="w-16 h-16 pulse">
+        </div>
+        <div class="digital-item" style="top: 40%; left: 5%; animation-delay: 0.5s;">
+            <img src="https://cdn-icons-png.flaticon.com/512/2313/2313604.png" alt="Gear" class="w-14 h-14 spin-slow">
+        </div>
         
-        <div class="min-h-screen flex flex-col items-center justify-center p-4">
-            <!-- Animated Welcome Banner -->
-            <div class="mb-2 text-center animate__animated animate__bounceIn">
-                <h1 class="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 font-game">Welcome Cyber Heroes!</h1>
-                <p class="text-xl text-gray-600 dark:text-gray-300 mt-2 animate__animated animate__fadeIn animate__delay-1s">Are you ready for an amazing adventure?</p>
-            </div>
-            
-            <!-- Animated Character -->
-            <div class="mb-6 animate__animated animate__fadeInUp animate__delay-1s">
-                <img src="https://cdn-icons-png.flaticon.com/512/2995/2995440.png" alt="Robot Character" class="w-32 h-32 mx-auto floating">
-            </div>
-            
-            <!-- Logo -->
-            <div class="mb-8 text-center animate__animated animate__zoomIn animate__delay-2s">
-                <div class="relative">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-24 h-24 text-blue-600 dark:text-blue-400 mx-auto">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
-                    <div class="absolute -top-2 -right-2 w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center animate__animated animate__pulse animate__infinite">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                </div>
-                <h1 class="text-4xl font-bold mt-4 text-blue-800 dark:text-white font-game">MYC: Mind Your Click</h1>
-                <p class="text-xl text-gray-600 dark:text-gray-300 mt-2">A Cybersecurity Adventure for Young Digital Explorers</p>
-            </div>
-            
-            <!-- Game Start Form -->
-            <div class="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden border-4 border-blue-400 animate__animated animate__fadeInUp animate__delay-2s">
-                <div class="p-6">
-                    <div class="text-center mb-6">
-                        <h2 class="text-2xl font-semibold text-gray-800 dark:text-white font-game">Start Your Adventure</h2>
-                        <p class="text-gray-600 dark:text-gray-300 mt-2">Enter your name to begin your journey to become a cyber hero!</p>
+        <!-- Binary rain -->
+        <div class="binary-rain" style="left: 10%;">10110101</div>
+        <div class="binary-rain" style="left: 30%; animation-delay: 2s;">01001010</div>
+        <div class="binary-rain" style="left: 60%; animation-delay: 4s;">11010010</div>
+        <div class="binary-rain" style="left: 85%; animation-delay: 1s;">01101001</div>
+        
+        <!-- Main container -->
+        <div class="min-h-screen flex items-center justify-center p-6">
+            <div class="max-w-4xl w-full">
+                <!-- Hero panel -->
+                <div class="hero-panel p-10">
+                    <!-- Header with logo -->
+                    <div class="flex justify-center mb-8">
+                        <div class="relative">
+                            <div class="bg-gradient-to-r from-blue-500 to-purple-500 rounded-full w-24 h-24 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-14 h-14 text-white">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg>
+                            </div>
+                            <div class="absolute -right-2 -top-2 bg-yellow-400 rounded-full w-10 h-10 flex items-center justify-center text-white text-xl font-bold pulse">
+                                !
+                            </div>
+                        </div>
                     </div>
                     
-                    <form method="POST" action="{{ route('start-game') }}" class="animate__animated animate__fadeIn animate__delay-3s">
-                        @csrf
-                        <div class="mb-4">
-                            <label for="player_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Your Hero Name</label>
-                            <input 
-                                type="text" 
-                                id="player_name" 
-                                name="player_name" 
-                                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" 
-                                placeholder="Enter your first name"
-                                required
-                                maxlength="20"
-                            >
+                    <!-- Title -->
+                    <div class="text-center mb-8">
+                        <h1 class="text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-blue-600 via-purple-500 to-green-500 text-transparent bg-clip-text">
+                            🛡️ Cyber Hero HQ 🖥️
+                        </h1>
+                        <p class="text-xl text-gray-600">Your First Mission Awaits!</p>
+                    </div>
+                    
+                    <!-- Character and welcome message -->
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
+                        <!-- Character -->
+                        <div class="md:col-span-2 flex justify-center">
+                            <div class="relative">
+                                <img src="https://cdn-icons-png.flaticon.com/512/4616/4616099.png" alt="Cyber Mentor" class="w-40 h-40 wiggle">
+                                <div id="speech-bubble" class="absolute -top-16 -right-8 bg-gray-100 rounded-lg p-3 hidden">
+                                    <p class="text-sm font-medium">Great name! Let's go!</p>
+                                    <div class="absolute bottom-0 right-6 transform translate-y-1/2 rotate-45 w-4 h-4 bg-gray-100"></div>
+                                </div>
+                            </div>
                         </div>
                         
-                        <div class="flex items-center justify-center mt-6">
-                            <button type="submit" class="px-6 py-3 border border-transparent text-base font-medium rounded-full text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out transform hover:scale-105 font-game animate__animated animate__pulse animate__infinite animate__slow">
-                                Start Mission
-                                <span class="ml-2">🚀</span>
+                        <!-- Welcome message -->
+                        <div class="md:col-span-3">
+                            <div class="bg-blue-100 rounded-lg p-6 border-2 border-blue-200 relative">
+                                <div class="absolute left-0 top-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45 w-4 h-4 bg-blue-100 border-l-2 border-b-2 border-blue-200"></div>
+                                <h2 id="typing-text" class="text-xl font-bold text-blue-700 typing mb-2"></h2>
+                                <p id="subtitle" class="text-blue-600"></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Name input form -->
+                    <form action="{{ route('start-game') }}" method="POST" class="space-y-6 max-w-md mx-auto">
+                        @csrf
+                        <div class="space-y-3">
+                            <label class="block text-center text-xl font-semibold text-purple-600">
+                                🕶️ Your Secret Hero Alias:
+                            </label>
+                            <input type="text" name="player_name" required
+                                class="hero-input"
+                                placeholder="Enter your hero name..."
+                                autocomplete="off">
+                        </div>
+                        
+                        <div class="text-center">
+                            <button type="submit" id="start-button" class="hero-button">
+                                🎯 Start Your First Mission! 🚀
                             </button>
+                        </div>
+                        
+                        <!-- Loading bar (hidden initially) -->
+                        <div id="loading-container" class="mt-4 hidden">
+                            <p id="loading-text" class="text-sm text-center text-blue-600 mb-2">Encrypting fun...</p>
+                            <div class="bg-blue-100 rounded-full overflow-hidden">
+                                <div class="loading-bar"></div>
+                            </div>
                         </div>
                     </form>
                 </div>
                 
-                <div class="bg-gradient-to-r from-blue-100 to-purple-100 dark:from-gray-700 dark:to-gray-800 px-6 py-4">
-                    <div class="flex items-center">
-                        <div class="flex-shrink-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600 dark:text-blue-400 animate__animated animate__tada animate__delay-4s" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9z" clip-rule="evenodd" />
-                            </svg>
-                        </div>
-                        <div class="ml-3">
-                            <p class="text-sm text-gray-700 dark:text-gray-300">
-                                Learn how to protect yourself online with fun challenges and missions!
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Features -->
-            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl">
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border-2 border-blue-300 transform transition duration-300 hover:scale-105 hover:rotate-1 animate__animated animate__fadeInLeft animate__delay-3s">
-                    <div class="text-blue-600 dark:text-blue-400 mb-4">
-                        <img src="https://cdn-icons-png.flaticon.com/512/2996/2996058.png" alt="Story Mode" class="h-16 w-16 mx-auto">
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white text-center font-game">Story Mode</h3>
-                    <p class="mt-2 text-gray-600 dark:text-gray-300 text-center">Join Circuit on exciting missions to stop cyber villains and learn important online safety skills.</p>
-                </div>
-                
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border-2 border-purple-300 transform transition duration-300 hover:scale-105 hover:rotate-1 animate__animated animate__fadeInUp animate__delay-3s">
-                    <div class="text-blue-600 dark:text-blue-400 mb-4">
-                        <img src="https://cdn-icons-png.flaticon.com/512/2996/2996068.png" alt="Cyber Village" class="h-16 w-16 mx-auto">
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white text-center font-game">Secret Code Game</h3>
-                    <p class="mt-2 text-gray-600 dark:text-gray-300 text-center">Explore different locations and face unique cybersecurity challenges in our interactive village.</p>
-                </div>
-                
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border-2 border-green-300 transform transition duration-300 hover:scale-105 hover:rotate-1 animate__animated animate__fadeInRight animate__delay-3s">
-                    <div class="text-blue-600 dark:text-blue-400 mb-4">
-                        <img src="https://cdn-icons-png.flaticon.com/512/2996/2996067.png" alt="Cyber Shield" class="h-16 w-16 mx-auto">
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white text-center font-game">Cyber Time Travel
-                    </h3>
-                    <p class="mt-2 text-gray-600 dark:text-gray-300 text-center">Earn badges and level up your cyber shield by completing challenges and learning to stay safe online.</p>
-                </div>
-            </div>
-            
-            <!-- Animated Characters -->
-            <div class="flex justify-center mt-8 space-x-4 animate__animated animate__fadeInUp animate__delay-4s">
-                <img src="https://cdn-icons-png.flaticon.com/512/4616/4616734.png" alt="Robot Character" class="w-16 h-16 floating" style="animation-delay: 0.5s;">
-                <img src="https://cdn-icons-png.flaticon.com/512/4616/4616218.png" alt="Robot Character" class="w-16 h-16 floating" style="animation-delay: 1s;">
-                <img src="https://cdn-icons-png.flaticon.com/512/4616/4616608.png" alt="Robot Character" class="w-16 h-16 floating" style="animation-delay: 1.5s;">
-            </div>
-            
-            <!-- Footer -->
-            <div class="mt-16 text-center text-gray-500 dark:text-gray-400 text-sm animate__animated animate__fadeIn animate__delay-4s">
-                <p>© 2025 Mind Your Click | An Educational Cybersecurity Game for Kids</p>
+                <!-- Footer note -->
+                <p class="text-center text-sm text-blue-500 mt-4">
+                    Protecting the internet, one click at a time! 🌐
+                </p>
             </div>
         </div>
         
-        <!-- Simple animation script -->
+        <!-- Scripts -->
         <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                // Add hover effect to the form
-                const form = document.querySelector('form');
-                form.addEventListener('mouseenter', () => {
-                    form.classList.add('animate__animated', 'animate__pulse');
+            document.addEventListener('DOMContentLoaded', function() {
+                // Welcome typing animation
+                const welcomeText = "👋 Hi there, young defender!";
+                const subtitleText = "What's your Cyber Hero Name? We need your help to defend the internet from cyber villains!";
+                const typingElement = document.getElementById('typing-text');
+                const subtitleElement = document.getElementById('subtitle');
+                
+                // Loading messages
+                const loadingMessages = [
+                    "Encrypting fun...",
+                    "Scanning for online villains...",
+                    "Powering up shields...",
+                    "Preparing cyber mission...",
+                    "Activating hero powers..."
+                ];
+                
+                // Function to simulate typing
+                function typeText(element, text, i = 0, callback) {
+                    if (i < text.length) {
+                        element.innerHTML = text.substring(0, i + 1);
+                        setTimeout(() => typeText(element, text, i + 1, callback), 50);
+                    } else if (typeof callback === 'function') {
+                        // Add a slight delay before starting the callback
+                        setTimeout(callback, 300);
+                    }
+                }
+                
+                // Start typing the welcome text
+                typeText(typingElement, welcomeText, 0, function() {
+                    // When welcome text is done, type the subtitle
+                    typeText(subtitleElement, subtitleText);
+                    
+                    // Remove the cursor from the welcome text
+                    typingElement.classList.remove('typing');
                 });
-                form.addEventListener('mouseleave', () => {
-                    form.classList.remove('animate__animated', 'animate__pulse');
+                
+                // Focus on the input field after animation
+                setTimeout(() => {
+                    document.querySelector('input[name="player_name"]').focus();
+                }, 2000);
+                
+                // Handle form submission with animation
+                document.querySelector('form').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const nameInput = document.querySelector('input[name="player_name"]');
+                    
+                    if (nameInput.value.trim() !== '') {
+                        // Show speech bubble
+                        document.getElementById('speech-bubble').classList.remove('hidden');
+                        
+                        // Show loading animation
+                        document.getElementById('loading-container').classList.remove('hidden');
+                        
+                        // Cycle through loading messages
+                        let messageIndex = 0;
+                        const messageElement = document.getElementById('loading-text');
+                        
+                        const messageInterval = setInterval(() => {
+                            messageIndex = (messageIndex + 1) % loadingMessages.length;
+                            messageElement.textContent = loadingMessages[messageIndex];
+                        }, 800);
+                        
+                        // Submit the form after a delay
+                        setTimeout(() => {
+                            clearInterval(messageInterval);
+                            this.submit();
+                        }, 3000);
+                    }
+                });
+                
+                // Add sound effect to button (if supported)
+                const button = document.getElementById('start-button');
+                
+                button.addEventListener('click', function() {
+                    if (window.AudioContext || window.webkitAudioContext) {
+                        const AudioContext = window.AudioContext || window.webkitAudioContext;
+                        const context = new AudioContext();
+                        const oscillator = context.createOscillator();
+                        const gainNode = context.createGain();
+                        
+                        oscillator.type = 'sine';
+                        oscillator.frequency.value = 440;
+                        gainNode.gain.setValueAtTime(0.1, context.currentTime);
+                        gainNode.gain.exponentialRampToValueAtTime(0.001, context.currentTime + 0.5);
+                        
+                        oscillator.connect(gainNode);
+                        gainNode.connect(context.destination);
+                        
+                        oscillator.start();
+                        oscillator.stop(context.currentTime + 0.5);
+                    }
                 });
             });
         </script>

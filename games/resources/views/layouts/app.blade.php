@@ -19,6 +19,13 @@
 
     <!-- Custom Styles -->
     <link href="{{ asset('css/space-background.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/child-friendly-nav.css') }}" rel="stylesheet">
+    
+    <!-- Animate.css for animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    
+    <!-- Page-specific styles -->
+    @yield('styles')
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -230,49 +237,197 @@
         .notification.show {
             opacity: 1;
         }
+        
+        /* Confetti animation for level completion */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            opacity: 0.7;
+            animation: confetti-fall 3s ease-in-out forwards;
+        }
+        
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Homepage-style background pattern */
+        .bg-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%239C92AC' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+
+        /* Floating animation for characters */
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* Animated bubbles */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            animation: float 8s ease-in-out infinite;
+            z-index: -1;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+            100% { transform: translateY(0) rotate(360deg); }
+        }
     </style>
 
     <!-- Scripts -->
 </head>
-<body class="font-sans antialiased bg-gray-50 min-h-screen">
-    <header class="bg-primary-700 text-white p-4 shadow-md">
+<body class="font-sans antialiased bg-gradient-to-b from-blue-100 to-purple-100 dark:from-gray-900 dark:to-blue-900 bg-pattern min-h-screen">
+    <!-- Animated bubbles background -->
+    <div class="bubble" style="width: 80px; height: 80px; left: 10%; top: 10%; animation-delay: 0s;"></div>
+    <div class="bubble" style="width: 50px; height: 50px; left: 20%; top: 40%; animation-delay: 1s;"></div>
+    <div class="bubble" style="width: 70px; height: 70px; left: 80%; top: 15%; animation-delay: 2s;"></div>
+    <div class="bubble" style="width: 40px; height: 40px; left: 70%; top: 70%; animation-delay: 3s;"></div>
+    <div class="bubble" style="width: 60px; height: 60px; left: 30%; top: 80%; animation-delay: 4s;"></div>
+    <div class="bubble" style="width: 90px; height: 90px; left: 90%; top: 60%; animation-delay: 5s;"></div>
+
+    <!-- SVG Icons -->
+    <div style="display: none;">
+        <svg xmlns="http://www.w3.org/2000/svg">
+            <symbol id="icon-home" viewBox="0 0 24 24">
+                <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+            </symbol>
+            
+            <symbol id="icon-story" viewBox="0 0 24 24">
+                <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+            </symbol>
+            
+            <symbol id="icon-secret-code" viewBox="0 0 24 24">
+                <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+            </symbol>
+            
+            <symbol id="icon-time-travel" viewBox="0 0 24 24">
+                <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+            </symbol>
+            
+            <symbol id="icon-menu" viewBox="0 0 24 24">
+                <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+            </symbol>
+        </svg>
+    </div>
+    
+    <header class="child-navbar">
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-2">
-                <img src="{{ asset('images/shield-logo.svg') }}" alt="MYC Logo" class="w-10 h-10">
-                <h1 class="font-game text-2xl">MYC: Mind Your Click</h1>
+                <div class="navbar-logo">
+                    <img src="{{ asset('images/shield-logo.svg') }}" alt="MYC Logo" class="w-10 h-10">
+                </div>
+                <h1 class="navbar-title font-game">MYC: Mind Your Click</h1>
             </div>
             <nav class="hidden md:block">
-                <ul class="flex space-x-6">
-                    <li><a href="{{ route('home') }}" class="hover:text-primary-200 transition">Home</a></li>
-                    <li><a href="{{ route('game.story') }}" class="hover:text-primary-200 transition">Story Mode</a></li>
-
-                    
-
-                    <li><a href="{{ route('game.secret-code') }}" class="hover:text-primary-200 transition">Secret Code Game</a></li>
-                   
-                    <li><a href="{{ route('game.time-travel') }}" class="hover:text-primary-200 transition">Cyber Time Travel</a></li>
+                <ul class="flex space-x-4 nav-menu">
+                    <li class="nav-item">
+                        <a href="{{ route('home') }}" class="nav-link bounce-animation">
+                            <span class="nav-icon">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor"><use href="#icon-home"></use></svg>
+                            </span>
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('game.story') }}" class="nav-link bounce-animation">
+                            <span class="nav-icon">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor"><use href="#icon-story"></use></svg>
+                            </span>
+                            Story Mode
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('game.secret-code') }}" class="nav-link bounce-animation">
+                            <span class="nav-icon">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor"><use href="#icon-secret-code"></use></svg>
+                            </span>
+                            Secret Code
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('game.time-travel') }}" class="nav-link bounce-animation">
+                            <span class="nav-icon">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor"><use href="#icon-time-travel"></use></svg>
+                            </span>
+                            Cyber Time Travel
+                        </a>
+                    </li>
                 </ul>
             </nav>
             <div class="md:hidden">
-                <button id="mobile-menu-button" class="text-white">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                    </svg>
+                <button id="mobile-menu-button" class="mobile-menu-button">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor"><use href="#icon-menu"></use></svg>
                 </button>
+            </div>
+            
+            <!-- Animated robot character in navbar -->
+            <div class="hidden lg:block absolute right-6 top-16 floating" style="animation-delay: 0.5s;">
+                <img src="https://cdn-icons-png.flaticon.com/512/4616/4616734.png" alt="Robot Character" class="w-12 h-12">
             </div>
         </div>
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden mt-4">
+        <div id="mobile-menu" class="hidden md:hidden mt-4 mobile-nav-menu">
             <nav>
                 <ul class="flex flex-col space-y-2">
-                    <li><a href="{{ route('home') }}" class="block hover:bg-primary-600 p-2 rounded">Home</a></li>
-                    <li><a href="{{ route('game.story') }}" class="block hover:bg-primary-600 p-2 rounded">Story Mode</a></li>
-                
-                
-
-                    <li><a href="{{ route('game.secret-code') }}" class="block hover:bg-primary-600 p-2 rounded">Secret Code Game</a></li>
-                   
-                    <li><a href="{{ route('game.time-travel') }}" class="block hover:bg-primary-600 p-2 rounded">Cyber Time Travel</a></li>
+                    <li>
+                        <a href="{{ route('home') }}" class="nav-link">
+                            <span class="nav-icon">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor"><use href="#icon-home"></use></svg>
+                            </span>
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('game.story') }}" class="nav-link">
+                            <span class="nav-icon">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor"><use href="#icon-story"></use></svg>
+                            </span>
+                            Story Mode
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('game.secret-code') }}" class="nav-link">
+                            <span class="nav-icon">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor"><use href="#icon-secret-code"></use></svg>
+                            </span>
+                            Secret Code
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('game.time-travel') }}" class="nav-link">
+                            <span class="nav-icon">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor"><use href="#icon-time-travel"></use></svg>
+                            </span>
+                            Cyber Time Travel
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -282,28 +437,40 @@
         @yield('content')
     </main>
 
-    <footer class="bg-primary-900 text-white py-6 mt-12">
+    <footer class="child-footer mt-12">
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="mb-4 md:mb-0">
-                    <h3 class="text-xl font-bold mb-2">MYC - Mind Your Click</h3>
-                    <p class="text-sm text-gray-300">Teaching safe online navigation for children</p>
+                    <h3 class="footer-title">MYC - Mind Your Click</h3>
+                    <p class="footer-subtitle">Teaching safe online navigation for children</p>
                 </div>
-                <div class="flex space-x-4">
-                    <a href="#" class="text-gray-300 hover:text-white transition">
-                        <i class="fab fa-twitter text-xl"></i>
+                <div class="social-links">
+                    <a href="#" class="social-icon twitter">
+                        <i class="fab fa-twitter"></i>
                     </a>
-                    <a href="#" class="text-gray-300 hover:text-white transition">
-                        <i class="fab fa-facebook text-xl"></i>
+                    <a href="#" class="social-icon facebook">
+                        <i class="fab fa-facebook"></i>
                     </a>
-                    <a href="#" class="text-gray-300 hover:text-white transition">
-                        <i class="fab fa-instagram text-xl"></i>
+                    <a href="#" class="social-icon instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-icon youtube">
+                        <i class="fab fa-youtube"></i>
                     </a>
                 </div>
             </div>
-            <div class="border-t border-gray-700 mt-6 pt-6 text-center text-sm text-gray-400">
+            
+            <!-- Animated characters in footer -->
+            <div class="flex justify-center mt-4 space-x-4 animate__animated animate__fadeInUp">
+                <img src="https://cdn-icons-png.flaticon.com/512/4616/4616218.png" alt="Robot Character" class="w-12 h-12 floating" style="animation-delay: 0.5s;">
+                <img src="https://cdn-icons-png.flaticon.com/512/4616/4616608.png" alt="Robot Character" class="w-12 h-12 floating" style="animation-delay: 1s;">
+                <img src="https://cdn-icons-png.flaticon.com/512/2995/2995440.png" alt="Robot Character" class="w-12 h-12 floating" style="animation-delay: 1.5s;">
+            </div>
+            
+            <div class="footer-copyright">
                 <p>&copy; {{ date('Y') }} MYC-Mind Your Click. All rights reserved.</p>
             </div>
+            <!-- The character will be added via JavaScript -->
         </div>
     </footer>
 
@@ -312,6 +479,7 @@
     <script src="{{ asset('js/game-timer.js') }}"></script>
     <script src="{{ asset('js/achievements.js') }}"></script>
     <script src="{{ asset('js/confetti.js') }}"></script>
+    <script src="{{ asset('js/child-friendly-nav.js') }}"></script>
     
     <script>
         // Mobile menu toggle
@@ -326,6 +494,9 @@
     <script src="{{ asset('js/time-travel.js') }}"></script>
     @endif
 
+    <!-- Page-specific scripts -->
+    @yield('scripts')
+    
     @stack('scripts')
 </body>
 </html> 
