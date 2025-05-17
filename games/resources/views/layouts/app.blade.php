@@ -299,11 +299,23 @@
             50% { transform: translateY(-20px) rotate(180deg); }
             100% { transform: translateY(0) rotate(360deg); }
         }
+
+        /* Secret Code Background Style */
+        .bg-code-secret {
+            background-color: #0f172a;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(16, 185, 129, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2320314b' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
     </style>
 
     <!-- Scripts -->
 </head>
-<body class="font-sans antialiased bg-gradient-to-b from-blue-100 to-purple-100 dark:from-gray-900 dark:to-blue-900 bg-pattern min-h-screen">
+<body class="font-sans antialiased min-h-screen bg-code-secret">
+    <!-- Secret Code style background elements -->
+    <canvas id="code-rain-canvas" class="fixed top-0 left-0 w-full h-full -z-10"></canvas>
+    
     <!-- Animated bubbles background -->
     <div class="bubble" style="width: 80px; height: 80px; left: 10%; top: 10%; animation-delay: 0s;"></div>
     <div class="bubble" style="width: 50px; height: 50px; left: 20%; top: 40%; animation-delay: 1s;"></div>
@@ -494,6 +506,59 @@
     <script src="{{ asset('js/time-travel.js') }}"></script>
     @endif
 
+    <!-- Secret Code Rain Effect -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animated background code rain effect
+            function setupCodeRain() {
+                const codeRainCanvas = document.getElementById('code-rain-canvas');
+                if (!codeRainCanvas) return;
+                
+                const ctx = codeRainCanvas.getContext('2d');
+                codeRainCanvas.width = window.innerWidth;
+                codeRainCanvas.height = window.innerHeight;
+                
+                const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+{}:"<>?|[];\',./`~';
+                const fontSize = 14;
+                const columns = codeRainCanvas.width / fontSize;
+                
+                const drops = [];
+                for (let i = 0; i < columns; i++) {
+                    drops[i] = 1;
+                }
+                
+                function draw() {
+                    ctx.fillStyle = 'rgba(15, 23, 42, 0.05)';
+                    ctx.fillRect(0, 0, codeRainCanvas.width, codeRainCanvas.height);
+                    
+                    ctx.fillStyle = '#10b981';
+                    ctx.font = fontSize + 'px monospace';
+                    
+                    for (let i = 0; i < drops.length; i++) {
+                        const text = characters.charAt(Math.floor(Math.random() * characters.length));
+                        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                        
+                        if (drops[i] * fontSize > codeRainCanvas.height && Math.random() > 0.975) {
+                            drops[i] = 0;
+                        }
+                        
+                        drops[i]++;
+                    }
+                }
+                
+                setInterval(draw, 33);
+                
+                // Handle window resize
+                window.addEventListener('resize', function() {
+                    codeRainCanvas.width = window.innerWidth;
+                    codeRainCanvas.height = window.innerHeight;
+                });
+            }
+            
+            setupCodeRain();
+        });
+    </script>
+    
     <!-- Page-specific scripts -->
     @yield('scripts')
     
