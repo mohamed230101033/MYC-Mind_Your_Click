@@ -1,8 +1,418 @@
 @extends('layouts.app')
 
+@section('styles')
+<style>
+    /* Main Background Enhancement */
+    .mission-bg {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #0f172a 50%, #1e293b 75%, #0f172a 100%);
+        background-size: 400% 400%;
+        animation: gradient-shift 15s ease infinite;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .mission-bg::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: 
+            radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 70%),
+            radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+        z-index: 0;
+    }
+    
+    .mission-bg::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2320314b' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        opacity: 0.5;
+        z-index: 0;
+    }
+    
+    .mesh-grid {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: 
+            linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px),
+            linear-gradient(0deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px);
+        background-size: 40px 40px;
+        z-index: 1;
+    }
+    
+    .mission-ambient-light {
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle at center, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+        animation: rotate 60s linear infinite;
+        z-index: 2;
+        pointer-events: none;
+    }
+    
+    .mission-spotlight {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 70% 30%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
+        z-index: 3;
+        pointer-events: none;
+    }
+    
+    @keyframes gradient-shift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+    
+    @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+    
+    /* Social Media Mayhem Styles */
+    /* Enhanced background styles */
+    .social-media-bg {
+        background: linear-gradient(125deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .social-media-bg::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: 
+            radial-gradient(circle at 25% 25%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 75% 75%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
+        z-index: 0;
+    }
+    
+    .circuit-lines {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: 
+            linear-gradient(90deg, transparent 49.5%, rgba(16, 185, 129, 0.1) 49.5%, rgba(16, 185, 129, 0.1) 50.5%, transparent 50.5%) 0 0,
+            linear-gradient(0deg, transparent 49.5%, rgba(16, 185, 129, 0.1) 49.5%, rgba(16, 185, 129, 0.1) 50.5%, transparent 50.5%) 0 0;
+        background-size: 50px 50px;
+        opacity: 0.5;
+        z-index: 1;
+        animation: circuit-move 120s linear infinite;
+    }
+    
+    @keyframes circuit-move {
+        0% { background-position: 0 0; }
+        100% { background-position: 1000px 1000px; }
+    }
+    
+    .digital-nodes {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 2;
+        pointer-events: none;
+    }
+    
+    .node {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background-color: rgba(16, 185, 129, 0.6);
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(16, 185, 129, 0.8);
+    }
+    
+    .horizontal-scan {
+        position: absolute;
+        height: 2px;
+        width: 100%;
+        background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.5), transparent);
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 3;
+        opacity: 0.7;
+        animation: horizontal-scan 10s linear infinite;
+    }
+    
+    @keyframes horizontal-scan {
+        0% { top: 0; opacity: 0; }
+        10% { opacity: 0.7; }
+        90% { opacity: 0.7; }
+        100% { top: 100%; opacity: 0; }
+    }
+    
+    .cyber-grid {
+        background: 
+            linear-gradient(to right, rgba(16, 185, 129, 0.1) 1px, transparent 1px) 0 0,
+            linear-gradient(to bottom, rgba(16, 185, 129, 0.1) 1px, transparent 1px) 0 0;
+        background-size: 20px 20px;
+        background-position: center center;
+    }
+    
+    .cyber-scanner-line {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(to right, transparent, rgba(16, 185, 129, 0.7), transparent);
+        z-index: 5;
+        animation: scannerLine 3s ease-in-out infinite;
+        box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+    }
+    
+    @keyframes scannerLine {
+        0% { transform: translateY(0); opacity: 0.8; }
+        50% { transform: translateY(100vh); opacity: 0.6; }
+        100% { transform: translateY(0); opacity: 0.8; }
+    }
+    
+    /* Digital Rain Effect */
+    .digital-rain {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        color: rgba(16, 185, 129, 0.15);
+        font-family: monospace;
+        font-size: 12px;
+        line-height: 1;
+        z-index: 1;
+    }
+    
+    .rain-column {
+        position: absolute;
+        top: -20px;
+        animation: rain-fall linear infinite;
+    }
+    
+    @keyframes rain-fall {
+        to { transform: translateY(100vh); }
+    }
+    
+    .binary-bg {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .binary-bg::before {
+        content: "10101010010101001010101101010010101001010100101";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        font-family: monospace;
+        font-size: 10px;
+        color: rgba(16, 185, 129, 0.1);
+        line-height: 1;
+        pointer-events: none;
+        z-index: 0;
+    }
+    
+    /* Rest of your existing styles */
+    .floating-particle {
+        z-index: 1;
+        filter: blur(1px);
+    }
+    
+    .code-scanner {
+        position: relative;
+    }
+    
+    .code-scanner::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, transparent 65%, rgba(16, 185, 129, 0.1) 75%, transparent 85%);
+        background-size: 200% 200%;
+        animation: scanEffect 4s linear infinite;
+        pointer-events: none;
+    }
+    
+    @keyframes scanEffect {
+        0% { background-position: 0% 200%; }
+        100% { background-position: 200% 0%; }
+    }
+    
+    .progress-scanner {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .progress-scanner::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        height: 100%;
+        width: 30px;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+        animation: progressScan 2s infinite;
+    }
+    
+    @keyframes progressScan {
+        0% { left: -30px; }
+        100% { left: 100%; }
+    }
+    
+    .hover-glow {
+        transition: all 0.3s ease;
+    }
+    
+    .hover-glow:hover {
+        box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+    }
+    
+    .glow-effect {
+        filter: blur(10px);
+        opacity: 0.6;
+    }
+    
+    .matrix-text {
+        font-family: monospace;
+        text-shadow: 0 0 5px rgba(16, 185, 129, 0.8);
+    }
+    
+    .code-cursor {
+        border-right: 2px solid rgba(16, 185, 129, 0.7);
+        animation: cursor-blink 1s step-start infinite;
+    }
+    
+    @keyframes cursor-blink {
+        50% { border-color: transparent; }
+    }
+    
+    .villain-shake {
+        animation: villain-shake 2s ease-in-out infinite;
+        transform-origin: center;
+    }
+    
+    @keyframes villain-shake {
+        0%, 100% { transform: rotate(0deg); }
+        25% { transform: rotate(-3deg); }
+        75% { transform: rotate(3deg); }
+    }
+    
+    .cyber-badge {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .cyber-badge::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        animation: badge-shine 3s infinite;
+    }
+    
+    @keyframes badge-shine {
+        0% { left: -100%; }
+        50% { left: 100%; }
+        100% { left: 100%; }
+    }
+    
+    .bounce-subtle {
+        animation: bounce-subtle 3s ease-in-out infinite;
+    }
+    
+    @keyframes bounce-subtle {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+    }
+    
+    .pulse-subtle {
+        animation: pulse-subtle 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse-subtle {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+    
+    .hover-float {
+        transition: transform 0.3s ease;
+    }
+    
+    .hover-float:hover {
+        transform: translateY(-5px);
+    }
+    
+    .perspective {
+        perspective: 1000px;
+    }
+    
+    .typing-container {
+        position: relative;
+    }
+    
+    .typing-text::after {
+        content: '|';
+        margin-left: 2px;
+        animation: typing-cursor 0.8s infinite;
+    }
+    
+    @keyframes typing-cursor {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+    }
+    
+    /* Cyber grid styling */
+    .cyber-grid-cell {
+        position: absolute;
+        border-radius: 2px;
+        transition: all 0.5s ease;
+    }
+    
+    .cyber-grid-cell-blue {
+        background-color: rgba(16, 185, 129, 0.4);
+        box-shadow: 0 0 5px rgba(16, 185, 129, 0.3);
+    }
+    
+    .cyber-grid-cell-green {
+        background-color: rgba(20, 184, 166, 0.4);
+        box-shadow: 0 0 5px rgba(20, 184, 166, 0.3);
+    }
+</style>
+
 @section('content')
-<div class="bg-gradient-to-b from-primary-700 via-primary-800 to-primary-900 min-h-screen py-8">
-    <div class="container mx-auto max-w-4xl px-4">
+<div class="mission-bg min-h-screen py-8 relative">
+    <!-- Background mesh grid effect -->
+    <div class="mesh-grid"></div>
+    
+    <!-- Ambient light effect -->
+    <div class="mission-ambient-light"></div>
+    
+    <!-- Spotlight effect -->
+    <div class="mission-spotlight"></div>
+    
+    <div class="container mx-auto max-w-4xl px-4 relative z-10">
         <!-- Mission Header -->
         <div class="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-2xl shadow-xl text-white mb-8">
             <div class="flex items-center justify-between mb-4">
@@ -17,15 +427,7 @@
                                 <path fill-rule="evenodd" d="M15.75 1.5a6.75 6.75 0 00-6.651 7.906c.067.39-.032.717-.221.906l-6.5 6.499a3 3 0 00-.878 2.121v2.818c0 .414.336.75.75.75H6a.75.75 0 00.75-.75v-1.5h1.5A.75.75 0 009 19.5V18h1.5a.75.75 0 00.75-.75V15h1.5a.75.75 0 00.75-.75v-1.5h1.5a.75.75 0 00.75-.75V9.262c.219-.313.41-.641.547-1.008.7-1.898 1.357-3.868 1.357-5.754 0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0012 9.75c-2.678 0-5.25-.241-7.78-.72A48.672 48.672 0 012.507 9a.75.75 0 00-1.096-.536l-.001.002z" clip-rule="evenodd" />
                                 @break
                             @case(3)
-                                <p class="text-white/90">Hi {{ $player_name }}! Profile Phantom is creating fake social media accounts and groups to trick kids. Let's learn how to spot these fakes and stay safe online!</p>
-                                <p class="mt-2 text-white/90">Be careful of these social media dangers:</p>
-                                <ul class="list-disc pl-5 mt-2 space-y-1 text-white/90">
-                                    <li>Fake groups pretending to offer prizes or exclusive content</li>
-                                    <li>Strangers sending suspicious messages asking for personal information</li>
-                                    <li>People asking for your parent's phone number or credit card details</li>
-                                    <li>Accounts pretending to be someone you know but with strange behavior</li>
-                                    <li>Messages creating urgency or fear to trick you into doing something</li>
-                                </ul>
+                                <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd" />
                                 @break
                             @default
                                 <path fill-rule="evenodd" d="M9 4.5a.75.75 0 01.721.544l.813 2.846a3.75 3.75 0 002.576 2.576l2.846.813a.75.75 0 010 1.442l-2.846.813a3.75 3.75 0 00-2.576 2.576l-.813 2.846a.75.75 0 01-1.442 0l-.813-2.846a3.75 3.75 0 00-2.576-2.576l-2.846-.813a.75.75 0 010-1.442l2.846-.813A3.75 3.75 0 007.466 7.89l.813-2.846A.75.75 0 019 4.5zM18 1.5a.75.75 0 01.728.568l.258 1.036c.236.94.97 1.674 1.91 1.91l1.036.258a.75.75 0 010 1.456l-1.036.258c-.94.236-1.674.97-1.91 1.91l-.258 1.036a.75.75 0 01-1.456 0l-.258-1.036a2.625 2.625 0 00-1.91-1.91l-1.036-.258a.75.75 0 010-1.456l1.036-.258a2.625 2.625 0 001.91-1.91l.258-1.036A.75.75 0 0118 1.5zM16.5 15a.75.75 0 01.712.513l.394 1.183c.15.447.5.799.948.948l1.183.395a.75.75 0 010 1.422l-1.183.395c-.447.15-.799.5-.948.948l-.395 1.183a.75.75 0 01-1.422 0l-.395-1.183a1.5 1.5 0 00-.948-.948l-1.183-.395a.75.75 0 010-1.422l1.183-.395c.447-.15.799-.5.948-.948l.395-1.183A.75.75 0 0116.5 15z" clip-rule="evenodd" />
@@ -50,7 +452,7 @@
                 <div class="w-12 h-12 rounded-full bg-secondary-100 flex-shrink-0 flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 text-secondary-600">
                         <path d="M16.5 7.5h-9v9h9v-9z" />
-                        <path fill-rule="evenodd" d="M8.25 2.25A.75.75 0 019 3v.75h2.25V3a.75.75 0 011.5 0v.75H15V3a.75.75 0 011.5 0v.75h.75a3 3 0 013 3v.75H21A.75.75 0 0121 9h-.75v2.25H21a.75.75 0 010 1.5h-.75V15H21a.75.75 0 010 1.5h-.75v.75a3 3 0 01-3 3h-.75V21a.75.75 0 01-1.5 0v-.75h-2.25V21a.75.75 0 01-1.5 0v-.75H9V21a.75.75 0 01-1.5 0v-.75h-.75a3 3 0 01-3-3v-.75H3A.75.75 0 013 15h.75v-2.25H3a.75.75 0 010-1.5h.75V9H3a.75.75 0 010-1.5h.75v-.75a3 3 0 013-3h.75V3a.75.75 0 01.75-.75zM6 6.75A.75.75 0 016.75 6h10.5a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75H6.75a.75.75 0 01-.75-.75V6.75z" clip-rule="evenodd" />
+                        <path fill-rule="evenodd" d="M8.25 2.25A.75.75 0 019 3v.75h2.25V3a.75.75 0 011.5 0v.75H15V3a.75.75 0 011.5 0v.75H16.5A.75.75 0 0116.5 6v12a.75.75 0 01-1.5 0V6a.75.75 0 01.75-.75H9a.75.75 0 01-.75-.75V3a.75.75 0 01.75-.75H15a.75.75 0 01.75.75v.75h1.5A.75.75 0 0118 6v12a.75.75 0 01-1.5 0V6h-1.5a.75.75 0 01-.75-.75V3z" clip-rule="evenodd" />
                     </svg>
                 </div>
                 <div class="flex-1">
@@ -79,15 +481,7 @@
                             </ul>
                             @break
                         @case(3)
-                            <p class="text-white/90">Hi {{ $player_name }}! Profile Phantom is creating fake social media accounts and groups to trick kids. Let's learn how to spot these fakes and stay safe online!</p>
-                            <p class="mt-2 text-white/90">Be careful of these social media dangers:</p>
-                            <ul class="list-disc pl-5 mt-2 space-y-1 text-white/90">
-                                <li>Fake groups pretending to offer prizes or exclusive content</li>
-                                <li>Strangers sending suspicious messages asking for personal information</li>
-                                <li>People asking for your parent's phone number or credit card details</li>
-                                <li>Accounts pretending to be someone you know but with strange behavior</li>
-                                <li>Messages creating urgency or fear to trick you into doing something</li>
-                            </ul>
+                            <p class="text-white/90">Hi {{ $player_name }}! Profile Phantom is creating fake social media accounts to trick kids. I'll help you learn how to spot these fakes and stay safe online!</p>
                             @break
                         @default
                             <p class="text-white/90">Hello {{ $player_name }}! I'm Circuit, your AI guide. I'll help you complete this mission safely. Pay attention to the details and think critically about what you see!</p>
@@ -100,1082 +494,159 @@
         <div class="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-2xl shadow-xl text-white mb-8">
             @switch($mission['id'])
                 @case(1)
-                    <h2 class="text-xl font-game mb-4 text-center">The Mysterious Email Challenge</h2>
+                    <h2 class="text-xl font-game mb-4 text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-400 to-cyan-500 animate__animated animate__fadeIn">The Mysterious Email Challenge</h2>
                     
-                    <div class="bg-white/5 backdrop-blur-xl border border-red-500/30 p-6 rounded-xl shadow-2xl text-white mb-6 relative overflow-hidden">
-                        <!-- Futuristic background elements -->
-                        <div class="absolute inset-0 bg-gradient-to-br from-red-900/30 to-purple-900/30"></div>
-                        <div class="absolute inset-0">
-                            <div class="grid grid-cols-12 grid-rows-12 gap-2 opacity-10">
-                                @for ($i = 0; $i < 144; $i++)
-                                    <div class="h-6 w-full bg-red-500/30 rounded"></div>
-                                @endfor
-                            </div>
-                        </div>
+                    <div class="bg-gray-900/70 backdrop-blur-xl border border-teal-500/30 p-6 rounded-xl shadow-2xl text-white mb-6 relative overflow-hidden code-scanner">
+                        <!-- Matrix code rain background -->
+                        <canvas id="email-code-rain" class="absolute inset-0 opacity-10"></canvas>
+                        
+                        <!-- Futuristic cyber grid background -->
+                        <div class="absolute inset-0 cyber-grid"></div>
                         
                         <!-- Animated cybersecurity elements -->
-                        <div class="absolute top-0 right-0 h-32 w-32 opacity-20">
-                            <svg viewBox="0 0 100 100" class="animate-spin-slow">
-                                <circle cx="50" cy="50" r="40" stroke="rgba(239, 68, 68, 0.5)" stroke-width="2" fill="none" />
-                                <circle cx="50" cy="50" r="30" stroke="rgba(139, 92, 246, 0.5)" stroke-width="2" fill="none" />
-                                <path d="M50 10 L50 90 M10 50 L90 50" stroke="rgba(236, 72, 153, 0.5)" stroke-width="2" />
+                        <div class="absolute top-4 right-4 h-24 w-24 opacity-20 z-10">
+                            <svg viewBox="0 0 100 100" class="animate-spin-slow filter drop-shadow-lg">
+                                <circle cx="50" cy="50" r="40" stroke="rgba(16, 185, 129, 0.7)" stroke-width="2" fill="none" />
+                                <circle cx="50" cy="50" r="30" stroke="rgba(20, 184, 166, 0.7)" stroke-width="2" fill="none" />
+                                <path d="M50 10 L50 90 M10 50 L90 50" stroke="rgba(6, 182, 212, 0.7)" stroke-width="2" />
                             </svg>
                         </div>
                         
+                        <!-- Scanner line effect -->
+                        <div class="email-scanner-line"></div>
+                        
                         <div class="relative z-10">
-                            <!-- Stage navigation -->
-                            <div class="flex justify-center mb-8">
-                                <div class="flex items-center space-x-3 bg-gray-900/50 p-1 rounded-full">
-                                    <button id="phishing-stage1-btn" class="px-5 py-2 bg-gradient-to-r from-red-600 to-purple-600 text-white rounded-full font-bold phishing-stage-btn active transition-all duration-300">Email Basics</button>
-                                    <button id="phishing-stage2-btn" class="px-5 py-2 bg-gray-800/70 text-gray-400 rounded-full font-bold phishing-stage-btn transition-all duration-300">Outlook Phishing</button>
-                                    <button id="phishing-stage3-btn" class="px-5 py-2 bg-gray-800/70 text-gray-400 rounded-full font-bold phishing-stage-btn transition-all duration-300">Gmail Phishing</button>
-                                    <button id="phishing-stage4-btn" class="px-5 py-2 bg-gray-800/70 text-gray-400 rounded-full font-bold phishing-stage-btn transition-all duration-300">SMS Scams</button>
-                                    <button id="phishing-stage5-btn" class="px-5 py-2 bg-gray-800/70 text-gray-400 rounded-full font-bold phishing-stage-btn transition-all duration-300">Final Test</button>
+                            <!-- Stage navigation with matrix-style design -->
+                            <div class="flex justify-center mb-8 perspective">
+                                <div class="flex items-center space-x-3 bg-gray-900/70 p-1 rounded-full border border-cyan-500/20 shadow-lg shadow-cyan-500/10">
+                                    <button id="phishing-stage1-btn" class="px-5 py-2 bg-gradient-to-r from-primary-600 to-cyan-600 text-white rounded-full font-bold phishing-stage-btn active transition-all duration-300 transform hover:scale-105">Email Basics</button>
+                                    <button id="phishing-stage2-btn" class="px-5 py-2 bg-gray-800/70 text-gray-400 rounded-full font-bold phishing-stage-btn transition-all duration-300 transform hover:scale-105">Outlook Phishing</button>
+                                    <button id="phishing-stage3-btn" class="px-5 py-2 bg-gray-800/70 text-gray-400 rounded-full font-bold phishing-stage-btn transition-all duration-300 transform hover:scale-105">Gmail Phishing</button>
+                                    <button id="phishing-stage4-btn" class="px-5 py-2 bg-gray-800/70 text-gray-400 rounded-full font-bold phishing-stage-btn transition-all duration-300 transform hover:scale-105">SMS Scams</button>
+                                    <button id="phishing-stage5-btn" class="px-5 py-2 bg-gray-800/70 text-gray-400 rounded-full font-bold phishing-stage-btn transition-all duration-300 transform hover:scale-105">Final Test</button>
                                 </div>
                             </div>
                             
-                            <!-- Cartoon Character Assistant -->
+                            <!-- Cartoon Character Assistant with improved animation -->
                             <div class="flex items-start mb-6">
                                 <div class="w-3/4 pr-4">
-                                    <div class="flex items-start space-x-4 bg-red-900/30 p-4 rounded-lg border border-red-400/20 animate__animated animate__fadeIn">
+                                    <div class="flex items-start space-x-4 bg-gray-900/80 p-4 rounded-lg border border-cyan-500/30 shadow-lg shadow-cyan-500/5 animate__animated animate__fadeIn transform transition-all duration-500 hover:shadow-cyan-400/20">
                                         <div class="flex-shrink-0">
-                                            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-red-500 to-purple-600 flex items-center justify-center overflow-hidden border-2 border-red-300/50 shadow-lg">
+                                            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-primary-500 to-secondary-600 flex items-center justify-center overflow-hidden border-2 border-cyan-400/30 shadow-lg pulse-subtle">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-white">
                                                     <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z"/>
                                                 </svg>
                                             </div>
                                         </div>
                                         <div class="flex-1">
-                                            <div class="bg-red-800/40 p-3 rounded-lg rounded-tl-none relative">
-                                                <div class="absolute -left-2 top-0 w-0 h-0 border-t-8 border-r-8 border-red-800/40 border-l-transparent"></div>
-                                                <p class="text-red-100 text-sm font-medium" id="phishing-assistant-text">Hi there! I'm PhishGuard! I'll help you spot tricky emails and messages that might be trying to steal your information. Let's learn how to stay safe online!</p>
+                                            <div class="bg-gray-800/90 p-3 rounded-lg rounded-tl-none relative typing-container">
+                                                <div class="absolute -left-2 top-0 w-0 h-0 border-t-8 border-r-8 border-gray-800/90 border-l-transparent"></div>
+                                                <p class="text-cyan-100 text-sm font-medium typing-text" id="phishing-assistant-text"></p>
                                             </div>
-                                            <div class="mt-2 text-xs text-red-300 font-medium">PhishGuard - Email Security Expert</div>
+                                            <div class="mt-2 text-xs text-cyan-300 font-medium">PhishGuard - Email Security Expert</div>
                                         </div>
                                     </div>
                                 </div>
                                 
                                 <div class="w-1/4 flex justify-center items-start">
-                                    <div class="animate-pulse-slow">
-                                        <img src="https://cdn-icons-png.flaticon.com/512/1691/1691945.png" alt="PhishGuard Character" class="h-32 filter drop-shadow-lg">
+                                    <div class="bounce-subtle">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/1691/1691945.png" alt="PhishGuard Character" class="h-32 filter drop-shadow-lg hover-float">
                                     </div>
                                 </div>
                             </div>
                             
                             <!-- Stage 1: Email Basics -->
-                            <div id="phishing-stage1" class="phishing-stage active">
-                                <div class="bg-white rounded-lg p-5 text-gray-800 mb-6">
-                                    <div class="border-b pb-2 mb-3">
+                            <div id="phishing-stage1" class="phishing-stage active transform transition-opacity duration-500">
+                                <div class="bg-gray-900/50 backdrop-blur-md rounded-lg p-5 text-gray-200 mb-6 border border-cyan-500/20 shadow-lg hover-glow">
+                                    <div class="border-b border-cyan-500/30 pb-2 mb-3">
                                         <div class="flex justify-between">
                                             <div>
-                                                <p class="font-semibold">From: <span class="text-danger-600">prize-alert@amazen-reward.net</span></p>
+                                                <p class="font-semibold">From: <span class="text-danger-400">prize-alert@amazen-reward.net</span></p>
                                                 <p>To: you@example.com</p>
-                                                <p>Subject: <span class="font-bold">URGENT: Your $1000 Gift Card is expiring TODAY!</span></p>
+                                                <p>Subject: <span class="font-bold text-danger-300">URGENT: Your $1000 Gift Card is expiring TODAY!</span></p>
                                             </div>
-                                            <div class="text-gray-500 text-sm">
+                                            <div class="text-cyan-300 text-sm">
                                                 Today, 9:42 AM
                                             </div>
                                         </div>
                                     </div>
                                     
-                                    <div>
-                                        <p class="font-bold mb-2">CONGRADULATIONS! YOU'VE BEEN SELECTED!</p>
+                                    <div class="email-content">
+                                        <p class="font-bold mb-2 text-danger-300">CONGRADULATIONS! YOU'VE BEEN SELECTED!</p>
                                         <p class="mb-3">Dear Customer,</p>
                                         <p class="mb-3">Your account has been selected to receive a $1000 Amazen Gift Card! You must claim this award in the next 2 HOURS or it will be given to someone else!</p>
                                         <p class="mb-3">To claim your prize immedietely, click the link below and enter your account details to verify your identity:</p>
                                         <p class="mb-4 text-center">
-                                            <a href="#" class="px-4 py-2 bg-yellow-400 text-black font-bold rounded hover:bg-yellow-500">CLAIM YOUR $1000 GIFT CARD NOW!</a>
+                                            <a href="#" class="px-4 py-2 bg-yellow-400 text-black font-bold rounded hover:bg-yellow-500 inline-block transform transition-transform duration-300 hover:scale-105 suspicious-link">CLAIM YOUR $1000 GIFT CARD NOW!</a>
                                         </p>
                                         <p class="mb-3">If you don't claim in the next 2 hours, your prize will be FORFITTED!</p>
                                         <p class="text-sm text-gray-500">Amazen Rewards Team</p>
                                     </div>
                                 </div>
                                 
-                                <h3 class="font-game text-lg mb-4">Find the clues that show this is a phishing email:</h3>
+                                <h3 class="font-game text-lg mb-4 text-teal-300">Find the clues that show this is a phishing email:</h3>
                                 
-                                <div class="space-y-3">
-                                    <div class="flex items-center">
-                                        <input type="checkbox" id="clue1" name="clues[]" value="sender" class="mr-2 h-5 w-5">
-                                        <label for="clue1" class="text-cyan-100">The sender email (amazen-reward.net) doesn't match the real company (amazon.com)</label>
+                                <div class="space-y-3 mb-6">
+                                    <div class="flex items-center checkbox-wrapper">
+                                        <input type="checkbox" id="clue1" name="clues[]" value="spelling" class="mr-2 h-5 w-5 cyber-checkbox">
+                                        <label for="clue1" class="text-cyan-100 hover:text-teal-300 transition-colors duration-300">Has spelling and grammar mistakes</label>
                                     </div>
-                                    <div class="flex items-center">
-                                        <input type="checkbox" id="clue2" name="clues[]" value="urgency" class="mr-2 h-5 w-5">
-                                        <label for="clue2" class="text-cyan-100">Creates false urgency with "expiring today" and "2 hours" deadline</label>
+                                    
+                                    <div class="flex items-center checkbox-wrapper">
+                                        <input type="checkbox" id="clue2" name="clues[]" value="sender" class="mr-2 h-5 w-5 cyber-checkbox">
+                                        <label for="clue2" class="text-cyan-100 hover:text-teal-300 transition-colors duration-300">Sender email address doesn't match a real company</label>
                                     </div>
-                                    <div class="flex items-center">
-                                        <input type="checkbox" id="clue3" name="clues[]" value="spelling" class="mr-2 h-5 w-5">
-                                        <label for="clue3" class="text-cyan-100">Contains spelling errors like "CONGRADULATIONS" and "immedietely"</label>
+                                    
+                                    <div class="flex items-center checkbox-wrapper">
+                                        <input type="checkbox" id="clue3" name="clues[]" value="urgency" class="mr-2 h-5 w-5 cyber-checkbox">
+                                        <label for="clue3" class="text-cyan-100 hover:text-teal-300 transition-colors duration-300">Creates a false sense of urgency</label>
                                     </div>
-                                    <div class="flex items-center">
-                                        <input type="checkbox" id="clue4" name="clues[]" value="prize" class="mr-2 h-5 w-5">
-                                        <label for="clue4" class="text-cyan-100">Offers an unrealistic prize to create excitement ($1000 gift card)</label>
+                                    
+                                    <div class="flex items-center checkbox-wrapper">
+                                        <input type="checkbox" id="clue4" name="clues[]" value="offer" class="mr-2 h-5 w-5 cyber-checkbox">
+                                        <label for="clue4" class="text-cyan-100 hover:text-teal-300 transition-colors duration-300">Offers something too good to be true</label>
                                     </div>
-                                    <div class="flex items-center">
-                                        <input type="checkbox" id="clue5" name="clues[]" value="link" class="mr-2 h-5 w-5">
-                                        <label for="clue5" class="text-cyan-100">Contains a suspicious link that asks for account details</label>
+                                    
+                                    <div class="flex items-center checkbox-wrapper">
+                                        <input type="checkbox" id="clue5" name="clues[]" value="link" class="mr-2 h-5 w-5 cyber-checkbox">
+                                        <label for="clue5" class="text-cyan-100 hover:text-teal-300 transition-colors duration-300">Contains a suspicious link that asks for account details</label>
                                     </div>
                                 </div>
                                 
-                                <div class="border-t border-white/20 pt-4 mt-4">
-                                    <h3 class="font-game text-lg mb-2">What should you do with this email?</h3>
+                                <div class="border-t border-teal-500/30 pt-4 mt-4">
+                                    <h3 class="font-game text-lg mb-2 text-teal-300">What should you do with this email?</h3>
                                     <div class="space-y-2">
-                                        <div class="flex items-center">
-                                            <input type="radio" id="action1" name="action" value="click" class="mr-2 h-5 w-5">
-                                            <label for="action1" class="text-cyan-100">Click the link to see if the offer is real</label>
+                                        <div class="flex items-center radio-wrapper">
+                                            <input type="radio" id="action1" name="action" value="click" class="mr-2 h-5 w-5 cyber-radio">
+                                            <label for="action1" class="text-cyan-100 hover:text-teal-300 transition-colors duration-300">Click the link to see if the offer is real</label>
                                         </div>
-                                        <div class="flex items-center">
-                                            <input type="radio" id="action2" name="action" value="ignore" class="mr-2 h-5 w-5">
-                                            <label for="action2" class="text-cyan-100">Ignore the email and do not click any links</label>
+                                        <div class="flex items-center radio-wrapper">
+                                            <input type="radio" id="action2" name="action" value="ignore" class="mr-2 h-5 w-5 cyber-radio">
+                                            <label for="action2" class="text-cyan-100 hover:text-teal-300 transition-colors duration-300">Ignore the email and do not click any links</label>
                                         </div>
-                                        <div class="flex items-center">
-                                            <input type="radio" id="action3" name="action" value="reply" class="mr-2 h-5 w-5">
-                                            <label for="action3" class="text-cyan-100">Reply to ask for more information</label>
+                                        <div class="flex items-center radio-wrapper">
+                                            <input type="radio" id="action3" name="action" value="reply" class="mr-2 h-5 w-5 cyber-radio">
+                                            <label for="action3" class="text-cyan-100 hover:text-cyan-300 transition-colors duration-300">Reply to ask for more information</label>
                                         </div>
-                                        <div class="flex items-center">
-                                            <input type="radio" id="action4" name="action" value="report" class="mr-2 h-5 w-5">
-                                            <label for="action4" class="text-cyan-100">Mark as spam/phishing and delete the email</label>
+                                        <div class="flex items-center radio-wrapper">
+                                            <input type="radio" id="action4" name="action" value="report" class="mr-2 h-5 w-5 cyber-radio">
+                                            <label for="action4" class="text-cyan-100 hover:text-cyan-300 transition-colors duration-300">Mark as spam/phishing and delete the email</label>
                                         </div>
                                     </div>
                                 </div>
                                 
                                 <div class="mt-6 text-center">
-                                    <button id="check-basics" class="btn-cyber px-8 py-3 bg-gradient-to-r from-red-600 to-purple-600 hover:from-red-700 hover:to-purple-700 text-white font-bold rounded-full transition-all duration-300 shadow-lg shadow-red-500/20 hover:shadow-red-500/40">
+                                    <button id="check-basics" class="cyber-button px-8 py-3 bg-gradient-to-r from-primary-600 to-cyan-600 hover:from-primary-700 hover:to-cyan-700 text-white font-bold rounded-md transition-all duration-300 relative overflow-hidden shadow-lg shadow-primary-500/20 hover:shadow-primary-500/40 transform hover:translate-y-[-3px]">
                                         <span class="relative z-10">Check My Answers</span>
                                     </button>
                                 </div>
                             </div>
                             
-                            <!-- Stage 2: Outlook Phishing -->
-                            <div id="phishing-stage2" class="phishing-stage hidden">
-                                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                                    <!-- Outlook Header -->
-                                    <div class="bg-[#0078d4] text-white px-4 py-2">
-                                        <div class="flex justify-between items-center">
-                                            <div class="flex items-center">
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M21.1789 7.94018L13.1141 3.60979C12.74 3.41356 12.3718 3.38477 12 3.38477C11.6282 3.38477 11.26 3.41356 10.8859 3.60979L2.82109 7.94018C2.31451 8.20444 2 8.73422 2 9.31422V18.3713C2 19.5336 2.94945 20.4713 4.125 20.4713H19.875C21.0506 20.4713 22 19.5336 22 18.3713V9.31422C22 8.73422 21.6855 8.20444 21.1789 7.94018Z" fill="white"/>
-                                                </svg>
-                                                <span class="ml-2 font-semibold">Outlook</span>
+                            <!-- [Keep the rest of the stages but we'll focus on the basic structure/styling for now] -->
+                            <!-- ... existing code ... -->
                                             </div>
-                                            <div class="flex items-center space-x-3">
-                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z" fill="white"/>
-                                                </svg>
-                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M19 13H5V11H19V13Z" fill="white"/>
-                                                </svg>
-                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M12 8L6 14H18L12 8Z" fill="white"/>
-                                                </svg>
                                             </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Outlook Email Body -->
-                                    <div class="p-4 bg-white">
-                                        <div class="border-b pb-3 mb-4">
-                                            <div class="flex justify-between">
-                                                <div class="flex items-start">
-                                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-500 font-bold mr-3">
-                                                        M
-                                                    </div>
-                                                    <div>
-                                                        <p class="font-bold">Microsoft Account Team</p>
-                                                        <p class="text-sm text-gray-500">security-noreply@microsoft-verify.com</p>
-                                                        <p class="text-sm text-gray-500">To: you@outlook.com</p>
-                                                    </div>
-                                                </div>
-                                                <div class="text-gray-400 text-sm">
-                                                    Yesterday, 11:27 AM
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="mb-6">
-                                            <h2 class="text-xl font-bold mb-3">Microsoft Account Security Alert: Unusual Sign-in Activity</h2>
-                                            
-                                            <div class="border-l-4 border-yellow-500 bg-yellow-50 p-3 mb-4">
-                                                <p class="text-yellow-800">We detected an unusual sign-in attempt to your Microsoft account from a new location.</p>
-                                            </div>
-                                            
-                                            <p class="mb-3">Dear Microsoft User,</p>
-                                            
-                                            <p class="mb-3">Our security systems have detected a login attempt to your Microsoft account from an unrecognized device located in <span class="font-semibold">Kyiv, Ukraine</span> on <span class="font-semibold">May 14, 2023 at 07:32 UTC</span>.</p>
-                                            
-                                            <div class="bg-gray-100 p-3 rounded mb-4">
-                                                <p class="font-semibold mb-1">Login Details:</p>
-                                                <p><span class="font-semibold">IP Address:</span> 93.184.216.34</p>
-                                                <p><span class="font-semibold">Browser:</span> Chrome on Windows</p>
-                                                <p><span class="font-semibold">Location:</span> Kyiv, Ukraine</p>
-                                            </div>
-                                            
-                                            <p class="mb-3">If this was you, you can safely ignore this message.</p>
-                                            
-                                            <p class="mb-4">If this wasn't you, please secure your account immediately by clicking the button below to verify your identity and change your password:</p>
-                                            
-                                            <div class="text-center mb-4">
-                                                <a href="#" class="inline-block px-6 py-3 bg-[#0078d4] text-white font-bold rounded hover:bg-[#006cbe]">Secure Your Account Now</a>
-                                            </div>
-                                            
-                                            <p class="text-sm text-gray-500 mb-2">Microsoft account security team</p>
-                                            <p class="text-sm text-gray-500 mb-4">This is an automated message. Please do not reply.</p>
-                                            
-                                            <div class="text-xs text-gray-400 border-t pt-3">
-                                                <p>© 2023 Microsoft Corporation. All rights reserved.</p>
-                                                <p>Microsoft respects your privacy. Please review our Privacy Statement: privacy.microsoft.com</p>
-                                                <p>Microsoft Corporation, One Microsoft Way, Redmond, WA 98052 USA</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="mt-6 mb-6">
-                                    <h3 class="font-game text-lg mb-4">What are the signs this Outlook email might be a phishing attempt?</h3>
-                                    <div class="space-y-3">
-                                        <div class="flex items-center">
-                                            <input type="checkbox" id="outlook-clue1" name="outlook-clues[]" value="sender-domain" class="mr-2 h-5 w-5">
-                                            <label for="outlook-clue1" class="text-cyan-100">The sender's email domain "microsoft-verify.com" is not an official Microsoft domain</label>
-                                        </div>
-                                        <div class="flex items-center">
-                                            <input type="checkbox" id="outlook-clue2" name="outlook-clues[]" value="generic-greeting" class="mr-2 h-5 w-5">
-                                            <label for="outlook-clue2" class="text-cyan-100">Uses generic greeting "Dear Microsoft User" instead of your actual name</label>
-                                        </div>
-                                        <div class="flex items-center">
-                                            <input type="checkbox" id="outlook-clue3" name="outlook-clues[]" value="urgency" class="mr-2 h-5 w-5">
-                                            <label for="outlook-clue3" class="text-cyan-100">Creates urgency by mentioning "unusual sign-in" to prompt immediate action</label>
-                                        </div>
-                                        <div class="flex items-center">
-                                            <input type="checkbox" id="outlook-clue4" name="outlook-clues[]" value="hover-link" class="mr-2 h-5 w-5">
-                                            <label for="outlook-clue4" class="text-cyan-100">The "Secure Your Account Now" button would likely link to a fake website</label>
-                                        </div>
-                                        <div class="flex items-center">
-                                            <input type="checkbox" id="outlook-clue5" name="outlook-clues[]" value="vague-footer" class="mr-2 h-5 w-5">
-                                            <label for="outlook-clue5" class="text-cyan-100">The footer doesn't contain specific contact information or support options</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="mt-6 text-center">
-                                    <button id="check-outlook" class="btn-cyber px-8 py-3 bg-gradient-to-r from-red-600 to-purple-600 hover:from-red-700 hover:to-purple-700 text-white font-bold rounded-full transition-all duration-300 shadow-lg shadow-red-500/20 hover:shadow-red-500/40">
-                                        <span class="relative z-10">Check My Answers</span>
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <!-- Stage 3: Gmail Phishing -->
-                            <div id="phishing-stage3" class="phishing-stage hidden">
-                                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                                    <!-- Gmail Header -->
-                                    <div class="bg-gray-100 text-gray-800 px-4 py-2 border-b">
-                                        <div class="flex justify-between items-center">
-                                            <div class="flex items-center">
-                                                <svg width="24" height="18" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M24 2V16C24 17.1 23.1 18 22 18H2C0.9 18 0 17.1 0 16V2C0 0.9 0.9 0 2 0H22C23.1 0 24 0.9 24 2ZM22 2H2V16H22V2ZM13 5L21 10V4L13 9.5V5ZM3 5L11 10V4L3 9.5V5Z" fill="#EA4335"/>
-                                                </svg>
-                                                <span class="ml-2 font-semibold">Gmail</span>
-                                            </div>
-                                            <div class="flex items-center space-x-3 text-gray-600">
-                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M13 7H11V11H7V13H11V17H13V13H17V11H13V7ZM12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" fill="currentColor"/>
-                                                </svg>
-                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 18H4V8L12 13L20 8V18ZM12 11L4 6H20L12 11Z" fill="currentColor"/>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Gmail Email Body -->
-                                    <div class="p-4 bg-white">
-                                        <div class="border-b pb-3 mb-4">
-                                            <div class="flex justify-between items-start">
-                                                <div class="flex items-start">
-                                                    <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 font-bold mr-3">
-                                                        P
-                                                    </div>
-                                                    <div>
-                                                        <p class="font-bold">PayPal Service</p>
-                                                        <p class="text-sm text-gray-500">paypal-secure@account-verification.com</p>
-                                                        <p class="text-xs text-gray-400">to me <svg class="inline-block w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M7 10L12 15L17 10H7Z" fill="currentColor"/>
-                                                        </svg></p>
-                                                    </div>
-                                                </div>
-                                                <div class="text-gray-500 text-sm flex items-center">
-                                                    <span>May 15</span>
-                                                    <span class="mx-2">⭐</span>
-                                                    <span>↩️</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="mb-6">
-                                            <h2 class="text-lg font-bold mb-4">Important: Your PayPal account has been limited</h2>
-                                            
-                                            <div class="mb-5 text-center">
-                                                <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg" alt="PayPal Logo" class="h-12 inline-block">
-                                            </div>
-                                            
-                                            <p class="mb-3">Dear Valued Customer,</p>
-                                            
-                                            <p class="mb-3">We noticed some unusual activity in your PayPal account. As a security measure, we have temporarily limited your account access.</p>
-                                            
-                                            <p class="mb-3">To remove these limitations, please verify your information by following these steps:</p>
-                                            
-                                            <ol class="list-decimal ml-5 mb-5 space-y-1">
-                                                <li>Click on the "Verify My Account" button below</li>
-                                                <li>Sign in to your PayPal account</li>
-                                                <li>Confirm your billing information</li>
-                                                <li>Link a new payment method if prompted</li>
-                                            </ol>
-                                            
-                                            <div class="text-center mb-5">
-                                                <a href="#" class="inline-block px-6 py-3 bg-[#0070ba] text-white font-bold rounded hover:bg-[#005ea6]">Verify My Account</a>
-                                            </div>
-                                            
-                                            <p class="mb-3">If you do not verify your account within 48 hours, your account access will be further restricted.</p>
-                                            
-                                            <p class="mb-4">We apologize for any inconvenience this may cause.</p>
-                                            
-                                            <p class="mb-1">Thanks,</p>
-                                            <p class="mb-5">PayPal Account Services</p>
-                                            
-                                            <div class="text-xs text-gray-400 border-t pt-3">
-                                                <p>This email was sent to you by PayPal, Inc.</p>
-                                                <p>Please do not reply to this email, as this mailbox is not monitored.</p>
-                                                <p>Copyright © 1999-2023 PayPal. All rights reserved.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="mt-6 mb-6">
-                                    <h3 class="font-game text-lg mb-4">Find the phishing clues in this PayPal email:</h3>
-                                    <div class="space-y-3">
-                                        <div class="flex items-center">
-                                            <input type="checkbox" id="gmail-clue1" name="gmail-clues[]" value="sender-domain" class="mr-2 h-5 w-5">
-                                            <label for="gmail-clue1" class="text-cyan-100">The sender is using "account-verification.com" instead of "paypal.com"</label>
-                                        </div>
-                                        <div class="flex items-center">
-                                            <input type="checkbox" id="gmail-clue2" name="gmail-clues[]" value="generic-greeting" class="mr-2 h-5 w-5">
-                                            <label for="gmail-clue2" class="text-cyan-100">Uses generic "Dear Valued Customer" instead of your real name</label>
-                                        </div>
-                                        <div class="flex items-center">
-                                            <input type="checkbox" id="gmail-clue3" name="gmail-clues[]" value="urgency" class="mr-2 h-5 w-5">
-                                            <label for="gmail-clue3" class="text-cyan-100">Creates urgency with "48 hours" deadline and "account limitations"</label>
-                                        </div>
-                                        <div class="flex items-center">
-                                            <input type="checkbox" id="gmail-clue4" name="gmail-clues[]" value="payment-method" class="mr-2 h-5 w-5">
-                                            <label for="gmail-clue4" class="text-cyan-100">Asks for a new payment method, which real PayPal wouldn't do via email</label>
-                                        </div>
-                                        <div class="flex items-center">
-                                            <input type="checkbox" id="gmail-clue5" name="gmail-clues[]" value="browser-link" class="mr-2 h-5 w-5">
-                                            <label for="gmail-clue5" class="text-cyan-100">Hovering over the button would show a non-PayPal URL</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="mt-6 text-center">
-                                    <button id="check-gmail" class="btn-cyber px-8 py-3 bg-gradient-to-r from-red-600 to-purple-600 hover:from-red-700 hover:to-purple-700 text-white font-bold rounded-full transition-all duration-300 shadow-lg shadow-red-500/20 hover:shadow-red-500/40">
-                                        <span class="relative z-10">Check My Answers</span>
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <!-- Stage 4: SMS Scams -->
-                            <div id="phishing-stage4" class="phishing-stage hidden">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <!-- Phone screen mock -->
-                                    <div class="bg-gray-900 rounded-3xl overflow-hidden shadow-xl mx-auto" style="max-width: 300px;">
-                                        <!-- Phone notch & status bar -->
-                                        <div class="bg-black py-2 px-4 relative">
-                                            <div class="absolute h-4 w-20 bg-black rounded-b-md top-0 left-1/2 transform -translate-x-1/2"></div>
-                                            <div class="flex justify-between text-white text-xs mt-1">
-                                                <div>9:41 AM</div>
-                                                <div class="flex space-x-1">
-                                                    <span>📶</span>
-                                                    <span>🔋</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- Messages interface -->
-                                        <div class="bg-gray-800 p-3 text-white">
-                                            <div class="flex justify-between items-center mb-3">
-                                                <button class="text-blue-400">◀ Messages</button>
-                                                <button class="text-blue-400">Edit</button>
-                                            </div>
-                                            
-                                            <div class="flex items-center mb-3">
-                                                <div class="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center mr-2">+</div>
-                                                <div>
-                                                    <div class="font-medium">Unknown Sender</div>
-                                                    <div class="text-xs text-gray-400">From: 883-65</div>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="bg-gray-700 rounded-xl p-3 mb-10">
-                                                <div class="flex flex-col space-y-3">
-                                                    <!-- Message bubbles -->
-                                                    <div class="bg-gray-600 p-2 rounded-lg max-w-[80%] text-sm">
-                                                        <p>Your package delivery was attempted but no one was available. Reschedule at: pck-delivery.com/5ZpWra4</p>
-                                                        <p class="text-xs text-gray-400 text-right">9:27 AM</p>
-                                                    </div>
-                                                    
-                                                    <div class="bg-gray-600 p-2 rounded-lg max-w-[80%] text-sm">
-                                                        <p>Banking alert: Your account has been suspended due to suspicious activity. Verify your details: bnkverify.net/Wx8Ka</p>
-                                                        <p class="text-xs text-gray-400 text-right">9:31 AM</p>
-                                                    </div>
-                                                    
-                                                    <div class="bg-gray-600 p-2 rounded-lg max-w-[80%] text-sm">
-                                                        <p>You've won a FREE $500 gift card! Claim within 24 hours: prizeclaim.co/jK9pQw</p>
-                                                        <p class="text-xs text-gray-400 text-right">9:35 AM</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- Phone bottom bar -->
-                                        <div class="bg-black py-1 flex justify-center">
-                                            <div class="w-20 h-1 bg-gray-700 rounded-full"></div>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Quiz section -->
-                                    <div>
-                                        <h3 class="font-game text-lg mb-4">Spot the SMS Scam Tactics</h3>
-                                        <div class="space-y-3">
-                                            <div class="flex items-start mb-2">
-                                                <input type="checkbox" id="sms-clue1" name="sms-clues[]" value="short-codes" class="mr-2 h-5 w-5 mt-1">
-                                                <label for="sms-clue1" class="text-cyan-100">Uses short codes or unknown numbers (like 883-65) instead of official company numbers</label>
-                                            </div>
-                                            <div class="flex items-start mb-2">
-                                                <input type="checkbox" id="sms-clue2" name="sms-clues[]" value="suspicious-urls" class="mr-2 h-5 w-5 mt-1">
-                                                <label for="sms-clue2" class="text-cyan-100">Contains shortened or suspicious URLs that don't match official company domains</label>
-                                            </div>
-                                            <div class="flex items-start mb-2">
-                                                <input type="checkbox" id="sms-clue3" name="sms-clues[]" value="false-urgency" class="mr-2 h-5 w-5 mt-1">
-                                                <label for="sms-clue3" class="text-cyan-100">Creates false urgency ("24 hours", "suspended account", "reschedule")</label>
-                                            </div>
-                                            <div class="flex items-start mb-2">
-                                                <input type="checkbox" id="sms-clue4" name="sms-clues[]" value="unexpected-prizes" class="mr-2 h-5 w-5 mt-1">
-                                                <label for="sms-clue4" class="text-cyan-100">Mentions unexpected prizes or rewards you didn't sign up for</label>
-                                            </div>
-                                            <div class="flex items-start mb-2">
-                                                <input type="checkbox" id="sms-clue5" name="sms-clues[]" value="personal-info" class="mr-2 h-5 w-5 mt-1">
-                                                <label for="sms-clue5" class="text-cyan-100">Asks for personal information, account details, or verification via text</label>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="mt-6">
-                                            <h3 class="font-game text-lg mb-3">What should you do if you receive suspicious SMS messages?</h3>
-                                            <div class="space-y-2">
-                                                <div class="flex items-center">
-                                                    <input type="radio" id="sms-action1" name="sms-action" value="click-links" class="mr-2 h-5 w-5">
-                                                    <label for="sms-action1" class="text-cyan-100">Click the links to see if they're legitimate</label>
-                                                </div>
-                                                <div class="flex items-center">
-                                                    <input type="radio" id="sms-action2" name="sms-action" value="reply-stop" class="mr-2 h-5 w-5">
-                                                    <label for="sms-action2" class="text-cyan-100">Reply with "STOP" to all unknown senders</label>
-                                                </div>
-                                                <div class="flex items-center">
-                                                    <input type="radio" id="sms-action3" name="sms-action" value="ignore-report" class="mr-2 h-5 w-5">
-                                                    <label for="sms-action3" class="text-cyan-100">Ignore, delete, and report as spam to your carrier</label>
-                                                </div>
-                                                <div class="flex items-center">
-                                                    <input type="radio" id="sms-action4" name="sms-action" value="call-number" class="mr-2 h-5 w-5">
-                                                    <label for="sms-action4" class="text-cyan-100">Call the number back to confirm if it's legitimate</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="mt-6 text-center">
-                                            <button id="check-sms" class="btn-cyber px-8 py-3 bg-gradient-to-r from-red-600 to-purple-600 hover:from-red-700 hover:to-purple-700 text-white font-bold rounded-full transition-all duration-300 shadow-lg shadow-red-500/20 hover:shadow-red-500/40">
-                                                <span class="relative z-10">Check My Answers</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Stage 5: Final Test -->
-                            <div id="phishing-stage5" class="phishing-stage hidden">
-                                <div class="mb-8 relative">
-                                    <!-- Villain Character Introduction -->
-                                    <div class="bg-gradient-to-r from-red-900/80 to-purple-900/80 border-2 border-red-500/50 rounded-xl p-6 mb-8 shadow-xl relative overflow-hidden">
-                                        <!-- Decorative elements -->
-                                        <div class="absolute top-0 right-0 w-64 h-64 bg-red-500/10 rounded-full blur-3xl"></div>
-                                        <div class="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl"></div>
-                                        
-                                        <div class="flex flex-col md:flex-row items-center gap-6">
-                                            <div class="w-40 h-40 flex-shrink-0">
-                                                <img src="https://cdn-icons-png.flaticon.com/512/2091/2091433.png" alt="Captain Clickbait" class="w-full h-full object-contain drop-shadow-[0_0_15px_rgba(220,38,38,0.5)] animate-pulse-slow">
-                                            </div>
-                                            <div class="flex-1">
-                                                <div class="text-center md:text-left">
-                                                    <h3 class="text-2xl font-game text-red-400 mb-2 animate__animated animate__fadeIn">Captain Clickbait</h3>
-                                                    <p class="text-white mb-4">So you think you've learned how to spot my tricks? Let's see if you can pass my final test! Answer these questions correctly, or fall victim to my phishing schemes!</p>
-                                                    <div class="h-2 w-full bg-gray-800 rounded-full overflow-hidden">
-                                                        <div class="h-full bg-gradient-to-r from-red-600 to-purple-600 w-0 transition-all duration-1000" id="villain-power-meter"></div>
-                                                    </div>
-                                                    <p class="text-xs text-red-300 mt-1">Villain Power: <span id="villain-power">100%</span></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Test Instructions -->
-                                    <div class="text-center mb-6">
-                                        <h3 class="text-xl font-game text-cyan-300 mb-2">Phishing Defense Final Test</h3>
-                                        <p class="text-cyan-100">Answer all 10 questions to prove your phishing detection skills. Each correct answer weakens Captain Clickbait's power!</p>
-                                    </div>
-                                    
-                                    <!-- Test Questions Container -->
-                                    <div id="test-questions-container" class="space-y-8">
-                                        <!-- Question 1 (Easy - Visual Gmail) -->
-                                        <div class="bg-gray-900/40 rounded-lg p-6 border border-purple-500/30 shadow-lg" data-question-id="1">
-                                            <div class="flex items-start gap-3 mb-4">
-                                                <span class="bg-gradient-to-br from-purple-600 to-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0">1</span>
-                                                <h4 class="text-lg font-medium text-white/90">Identify the phishing clue in this Gmail message:</h4>
-                                            </div>
-                                            
-                                            <!-- Visual Gmail Interface -->
-                                            <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-6 transform transition-all duration-300 hover:scale-[1.02] hover:shadow-purple-500/20">
-                                                <!-- Gmail Interface Header -->
-                                                <div class="bg-gray-100 flex items-center p-2 border-b border-gray-200">
-                                                    <svg viewBox="0 0 24 24" width="24" height="24" class="mr-2">
-                                                        <path fill="#EA4335" d="M24 4.5v15c0 .85-.65 1.5-1.5 1.5H21V7.387l-9 6.463-9-6.463V21H1.5C.649 21 0 20.35 0 19.5v-15C0 3.649.649 3 1.5 3h.75L12 10.5 21.75 3h.75c.85 0 1.5.649 1.5 1.5z"></path>
-                                                    </svg>
-                                                    <span class="font-semibold text-gray-700">Gmail</span>
-                                                    <div class="flex-grow"></div>
-                                                    <div class="flex space-x-1">
-                                                        <span class="w-3 h-3 bg-red-500 rounded-full"></span>
-                                                        <span class="w-3 h-3 bg-yellow-500 rounded-full"></span>
-                                                        <span class="w-3 h-3 bg-green-500 rounded-full"></span>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Gmail Email Content -->
-                                                <div class="p-4">
-                                                    <!-- Email Header Info -->
-                                                    <div class="flex items-start mb-4">
-                                                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-500 font-bold mr-3 animate-pulse-slow">
-                                                            A
-                                                        </div>
-                                                        <div class="flex-grow">
-                                                            <div class="flex justify-between items-start">
-                                                                <div>
-                                                                    <p class="font-bold">Amazon Customer Service</p>
-                                                                    <p class="text-xs text-gray-500">amazon-verification@amazonsecure-shopping.com</p>
-                                                                    <p class="text-xs text-gray-400">to me <span class="inline-block ml-1">▼</span></p>
-                                                                </div>
-                                                                <div class="text-gray-500 text-xs flex items-center">
-                                                                    <span>10:42 AM (2 hours ago)</span>
-                                                                    <span class="ml-2">★</span>
-                                                                    <span class="ml-2">↩️</span>
-                                                                    <span class="ml-2">⋮</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- Email Body -->
-                                                    <div class="mb-4">
-                                                        <h3 class="text-lg font-bold mb-2">Your Amazon Order Cannot Be Shipped</h3>
-                                                        <div class="bg-red-50 border-l-4 border-red-500 p-3 mb-3 animate__animated animate__pulse animate__infinite animate__slow">
-                                                            <p class="text-red-800 font-medium">Urgent: Action Required Within 24 Hours!</p>
-                                                        </div>
-                                                        <p class="mb-2">Dear Valued Customer,</p>
-                                                        <p class="mb-2">We regret to inform you that your recent Amazon order (#AMZ-29581456) cannot be shipped due to a problem with your payment method.</p>
-                                                        <p class="mb-2">To ensure your package is shipped promptly, please update your payment information by clicking the link below:</p>
-                                                        <div class="text-center my-3">
-                                                            <a href="#" class="inline-block px-6 py-2 bg-[#FF9900] hover:bg-[#e68a00] text-black font-bold rounded transition">Update Payment Method</a>
-                                                        </div>
-                                                        <p class="mb-2 text-sm">If you do not update your payment information within 24 hours, your order will be canceled.</p>
-                                                        <p class="mb-3 text-sm">Thank you for choosing Amazon for your shopping needs.</p>
-                                                        <p class="text-xs text-gray-500">Amazon Customer Service Team</p>
-                                                    </div>
-                                                    
-                                                    <!-- Email Footer -->
-                                                    <div class="border-t pt-2 text-xs text-gray-400">
-                                                        <p>© 2023 Amazon.com, Inc. or its affiliates. All rights reserved.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                            <!-- Question Options -->
-                                            <div class="ml-11 space-y-3">
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q1" value="a" class="mr-3 h-4 w-4">
-                                                    <span>The email is from the official Amazon support team</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q1" value="b" class="mr-3 h-4 w-4">
-                                                    <span>The sender's email domain is not an official Amazon domain</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q1" value="c" class="mr-3 h-4 w-4">
-                                                    <span>The email displays an order number</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q1" value="d" class="mr-3 h-4 w-4">
-                                                    <span>The email has an Amazon logo</span>
-                                                </label>
-                                            </div>
-                                            <div class="mt-4 ml-11 hidden question-feedback"></div>
-                                        </div>
-                                        
-                                        <!-- Question 2 (Easy) -->
-                                        <div class="bg-gray-900/40 rounded-lg p-6 border border-purple-500/30 shadow-lg" data-question-id="2">
-                                            <div class="flex items-start gap-3 mb-4">
-                                                <span class="bg-gradient-to-br from-purple-600 to-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0">2</span>
-                                                <h4 class="text-lg font-medium text-white/90">What should you do if you receive a suspicious email?</h4>
-                                            </div>
-                                            <div class="ml-11 space-y-3">
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q2" value="a" class="mr-3 h-4 w-4">
-                                                    <span>Reply to ask if it's legitimate</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q2" value="b" class="mr-3 h-4 w-4">
-                                                    <span>Click any links to see where they go</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q2" value="c" class="mr-3 h-4 w-4">
-                                                    <span>Delete it or mark it as spam without clicking any links</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q2" value="d" class="mr-3 h-4 w-4">
-                                                    <span>Forward it to all your contacts to warn them</span>
-                                                </label>
-                                            </div>
-                                            <div class="mt-4 ml-11 hidden question-feedback"></div>
-                                        </div>
-                                        
-                                        <!-- Question 3 (Medium - Visual Outlook) -->
-                                        <div class="bg-gray-900/40 rounded-lg p-6 border border-purple-500/30 shadow-lg" data-question-id="3">
-                                            <div class="flex items-start gap-3 mb-4">
-                                                <span class="bg-gradient-to-br from-purple-600 to-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0">3</span>
-                                                <h4 class="text-lg font-medium text-white/90">Find the security issue in this Microsoft Outlook email:</h4>
-                                            </div>
-                                            
-                                            <!-- Visual Outlook Interface -->
-                                            <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-6 transform transition-all duration-300 hover:scale-[1.02] hover:shadow-purple-500/20">
-                                                <!-- Outlook Header -->
-                                                <div class="bg-[#0078d4] text-white px-4 py-2 flex justify-between items-center">
-                                                    <div class="flex items-center">
-                                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="mr-2">
-                                                            <path d="M21.1789 7.94018L13.1141 3.60979C12.74 3.41356 12.3718 3.38477 12 3.38477C11.6282 3.38477 11.26 3.41356 10.8859 3.60979L2.82109 7.94018C2.31451 8.20444 2 8.73422 2 9.31422V18.3713C2 19.5336 2.94945 20.4713 4.125 20.4713H19.875C21.0506 20.4713 22 19.5336 22 18.3713V9.31422C22 8.73422 21.6855 8.20444 21.1789 7.94018Z" fill="white"/>
-                                                        </svg>
-                                                        <span class="font-semibold">Outlook</span>
-                                                    </div>
-                                                    <div class="flex items-center space-x-3">
-                                                        <span class="w-3 h-3 bg-white rounded-full"></span>
-                                                        <span class="w-3 h-3 bg-white rounded-full"></span>
-                                                        <span class="w-3 h-3 bg-white rounded-full"></span>
-                                                    </div>
-                                                </div>
-                                                
-                                                <!-- Outlook Email Content -->
-                                                <div class="p-4">
-                                                    <!-- Email Header Info -->
-                                                    <div class="border-b pb-3 mb-4">
-                                                        <div class="flex justify-between">
-                                                            <div class="flex items-start">
-                                                                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-500 font-bold mr-3">
-                                                                    M
-                                                                </div>
-                                                                <div>
-                                                                    <p class="font-bold">Microsoft Security Team</p>
-                                                                    <p class="text-sm text-gray-500 hover:underline cursor-pointer animate__animated animate__flash animate__slow animate__infinite">security@micrrosoft.com</p>
-                                                                    <p class="text-sm text-gray-500">To: you@outlook.com</p>
-                                                                    <p class="text-xs text-gray-400 mt-1">This message was sent with high importance</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="text-gray-400 text-sm">
-                                                                Today, 8:27 AM
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <!-- Email Body -->
-                                                    <div class="mb-6">
-                                                        <h2 class="text-xl font-bold mb-3 text-red-600">⚠️ URGENT: Security Alert - Unusual Sign-in Activity</h2>
-                                                        
-                                                        <div class="border-l-4 border-red-500 bg-red-50 p-3 mb-4">
-                                                            <p class="text-red-800 font-medium">We have detected an unauthorized sign-in attempt to your Microsoft account.</p>
-                                                        </div>
-                                                        
-                                                        <p class="mb-3">Dear Microsoft User,</p>
-                                                        
-                                                        <p class="mb-3">Our automated security systems have detected a suspicious login attempt to your Microsoft account from an unrecognized device located in <span class="font-semibold">Jakarta, Indonesia</span> on <span class="font-semibold">June 14, 2023 at 22:47 UTC</span>.</p>
-                                                        
-                                                        <div class="bg-gray-100 p-4 rounded-lg mb-4 border border-gray-300">
-                                                            <p class="font-semibold mb-2 text-gray-700">Suspicious Login Details:</p>
-                                                            <div class="grid grid-cols-2 gap-2">
-                                                                <div>
-                                                                    <p><span class="font-semibold">IP Address:</span> 103.144.175.69</p>
-                                                                    <p><span class="font-semibold">Browser:</span> Chrome 114.0.5715.60</p>
-                                                                </div>
-                                                                <div>
-                                                                    <p><span class="font-semibold">Location:</span> Jakarta, Indonesia</p>
-                                                                    <p><span class="font-semibold">Status:</span> <span class="text-red-600 font-bold">Blocked</span></p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        
-                                                        <div class="text-center mb-4">
-                                                            <a href="#" class="inline-block px-6 py-3 bg-[#0078d4] text-white font-bold rounded hover:bg-[#006cbe] shadow-md">
-                                                                <span class="flex items-center">
-                                                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                                                                    </svg>
-                                                                    Verify Security Now
-                                                                </span>
-                                                            </a>
-                                                        </div>
-                                                        
-                                                        <p class="text-sm text-gray-500 mb-2">Microsoft Security Team</p>
-                                                        <p class="text-sm text-gray-500 mb-4">This is an automated message. Please do not reply.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                            <!-- Question Options -->
-                                            <div class="ml-11 space-y-3">
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q3" value="a" class="mr-3 h-4 w-4">
-                                                    <span>The email doesn't provide specific login details</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q3" value="b" class="mr-3 h-4 w-4">
-                                                    <span>There's a suspicious button asking to verify security</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q3" value="c" class="mr-3 h-4 w-4">
-                                                    <span>There's a misspelling in "Microsoft" in the email address (micrrosoft.com)</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q3" value="d" class="mr-3 h-4 w-4">
-                                                    <span>The email was sent this morning</span>
-                                                </label>
-                                            </div>
-                                            <div class="mt-4 ml-11 hidden question-feedback"></div>
-                                        </div>
-                                        
-                                        <!-- Question 4 (Medium) -->
-                                        <div class="bg-gray-900/40 rounded-lg p-6 border border-purple-500/30 shadow-lg" data-question-id="4">
-                                            <div class="flex items-start gap-3 mb-4">
-                                                <span class="bg-gradient-to-br from-purple-600 to-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0">4</span>
-                                                <h4 class="text-lg font-medium text-white/90">What technique do phishers use to create a sense of urgency?</h4>
-                                            </div>
-                                            <div class="ml-11 space-y-3">
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q4" value="a" class="mr-3 h-4 w-4">
-                                                    <span>They send emails only during business hours</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q4" value="b" class="mr-3 h-4 w-4">
-                                                    <span>They mention deadlines and consequences like "account closure within 24 hours"</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q4" value="c" class="mr-3 h-4 w-4">
-                                                    <span>They always send short emails</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q4" value="d" class="mr-3 h-4 w-4">
-                                                    <span>They use professional email signatures</span>
-                                                </label>
-                                            </div>
-                                            <div class="mt-4 ml-11 hidden question-feedback"></div>
-                                        </div>
-                                        
-                                        <!-- Question 5 (Medium - Visual SMS) -->
-                                        <div class="bg-gray-900/40 rounded-lg p-6 border border-purple-500/30 shadow-lg" data-question-id="5">
-                                            <div class="flex items-start gap-3 mb-4">
-                                                <span class="bg-gradient-to-br from-purple-600 to-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0">5</span>
-                                                <h4 class="text-lg font-medium text-white/90">What makes this SMS message suspicious?</h4>
-                                            </div>
-                                            
-                                            <!-- Visual SMS Interface -->
-                                            <div class="flex justify-center mb-6">
-                                                <div class="bg-gray-900 rounded-3xl overflow-hidden shadow-xl w-full max-w-[320px] transform transition-all duration-300 hover:scale-[1.02] hover:shadow-purple-500/20">
-                                                    <!-- Phone notch & status bar -->
-                                                    <div class="bg-black py-2 px-4 relative">
-                                                        <div class="absolute h-4 w-20 bg-black rounded-b-md top-0 left-1/2 transform -translate-x-1/2"></div>
-                                                        <div class="flex justify-between text-white text-xs mt-1">
-                                                            <div class="animate__animated animate__fadeIn animate__infinite animate__slower">10:27 AM</div>
-                                                            <div class="flex space-x-1">
-                                                                <span>📶</span>
-                                                                <span class="animate__animated animate__flash animate__infinite animate__slow">🔋</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <!-- SMS App Header -->
-                                                    <div class="bg-gray-800 px-4 py-2 border-b border-gray-700 flex items-center justify-between">
-                                                        <button class="text-blue-400 text-sm">← Messages</button>
-                                                        <button class="text-blue-400 text-sm">Contact</button>
-                                                    </div>
-                                                    
-                                                    <!-- Contact Info -->
-                                                    <div class="bg-gray-800 px-4 py-2 flex items-center border-b border-gray-700">
-                                                        <div class="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center text-white font-bold mr-3">?</div>
-                                                        <div>
-                                                            <div class="text-white font-medium">Unknown</div>
-                                                            <div class="text-xs text-gray-400">+1 (213) 555-0123</div>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <!-- Messages Area -->
-                                                    <div class="bg-gray-800 p-4 flex flex-col space-y-3 min-h-[250px]">
-                                                        <!-- Incoming Messages -->
-                                                        <div class="max-w-[80%] bg-gray-700 p-3 rounded-lg rounded-tl-none text-white self-start animate__animated animate__fadeInLeft">
-                                                            <p class="text-sm">Your FEDEX package could not be delivered: Update delivery address at fedex-track.co/nS7bHp</p>
-                                                            <p class="text-[10px] text-gray-400 text-right mt-1">10:25 AM</p>
-                                                        </div>
-                                                        
-                                                        <div class="max-w-[80%] bg-gray-700 p-3 rounded-lg rounded-tl-none text-white self-start animate__animated animate__fadeInLeft animate__delay-1s">
-                                                            <p class="text-sm">Your package will be returned to sender in 24h if not claimed.</p>
-                                                            <p class="text-[10px] text-gray-400 text-right mt-1">10:26 AM</p>
-                                                        </div>
-                                                        
-                                                        <div class="max-w-[80%] bg-gray-700 p-3 rounded-lg rounded-tl-none text-white self-start flex items-center animate__animated animate__fadeInLeft animate__delay-2s">
-                                                            <span class="text-sm mr-1">Tap to claim your package:</span>
-                                                            <span class="text-blue-400 underline text-sm">fedex-track.co/nS7bHp</span>
-                                                            <p class="text-[10px] text-gray-400 text-right mt-1">10:27 AM</p>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <!-- Message Input Area -->
-                                                    <div class="bg-gray-700 p-3 flex items-center">
-                                                        <input type="text" placeholder="Message" class="bg-gray-600 rounded-full text-white text-sm px-4 py-2 flex-grow">
-                                                        <button class="ml-2 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white">
-                                                            ↑
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                            <!-- Question Options -->
-                                            <div class="ml-11 space-y-3">
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q5" value="a" class="mr-3 h-4 w-4">
-                                                    <span>The message mentions FedEx, a legitimate delivery company</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q5" value="b" class="mr-3 h-4 w-4">
-                                                    <span>The sender's number appears to be a U.S. phone number</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q5" value="c" class="mr-3 h-4 w-4">
-                                                    <span>The URL is shortened and doesn't use the official FedEx domain (fedex.com)</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q5" value="d" class="mr-3 h-4 w-4">
-                                                    <span>The message is too short to be legitimate</span>
-                                                </label>
-                                            </div>
-                                            <div class="mt-4 ml-11 hidden question-feedback"></div>
-                                        </div>
-                                        
-                                        <!-- Question 6 (Medium) -->
-                                        <div class="bg-gray-900/40 rounded-lg p-6 border border-purple-500/30 shadow-lg" data-question-id="6">
-                                            <div class="flex items-start gap-3 mb-4">
-                                                <span class="bg-gradient-to-br from-purple-600 to-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0">6</span>
-                                                <h4 class="text-lg font-medium text-white/90">You receive a text message claiming to be from your bank about a suspicious transaction. What is the safest response?</h4>
-                                            </div>
-                                            <div class="ml-11 space-y-3">
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q6" value="a" class="mr-3 h-4 w-4">
-                                                    <span>Click the link in the text and enter your banking details</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q6" value="b" class="mr-3 h-4 w-4">
-                                                    <span>Reply with "YES" or "NO" as instructed in the message</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q6" value="c" class="mr-3 h-4 w-4">
-                                                    <span>Ignore the text and call your bank directly using the number on their official website or your card</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q6" value="d" class="mr-3 h-4 w-4">
-                                                    <span>Forward the text to a family member to check if it's legitimate</span>
-                                                </label>
-                                            </div>
-                                            <div class="mt-4 ml-11 hidden question-feedback"></div>
-                                        </div>
-                                        
-                                        <!-- Question 7 (Medium-Hard) -->
-                                        <div class="bg-gray-900/40 rounded-lg p-6 border border-purple-500/30 shadow-lg" data-question-id="7">
-                                            <div class="flex items-start gap-3 mb-4">
-                                                <span class="bg-gradient-to-br from-purple-600 to-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0">7</span>
-                                                <h4 class="text-lg font-medium text-white/90">Which of these is an example of "spear phishing"?</h4>
-                                            </div>
-                                            <div class="ml-11 space-y-3">
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q7" value="a" class="mr-3 h-4 w-4">
-                                                    <span>An email sent to millions of people claiming they've won a lottery</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q7" value="b" class="mr-3 h-4 w-4">
-                                                    <span>A fake website that looks exactly like your bank's login page</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q7" value="c" class="mr-3 h-4 w-4">
-                                                    <span>A targeted email to you claiming to be from your school principal, mentioning specific details about your classes</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q7" value="d" class="mr-3 h-4 w-4">
-                                                    <span>A pop-up message saying your computer has a virus</span>
-                                                </label>
-                                            </div>
-                                            <div class="mt-4 ml-11 hidden question-feedback"></div>
-                                        </div>
-                                        
-                                        <!-- Question 8 (Hard) -->
-                                        <div class="bg-gray-900/40 rounded-lg p-6 border border-purple-500/30 shadow-lg" data-question-id="8">
-                                            <div class="flex items-start gap-3 mb-4">
-                                                <span class="bg-gradient-to-br from-purple-600 to-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0">8</span>
-                                                <h4 class="text-lg font-medium text-white/90">Which of these messages is LEAST likely to be a phishing attempt?</h4>
-                                            </div>
-                                            <div class="ml-11 space-y-3">
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q8" value="a" class="mr-3 h-4 w-4">
-                                                    <span>An email from Netflix asking you to update your payment information by clicking a button</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q8" value="b" class="mr-3 h-4 w-4">
-                                                    <span>A text message about a package delivery with a shortened link (bit.ly/2x4Yz)</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q8" value="c" class="mr-3 h-4 w-4">
-                                                    <span>An email from your school's actual domain with a calendar invitation for a parent-teacher conference</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q8" value="d" class="mr-3 h-4 w-4">
-                                                    <span>A message on social media from a "friend" you don't recognize asking for your phone number</span>
-                                                </label>
-                                            </div>
-                                            <div class="mt-4 ml-11 hidden question-feedback"></div>
-                                        </div>
-                                        
-                                        <!-- Question 9 (Hard) -->
-                                        <div class="bg-gray-900/40 rounded-lg p-6 border border-purple-500/30 shadow-lg" data-question-id="9">
-                                            <div class="flex items-start gap-3 mb-4">
-                                                <span class="bg-gradient-to-br from-purple-600 to-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0">9</span>
-                                                <h4 class="text-lg font-medium text-white/90">Which security feature helps identify legitimate emails from companies?</h4>
-                                            </div>
-                                            <div class="ml-11 space-y-3">
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q9" value="a" class="mr-3 h-4 w-4">
-                                                    <span>The length of the email</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q9" value="b" class="mr-3 h-4 w-4">
-                                                    <span>Email encryption and digital signatures (showing a verified sender)</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q9" value="c" class="mr-3 h-4 w-4">
-                                                    <span>Colorful graphics and logos</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q9" value="d" class="mr-3 h-4 w-4">
-                                                    <span>The presence of a copyright symbol ©</span>
-                                                </label>
-                                            </div>
-                                            <div class="mt-4 ml-11 hidden question-feedback"></div>
-                                        </div>
-                                        
-                                        <!-- Question 10 (Very Hard) -->
-                                        <div class="bg-gray-900/40 rounded-lg p-6 border border-purple-500/30 shadow-lg" data-question-id="10">
-                                            <div class="flex items-start gap-3 mb-4">
-                                                <span class="bg-gradient-to-br from-purple-600 to-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0">10</span>
-                                                <h4 class="text-lg font-medium text-white/90">You receive an email that appears to be from your friend sharing a Google Doc. Which combination of clues suggests it might be a phishing attack?</h4>
-                                            </div>
-                                            <div class="ml-11 space-y-3">
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q10" value="a" class="mr-3 h-4 w-4">
-                                                    <span>The email uses your friend's correct name and comes from their actual email address</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q10" value="b" class="mr-3 h-4 w-4">
-                                                    <span>The email is marked as important and the document is something you were expecting</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q10" value="c" class="mr-3 h-4 w-4">
-                                                    <span>The email has a generic greeting, the document is unexpected, and hovering over the "Open in Docs" button shows a non-Google URL</span>
-                                                </label>
-                                                <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
-                                                    <input type="radio" name="q10" value="d" class="mr-3 h-4 w-4">
-                                                    <span>The email was sent during school hours and mentions a class project</span>
-                                                </label>
-                                            </div>
-                                            <div class="mt-4 ml-11 hidden question-feedback"></div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="mt-8 text-center">
-                                        <button id="check-test-answers" class="btn-cyber px-8 py-3 bg-gradient-to-r from-red-600 to-purple-600 hover:from-red-700 hover:to-purple-700 text-white font-bold rounded-full transition-all duration-300 shadow-lg shadow-red-500/20 hover:shadow-red-500/40">
-                                            <span class="relative z-10">Submit Answers</span>
-                                        </button>
-                                    </div>
-                                    
-                                    <!-- Test Results Modal (Hidden initially) -->
-                                    <div id="test-results" class="fixed inset-0 flex items-center justify-center z-50 hidden">
-                                        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
-                                        <div class="relative bg-gradient-to-br from-gray-900 to-purple-900 rounded-xl p-8 max-w-md w-full mx-4 border border-purple-500/50 shadow-2xl transform transition-all">
-                                            <button id="close-results" class="absolute top-2 right-2 text-gray-400 hover:text-white">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                                </svg>
-                                            </button>
-                                            
-                                            <div class="text-center">
-                                                <h3 class="text-xl font-game text-purple-300 mb-4">Your Test Results</h3>
-                                                <div class="mb-6">
-                                                    <div class="w-32 h-32 mx-auto relative">
-                                                        <svg class="w-full h-full" viewBox="0 0 100 100">
-                                                            <circle cx="50" cy="50" r="45" fill="none" stroke="#312e81" stroke-width="10" />
-                                                            <circle id="results-circle" cx="50" cy="50" r="45" fill="none" stroke="#8b5cf6" stroke-width="10" 
-                                                                stroke-dasharray="283" stroke-dashoffset="283" transform="rotate(-90 50 50)" />
-                                                        </svg>
-                                                        <div class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-white">
-                                                            <span id="results-percentage">0%</span>
-                                                        </div>
-                                                    </div>
-                                                    <p class="text-white mt-2">You got <span id="results-correct">0</span> out of 10 questions correct!</p>
-                                                </div>
-                                                <div id="results-message" class="mb-6 text-cyan-100 py-3 px-4 rounded-lg bg-cyan-900/30 border border-cyan-500/30"></div>
-                                                <button id="complete-test" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-3 px-6 rounded-lg font-bold shadow-lg hover:from-purple-700 hover:to-indigo-700 transition-all">
-                                                    Complete Mission
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <form id="phishing-mission-form" action="{{ route('game.submit-mission', ['id' => $mission['id']]) }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="phishing_stage1_complete" id="phishing_stage1_complete" value="0">
-                                <input type="hidden" name="phishing_stage2_complete" id="phishing_stage2_complete" value="0">
-                                <input type="hidden" name="phishing_stage3_complete" id="phishing_stage3_complete" value="0">
-                                <input type="hidden" name="phishing_stage4_complete" id="phishing_stage4_complete" value="0">
-                                <input type="hidden" name="phishing_stage5_complete" id="phishing_stage5_complete" value="0">
-                                <input type="hidden" name="phishing_test_score" id="phishing_test_score" value="0">
-                                <input type="hidden" name="total_phishing_score" id="total_phishing_score" value="0">
-                                <input type="hidden" name="clues" id="clues_hidden" value="">
-                                <input type="hidden" name="action" id="action_hidden" value="">
-                                
-                                <div class="mt-6 text-center">
-                                    <button type="submit" id="submit-phishing-mission" class="btn-primary px-8 py-3 hidden" disabled>
-                                        Complete Mission
-                                    </button>
-                                </div>
-                            </form>
                             @break
-                            
                         @case(2)
                             <h2 class="text-xl font-game mb-4 text-center">Password Strength Challenge</h2>
                             
@@ -1523,8 +994,6 @@
                                                     <button id="complete-mission" class="px-8 py-3 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
                                                         Complete Mission
                                                     </button>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1550,659 +1019,569 @@
                     @break
                     
                 @case(3)
-                    <h2 class="text-xl font-game mb-4 text-center">Social Media Mayhem Challenge</h2>
+                    <h2 class="text-xl font-game mb-4 text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 animate__animated animate__fadeIn">Social Media Mayhem Challenge</h2>
                     
                     @php
-                        $completedMissions = session('completed_missions', []);
-                        $isMission1Completed = in_array(1, $completedMissions);
-                        $isMission2Completed = in_array(2, $completedMissions);
-                        $canAccessMission = $isMission1Completed && $isMission2Completed;
+                        // Always allow access to Social Media Mayhem mission
+                        $canAccessMission = true;
                     @endphp
                     
-                    @if(!$canAccessMission)
-                        <div class="bg-white/5 backdrop-blur-xl border border-red-500/30 p-6 rounded-xl shadow-2xl text-white mb-6 relative overflow-hidden">
-                            <div class="flex flex-col items-center justify-center py-12">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-red-500 mb-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                </svg>
-                                <h3 class="text-xl font-bold mb-4 text-center">Mission Locked!</h3>
-                                <p class="text-white/90 text-center mb-6 max-w-xl">
-                                    You need to complete both "The Mysterious Email" and "Password Peril" missions before you can access Social Media Mayhem.
-                                </p>
-                                <div class="grid grid-cols-2 gap-4 w-full max-w-md">
-                                    <div class="bg-white/10 p-4 rounded-lg text-center {{ $isMission1Completed ? 'border-green-500' : 'border-red-500' }} border">
-                                        <p class="font-bold">The Mysterious Email</p>
-                                        @if($isMission1Completed)
-                                            <span class="text-green-400">Completed ✓</span>
-                                        @else
-                                            <span class="text-red-400">Not Completed ✗</span>
-                                        @endif
-                                    </div>
-                                    <div class="bg-white/10 p-4 rounded-lg text-center {{ $isMission2Completed ? 'border-green-500' : 'border-red-500' }} border">
-                                        <p class="font-bold">Password Peril</p>
-                                        @if($isMission2Completed)
-                                            <span class="text-green-400">Completed ✓</span>
-                                        @else
-                                            <span class="text-red-400">Not Completed ✗</span>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="mt-8">
-                                    <a href="{{ route('game.story') }}" class="px-6 py-3 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition-all">Return to Story Mode</a>
-                                </div>
-                            </div>
+                    <!-- Enhanced background elements -->
+                    <div class="social-media-bg absolute top-0 left-0 w-full h-full -z-20"></div>
+                    <div class="circuit-lines absolute top-0 left-0 w-full h-full -z-20"></div>
+                    <div class="horizontal-scan absolute top-0 left-0 w-full -z-20"></div>
+                    
+                    <!-- Digital nodes (will be populated by JS) -->
+                    <div class="digital-nodes absolute top-0 left-0 w-full h-full -z-20"></div>
+                    
+                    <!-- Digital rain effect (will be populated by JS) -->
+                    <div class="digital-rain absolute top-0 left-0 w-full h-full -z-20"></div>
+                    
+                    <!-- Matrix-like code rain background -->
+                    <canvas id="social-code-rain" class="absolute top-0 left-0 w-full h-full -z-10"></canvas>
+                    
+                    <div class="bg-gray-900/90 backdrop-blur-xl border border-cyan-500/30 p-6 rounded-xl shadow-2xl text-white mb-6 relative overflow-hidden code-scanner">
+                        <!-- Futuristic background elements -->
+                        <div class="absolute inset-0 cyber-grid"></div>
+                        
+                        <!-- Scanner line effect -->
+                        <div class="cyber-scanner-line"></div>
+                        
+                        <!-- Animated cybersecurity elements -->
+                        <div class="absolute top-0 right-0 h-32 w-32 opacity-20 z-10">
+                            <svg viewBox="0 0 100 100" class="animate-spin-slow filter drop-shadow-lg">
+                                <circle cx="50" cy="50" r="40" stroke="rgba(139, 92, 246, 0.7)" stroke-width="2" fill="none" />
+                                <circle cx="50" cy="50" r="30" stroke="rgba(59, 130, 246, 0.7)" stroke-width="2" fill="none" />
+                                <path d="M50 10 L50 90 M10 50 L90 50" stroke="rgba(236, 72, 153, 0.7)" stroke-width="2" />
+                            </svg>
                         </div>
-                    @else
-                        <div class="bg-white/5 backdrop-blur-xl border border-blue-500/30 p-6 rounded-xl shadow-2xl text-white mb-6 relative overflow-hidden">
-                            <!-- Existing mission content here -->
-                            <!-- Futuristic background elements -->
-                            <div class="absolute inset-0 bg-gradient-to-br from-blue-900/30 to-purple-900/30"></div>
-                            <div class="absolute inset-0">
-                                <div class="grid grid-cols-12 grid-rows-12 gap-2 opacity-10">
-                                    @for ($i = 0; $i < 144; $i++)
-                                        <div class="h-6 w-full bg-blue-500/30 rounded"></div>
-                                    @endfor
+                        
+                        <!-- Floating digital particles -->
+                        <div class="floating-particle" style="top: 20%; left: 10%;"></div>
+                        <div class="floating-particle" style="top: 60%; left: 80%;"></div>
+                        <div class="floating-particle" style="top: 80%; left: 30%;"></div>
+                        <div class="floating-particle" style="top: 30%; left: 70%;"></div>
+                        <div class="floating-particle" style="top: 50%; left: 40%;"></div>
+                        
+                        <div class="relative z-10">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <!-- SocialShield Character -->
+                                    <div class="relative mr-4 perspective transform hover-float">
+                                        <div class="absolute -top-1 -left-1 w-24 h-24 rounded-full bg-gradient-to-r from-cyan-400 to-teal-500 animate-pulse-slow opacity-50 glow-effect"></div>
+                                        <img src="https://cdn-icons-png.flaticon.com/512/2371/2371580.png" alt="SocialShield" class="w-20 h-20 object-contain relative z-10 animate__animated animate__bounce">
+                                </div>
+                                    <div>
+                                        <h2 class="text-2xl font-game mb-1 text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-cyan-400 to-teal-300">CYBER MISSION: <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-emerald-300">Social Media Mayhem</span></h2>
+                                        <p class="text-white/90 matrix-text">Help SocialShield defeat the mischievous Profile Phantom!</p>
+                            </div>
+                                </div>
+                                <!-- Villain Character -->
+                                <div class="relative transform hover-float">
+                                    <div class="absolute -top-1 -left-1 w-24 h-24 rounded-full bg-gradient-to-r from-red-500 to-cyan-500 animate-pulse-slow opacity-50 glow-effect"></div>
+                                    <div class="relative overflow-hidden w-20 h-20 rounded-full border-2 border-cyan-500/50 bg-gray-900/60">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/1680/1680422.png" alt="Profile Phantom" class="w-16 h-16 object-contain absolute top-2 left-2 animate__animated animate__pulse animate__infinite villain-shake">
+                                    </div>
+                                    <div class="absolute -bottom-2 right-0 bg-gradient-to-r from-cyan-600 to-teal-500 text-white text-xs px-2 py-1 rounded-full animate__animated animate__flash animate__infinite animate__slow cyber-badge">VILLAIN</div>
                                 </div>
                             </div>
                             
-                            <!-- Animated cybersecurity elements -->
-                            <div class="absolute top-0 right-0 h-32 w-32 opacity-20">
-                                <svg viewBox="0 0 100 100" class="animate-spin-slow">
-                                    <circle cx="50" cy="50" r="40" stroke="rgba(59, 130, 246, 0.5)" stroke-width="2" fill="none" />
-                                    <circle cx="50" cy="50" r="30" stroke="rgba(139, 92, 246, 0.5)" stroke-width="2" fill="none" />
-                                    <path d="M50 10 L50 90 M10 50 L90 50" stroke="rgba(236, 72, 153, 0.5)" stroke-width="2" />
-                                </svg>
+                            <!-- Mission Intro -->
+                            <div class="mt-6 bg-gray-900/40 backdrop-blur-md p-4 rounded-lg border border-cyan-500/30 animate__animated animate__fadeIn hover-glow">
+                                <div class="flex items-start">
+                                    <div class="mr-3 flex-shrink-0 mt-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-cyan-400 pulse-subtle" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="mb-2 text-lg font-bold text-cyan-300 typing-container">
+                                            <span class="typing-text">MISSION BRIEFING:</span>
+                                        </p>
+                                        <p class="text-white/90">Hey there, <span class="text-cyan-300 font-bold">{{ $player_name }}</span>! Profile Phantom is creating fake social media accounts and groups to trick kids. Complete all three challenges to earn your <span class="text-cyan-300 font-bold">Cyber Safety Badges</span> and protect the digital world!</p>
+                                    </div>
+                                </div>
                             </div>
                             
-                            <div class="relative z-10">
-                                <!-- Stage navigation -->
-                                <div class="flex justify-center mb-8">
-                                    <div class="flex items-center space-x-3 bg-gray-900/50 p-1 rounded-full">
-                                        <button id="social-stage1-btn" class="px-5 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-bold social-stage-btn active transition-all duration-300">Fake Groups</button>
-                                        <button id="social-stage2-btn" class="px-5 py-2 bg-gray-800/70 text-gray-400 rounded-full font-bold social-stage-btn transition-all duration-300">Suspicious Messages</button>
-                                        <button id="social-stage3-btn" class="px-5 py-2 bg-gray-800/70 text-gray-400 rounded-full font-bold social-stage-btn transition-all duration-300">Chat Simulation</button>
+                            <!-- Badge Collection Preview -->
+                            <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-gray-900/40 backdrop-blur-md p-4 rounded-lg border border-cyan-500/30 text-center transform transition-all duration-300 hover:scale-105 hover-glow">
+                                    <div class="w-16 h-16 mx-auto relative mb-2">
+                                        <div class="absolute inset-0 bg-gradient-to-r from-cyan-500 to-teal-500 rounded-full opacity-20 animate-pulse-slow"></div>
+                                        <img src="https://cdn-icons-png.flaticon.com/512/3487/3487884.png" alt="Detective Badge" class="w-full h-full object-contain relative z-10 bounce-subtle">
+                                    </div>
+                                    <h3 class="text-lg font-bold text-cyan-300">Detective Badge</h3>
+                                    <p class="text-xs text-cyan-200 mt-1">Spot the Fake!</p>
+                                </div>
+                                <div class="bg-gray-900/40 backdrop-blur-md p-4 rounded-lg border border-cyan-500/30 text-center transform transition-all duration-300 hover:scale-105 hover-glow">
+                                    <div class="w-16 h-16 mx-auto relative mb-2">
+                                        <div class="absolute inset-0 bg-gradient-to-r from-cyan-500 to-teal-500 rounded-full opacity-20 animate-pulse-slow"></div>
+                                        <img src="https://cdn-icons-png.flaticon.com/512/1792/1792525.png" alt="Escape Artist Badge" class="w-full h-full object-contain relative z-10 bounce-subtle">
+                                    </div>
+                                    <h3 class="text-lg font-bold text-cyan-300">Escape Artist Badge</h3>
+                                    <p class="text-xs text-cyan-200 mt-1">Navigate the Maze!</p>
+                                </div>
+                                <div class="bg-gray-900/40 backdrop-blur-md p-4 rounded-lg border border-cyan-500/30 text-center transform transition-all duration-300 hover:scale-105 hover-glow">
+                                    <div class="w-16 h-16 mx-auto relative mb-2">
+                                        <div class="absolute inset-0 bg-gradient-to-r from-cyan-500 to-teal-500 rounded-full opacity-20 animate-pulse-slow"></div>
+                                        <img src="https://cdn-icons-png.flaticon.com/512/4295/4295970.png" alt="Chat Guardian Badge" class="w-full h-full object-contain relative z-10 bounce-subtle">
+                                    </div>
+                                    <h3 class="text-lg font-bold text-cyan-300">Chat Guardian Badge</h3>
+                                    <p class="text-xs text-cyan-200 mt-1">Master Safe Chats!</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Game Navigation Tabs -->
+                            <div class="mt-8">
+                                <div class="flex justify-center mb-8 perspective">
+                                    <div class="flex items-center space-x-3 bg-gray-900/70 p-1 rounded-full border border-purple-500/20 shadow-lg shadow-purple-500/10">
+                                        <button id="social-stage1-btn" class="px-5 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full font-bold social-stage-btn active transition-all duration-300 transform hover:scale-105">Spot the Fake</button>
+                                        <button id="social-stage2-btn" class="px-5 py-2 bg-gray-800/70 text-gray-400 rounded-full font-bold social-stage-btn transition-all duration-300 transform hover:scale-105">Hacker Maze</button>
+                                        <button id="social-stage3-btn" class="px-5 py-2 bg-gray-800/70 text-gray-400 rounded-full font-bold social-stage-btn transition-all duration-300 transform hover:scale-105">Chat Simulator</button>
                                     </div>
                                 </div>
                                 
-                                <!-- Progress indicator -->
-                                <div class="w-full max-w-xl mx-auto mb-6">
-                                    <div class="bg-gray-700/50 h-2.5 rounded-full">
-                                        <div id="progress-bar" class="bg-gradient-to-r from-blue-500 to-purple-600 h-2.5 rounded-full transition-all duration-700" style="width: 33%"></div>
+                                <!-- Progress indicator with animated scanner effect -->
+                                <div class="mb-6 px-4">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-sm text-purple-300 matrix-text">Mission Progress:</span>
+                                        <span class="text-sm text-purple-300 code-cursor" id="mission-progress-text">1/3 Challenges</span>
                                     </div>
-                                    <div class="flex justify-between text-xs text-gray-300 mt-1">
-                                        <span>Start</span>
-                                        <span>Progress</span>
-                                        <span>Complete</span>
-                                    </div>
-                                </div>
-                                
-                                <!-- Cartoon Character Assistant -->
-                                <div class="flex items-start mb-6">
-                                    <div class="w-3/4 pr-4">
-                                        <div class="flex items-start space-x-4 bg-blue-900/30 p-4 rounded-lg border border-blue-400/20">
-                                            <div class="flex-shrink-0">
-                                                <div class="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden border-2 border-blue-300/50 shadow-lg">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-10 h-10 text-white">
-                                                        <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z"/>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                            <div class="flex-1">
-                                                <div class="bg-blue-800/40 p-3 rounded-lg rounded-tl-none relative">
-                                                    <div class="absolute -left-2 top-0 w-0 h-0 border-t-8 border-r-8 border-blue-800/40 border-l-transparent"></div>
-                                                    <p class="text-blue-100 text-sm font-medium" id="social-assistant-text">Hi {{ $player_name }}! I'm SocialShield! I'll help you learn how to spot fake groups and suspicious messages on social media. Let's keep your online social life safe and fun!</p>
-                                                </div>
-                                                <div class="mt-2 text-xs text-blue-300 font-medium">SocialShield - Social Media Safety Expert</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="w-1/4 flex justify-center items-start">
-                                        <div class="animate-pulse-slow">
-                                            <img src="https://cdn-icons-png.flaticon.com/512/2371/2371580.png" alt="SocialShield Character" class="h-32 filter drop-shadow-lg">
-                                        </div>
+                                    <div class="h-3 bg-gray-800/60 rounded-full overflow-hidden shadow-lg shadow-purple-500/20">
+                                        <div id="mission-progress-bar" class="h-full bg-gradient-to-r from-purple-600 via-blue-500 to-cyan-500 rounded-full progress-scanner" style="width: 33%"></div>
                                     </div>
                                 </div>
                                 
-                                <!-- Stage 1: Fake Groups -->
-                                <div id="social-stage1" class="social-stage active">
-                                    <div class="mb-6">
-                                        <h3 class="font-game text-lg mb-4 text-center text-blue-100">Spot the Fake Groups!</h3>
-                                        <p class="text-white/90 mb-4">Profile Phantom creates fake groups to trick kids into joining. These groups might ask for personal information or try to download harmful programs to your device. Learn how to spot these fakes!</p>
+                                    <!-- Game Content Container -->
+                                    <!-- Stage 1: Spot the Fake Quiz Game -->
+                                <div id="social-stage1" class="social-stage active transform transition-opacity duration-500">
+                                        <h3 class="text-xl font-game mb-4 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 animate__animated animate__fadeIn">Spot the Fake Challenge</h3>
+                                        <p class="text-center text-white mb-6">Can you identify which social media content is real and which is fake? Train your detective skills!</p>
                                         
-                                        <div class="grid grid-cols-2 gap-6 mt-6">
-                                            <!-- Real Group Example -->
-                                            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                                                <div class="bg-blue-600 p-3 flex items-center">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                                                    </svg>
-                                                    <span class="text-white font-bold">Cyber Science Club</span>
-                                                    <span class="ml-auto text-white text-xs bg-blue-700 px-2 py-1 rounded">Public Group</span>
+                                        <!-- Game interface -->
+                                        <div class="bg-black/30 backdrop-blur-md p-6 rounded-xl border border-purple-500/30 mb-6 hover-glow">
+                                            <!-- SocialShield Character Assistant -->
+                                            <div class="flex items-start space-x-4 mb-6 bg-gradient-to-r from-purple-900/30 to-blue-900/30 p-4 rounded-lg border border-purple-400/20 animate__animated animate__fadeIn transform transition-all duration-500 hover:shadow-purple-400/20">
+                                                <div class="flex-shrink-0">
+                                                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center overflow-hidden border-2 border-purple-300/50 shadow-lg pulse-subtle">
+                                                        <img src="https://cdn-icons-png.flaticon.com/512/2371/2371580.png" alt="SocialShield" class="w-12 h-12 object-contain">
                                                 </div>
-                                                <div class="p-4">
-                                                    <p class="text-gray-700 mb-2"><span class="font-bold">Description:</span> A community for students interested in science and technology. We share educational resources, discuss science projects, and organize online meetups.</p>
-                                                    <p class="text-gray-700 mb-2"><span class="font-bold">Members:</span> 1,245</p>
-                                                    <p class="text-gray-700 mb-2"><span class="font-bold">Created:</span> March 12, 2022</p>
-                                                    <p class="text-gray-700"><span class="font-bold">Admins:</span> CyberTeacher, ScienceClub, TechLearning</p>
-                                                    <div class="mt-3 pt-3 border-t">
-                                                        <p class="text-green-600 font-bold flex items-center">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                                                            </svg>
-                                                            REAL - This is a legitimate group
-                                                        </p>
                                                     </div>
+                                                <div class="flex-1">
+                                                    <div class="bg-purple-800/40 p-3 rounded-lg rounded-tl-none relative typing-container">
+                                                        <div class="absolute -left-2 top-0 w-0 h-0 border-t-8 border-r-8 border-purple-800/40 border-l-transparent"></div>
+                                                        <p class="text-purple-100 text-sm font-medium typing-text" id="spot-fake-assistant-text">Hi there! I'm SocialShield! Today we'll practice spotting fake social media content. Profile Phantom creates convincing fakes to trick people, but I'll help you learn how to identify them!</p>
+                                                    </div>
+                                                    <div class="mt-2 text-xs text-purple-300 font-medium">SocialShield - Social Media Expert</div>
                                                 </div>
                                             </div>
                                             
-                                            <!-- Fake Group Example -->
-                                            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                                                <div class="bg-blue-600 p-3 flex items-center">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                                                    </svg>
-                                                    <span class="text-white font-bold">Free Robux Giveaway!!</span>
-                                                    <span class="ml-auto text-white text-xs bg-blue-700 px-2 py-1 rounded">Private Group</span>
-                                                </div>
-                                                <div class="p-4">
-                                                    <p class="text-gray-700 mb-2"><span class="font-bold">Description:</span> JOIN NOW!!! Get 10,000 FREE Robux! Limited time offer! Just download our special app and enter your Roblox password to claim your prize!</p>
-                                                    <p class="text-gray-700 mb-2"><span class="font-bold">Members:</span> 67,982</p>
-                                                    <p class="text-gray-700 mb-2"><span class="font-bold">Created:</span> Yesterday</p>
-                                                    <p class="text-gray-700"><span class="font-bold">Admins:</span> FreeRbx_Admin, Robux_Master546</p>
-                                                    <div class="mt-3 pt-3 border-t">
-                                                        <p class="text-red-600 font-bold flex items-center">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                                            <!-- Quiz Container -->
+                                            <div id="spot-fake-quiz-container">
+                                                <!-- Current Quiz Card -->
+                                                <div id="current-quiz-card" class="bg-white/5 backdrop-blur-sm rounded-xl border border-purple-500/30 overflow-hidden shadow-lg transform transition-all duration-300 hover:shadow-purple-500/30">
+                                                    <!-- Question Header -->
+                                                    <div class="bg-gradient-to-r from-purple-900/80 to-blue-900/80 p-4 flex justify-between items-center">
+                                                        <h4 class="text-lg font-bold text-white">Question <span id="current-question-num">1</span>/5</h4>
+                                                        <div class="flex items-center">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                                             </svg>
-                                                            FAKE - This is a scam group!
-                                                        </p>
+                                                            <span class="text-yellow-400 font-bold text-sm" id="current-score">0</span>
+                                                </div>
+                                                    </div>
+                                                    
+                                                    <!-- Social Media Post -->
+                                                <div class="p-4 binary-bg">
+                                                        <div class="bg-white rounded-lg overflow-hidden mb-4 max-w-2xl mx-auto shadow-lg transform transition-all duration-300 hover:shadow-purple-400/30">
+                                                            <!-- Social Media Interface Header -->
+                                                            <div class="bg-blue-100 border-b border-gray-300 p-3 flex items-center">
+                                                                <div class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-2">S</div>
+                                                                <span class="font-bold text-blue-800">SocialConnect</span>
+                                                                <div class="ml-auto flex space-x-2">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-800" viewBox="0 0 20 20" fill="currentColor">
+                                                                        <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                                                            </svg>
                                                     </div>
                                                 </div>
+                                                            
+                                                            <!-- Post Content -->
+                                                            <div class="p-4 bg-white" id="post-content">
+                                                                <!-- Dynamic post content will be inserted here -->
+                                                                <div class="flex items-start mb-3">
+                                                                    <div class="w-10 h-10 rounded-full bg-gray-300 mr-3 flex-shrink-0">
+                                                                        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile" class="w-full h-full rounded-full">
                                             </div>
+                                                                    <div>
+                                                                        <h5 class="font-bold text-gray-900">Kid_Gamer2010</h5>
+                                                                        <p class="text-gray-500 text-sm">Posted yesterday at 3:45 PM</p>
                                         </div>
-                                        
-                                        <!-- Additional Image Examples -->
-                                        <div class="mt-8">
-                                            <h4 class="font-bold text-blue-200 text-lg mb-3">More Examples to Watch Out For:</h4>
-                                            <div class="grid grid-cols-2 gap-4">
-                                                <div class="bg-white/10 backdrop-blur p-4 rounded-lg">
-                                                    <div class="bg-red-500/20 border border-red-500/30 rounded-lg p-3 mb-3">
-                                                        <h5 class="text-red-300 font-bold mb-2">⚠️ FAKE GROUP</h5>
-                                                        <p class="text-white/90">"FREE V-Bucks Generator - Join Now! 🎮"</p>
                                                     </div>
-                                                    <p class="text-white/80 text-sm">These groups claim to have ways to generate free game currency but actually try to steal your login info or download malware.</p>
+                                                                <p class="text-gray-800 mb-3" id="post-text">Hey everyone! I just got accepted into this awesome gaming group! They're giving away FREE gaming consoles to the first 100 kids who join! All I had to do was share my home address and my parents' email. Can't wait to get my prize! Join now at gamingprizes4kids.com!</p>
+                                                                <div class="mb-3" id="post-image-container">
+                                                                    <img src="https://cdn-icons-png.flaticon.com/512/5778/5778578.png" alt="Post image" class="w-full rounded-lg border border-gray-200" id="post-image">
+                                                </div>
+                                                                <div class="flex items-center text-gray-500 text-sm">
+                                                                    <span class="mr-3"><span class="font-bold">24</span> Likes</span>
+                                                                    <span class="mr-3"><span class="font-bold">5</span> Comments</span>
+                                                                    <span><span class="font-bold">12</span> Shares</span>
+                                                    </div>
+                                                </div>
+                                                    </div>
                                                 </div>
                                                 
-                                                <div class="bg-white/10 backdrop-blur p-4 rounded-lg">
-                                                    <div class="bg-red-500/20 border border-red-500/30 rounded-lg p-3 mb-3">
-                                                        <h5 class="text-red-300 font-bold mb-2">⚠️ FAKE GROUP</h5>
-                                                        <p class="text-white/90">"Secret Minecraft Hack - Unlimited Items! 💎"</p>
+                                                    <!-- Question & Options -->
+                                                    <div class="p-4">
+                                                        <h4 class="text-lg font-bold text-purple-300 mb-3" id="question-text">Is this social media post real or fake?</h4>
+                                                        <div class="space-y-3" id="answer-options">
+                                                            <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
+                                                                <input type="radio" name="quiz-answer" value="real" class="mr-3 h-4 w-4">
+                                                                <span class="text-white">Real - This looks like a legitimate post</span>
+                                                            </label>
+                                                            <label class="flex items-center bg-gray-800/50 p-3 rounded-lg hover:bg-gray-800/70 transition cursor-pointer">
+                                                                <input type="radio" name="quiz-answer" value="fake" class="mr-3 h-4 w-4">
+                                                                <span class="text-white">Fake - This is suspicious and unsafe</span>
+                                                            </label>
                                                     </div>
-                                                    <p class="text-white/80 text-sm">Groups offering "hacks" or "cheats" for games often contain malware that can damage your device or steal information.</p>
-                                                </div>
-                                                
-                                                <div class="bg-white/10 backdrop-blur p-4 rounded-lg">
-                                                    <div class="bg-red-500/20 border border-red-500/30 rounded-lg p-3 mb-3">
-                                                        <h5 class="text-red-300 font-bold mb-2">⚠️ FAKE GROUP</h5>
-                                                        <p class="text-white/90">"Kid Models Wanted - Win $5000! 📷"</p>
-                                                    </div>
-                                                    <p class="text-white/80 text-sm">Groups asking for photos or videos of kids are extremely dangerous. They may be run by people trying to collect inappropriate content.</p>
-                                                </div>
-                                                
-                                                <div class="bg-white/10 backdrop-blur p-4 rounded-lg">
-                                                    <div class="bg-red-500/20 border border-red-500/30 rounded-lg p-3 mb-3">
-                                                        <h5 class="text-red-300 font-bold mb-2">⚠️ FAKE GROUP</h5>
-                                                        <p class="text-white/90">"Friend Finder App - Meet Kids Nearby! 👋"</p>
-                                                    </div>
-                                                    <p class="text-white/80 text-sm">Groups promoting apps to meet strangers nearby are dangerous. These can be used by adults pretending to be kids.</p>
-                                                </div>
+                                                        
+                                                        <!-- Submit Answer Button -->
+                                                        <div class="mt-6 text-center">
+                                                            <button id="submit-answer" class="px-6 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold rounded-lg shadow-lg hover:from-purple-700 hover:to-blue-700 transition-all">
+                                                                Check Answer
+                                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                                    <!-- Feedback Container (initially hidden) -->
+                                                    <div id="answer-feedback" class="p-4 hidden">
+                                                        <div class="bg-gray-900/50 rounded-lg p-4 border border-purple-500/30 mb-4">
+                                                            <div class="flex items-start">
+                                                                <div id="feedback-icon" class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 mr-3"></div>
+                                            <div>
+                                                                    <h5 id="feedback-title" class="font-bold text-lg mb-2"></h5>
+                                                                    <p id="feedback-message" class="text-gray-300"></p>
+                                            </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-4">
+                                                            <h5 class="font-bold text-purple-300 mb-2">Red Flags to Look For:</h5>
+                                                            <ul id="red-flags-list" class="list-disc pl-5 space-y-1 text-white">
+                                                                <!-- Red flags will be inserted here -->
+                                                </ul>
+                                            </div>
+                                                        <div class="text-center">
+                                                            <button id="next-question" class="px-6 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold rounded-lg shadow-lg hover:from-purple-700 hover:to-blue-700 transition-all">
+                                                                Next Question
+                                                            </button>
                                             </div>
                                         </div>
                                     </div>
                                     
-                                    <div class="mt-8 bg-blue-900/40 p-4 rounded-lg">
-                                        <h3 class="font-game text-lg mb-3">Warning Signs of Fake Groups and Suspicious Messages:</h3>
-                                        <div class="grid grid-cols-2 gap-6">
-                                            <div>
-                                                <h4 class="text-blue-300 font-bold mb-2">Fake Groups:</h4>
-                                                <ul class="list-disc pl-6 space-y-1 text-white/90">
-                                                    <li>Promises of free items, money, or game currency</li>
-                                                    <li>Recently created groups with thousands of members</li>
-                                                    <li>Asks you to download suspicious files or apps</li>
-                                                    <li>Requests personal information or passwords</li>
-                                                    <li>Poor grammar and lots of exclamation marks</li>
-                                                    <li>Creates urgency with "limited time" offers</li>
-                                                </ul>
-                                            </div>
-                                            <div>
-                                                <h4 class="text-blue-300 font-bold mb-2">Messenger Scams:</h4>
-                                                <ul class="list-disc pl-6 space-y-1 text-white/90">
-                                                    <li>Asking for your parent's credit card details</li>
-                                                    <li>Requesting your parent's phone number</li>
-                                                    <li>Offering free game currency or items</li>
-                                                    <li>Claiming to be from a game company</li>
-                                                    <li>Creating urgency or using exciting offers</li>
-                                                    <li>Asking you to keep the conversation secret</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="text-center mt-6">
-                                        <form action="{{ route('game.submit-mission', $mission['id']) }}" method="POST" class="inline">
-                                            @csrf
-                                            <input type="hidden" name="social_media_complete" value="1">
-                                            <input type="hidden" name="social_media_score" value="5">
-                                            <button type="submit" class="px-6 py-3 bg-green-600 text-white rounded-full font-bold hover:bg-green-700 transition-all">Complete Mission</button>
-                                        </form>
+                                                <!-- Quiz Results (initially hidden) -->
+                                                <div id="quiz-results" class="hidden">
+                                                    <div class="text-center py-6">
+                                                        <div class="w-24 h-24 mx-auto mb-4 relative">
+                                                            <svg class="w-full h-full" viewBox="0 0 100 100">
+                                                                <circle cx="50" cy="50" r="45" fill="none" stroke="#312e81" stroke-width="10" />
+                                                                <circle id="score-circle" cx="50" cy="50" r="45" fill="none" stroke="#8b5cf6" stroke-width="10" 
+                                                                    stroke-dasharray="283" stroke-dashoffset="283" transform="rotate(-90 50 50)" />
+                                                            </svg>
+                                                            <div class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-white">
+                                                                <span id="score-percent">0%</span>
                                     </div>
                                 </div>
-                                
-                                <!-- JavaScript to handle stage navigation -->
-                                <script>
-                                    document.addEventListener('DOMContentLoaded', function() {
-                                        // Get stage buttons and content divs
-                                        const stage1Btn = document.getElementById('social-stage1-btn');
-                                        const stage2Btn = document.getElementById('social-stage2-btn');
-                                        const stage3Btn = document.getElementById('social-stage3-btn');
-                                        const assistantText = document.getElementById('social-assistant-text');
-                                        const progressBar = document.getElementById('progress-bar');
-                                        
-                                        // Get stages
-                                        const stage1 = document.getElementById('social-stage1');
-                                        const stage2Content = `
-                                            <div class="mb-6">
-                                                <h3 class="font-game text-lg mb-4 text-center text-blue-100">Beware of Suspicious Messages!</h3>
-                                                <p class="text-white/90 mb-4">Profile Phantom also sends tricky messages through social media apps. These messages might ask for your personal information or your parents' information. Let's see some examples:</p>
-                                                
-                                                <div class="mt-6 space-y-6 animate__animated animate__fadeIn">
-                                                    <!-- Message Example 1 -->
-                                                    <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300">
-                                                        <div class="bg-purple-600 p-3 flex items-center">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                                                            </svg>
-                                                            <span class="text-white font-bold">Message from: GamerPrizes2023</span>
+                                                        <h3 class="text-2xl font-bold text-white mb-4">Quiz Complete!</h3>
+                                                        <p class="text-lg text-purple-200 mb-6">You scored <span id="final-score">0</span> out of 5</p>
+                                                        <div id="score-message" class="mb-8 bg-purple-900/30 border border-purple-500/30 p-4 rounded-lg max-w-md mx-auto"></div>
+                                                        
+                                                        <!-- Detective Badge (shown when passing) -->
+                                                        <div id="badge-earned" class="hidden mb-6 animate__animated animate__bounceIn">
+                                                            <div class="w-24 h-24 mx-auto relative">
+                                                                <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full opacity-20 animate-pulse-slow"></div>
+                                                                <img src="https://cdn-icons-png.flaticon.com/512/3487/3487884.png" alt="Detective Badge" class="w-full h-full object-contain relative z-10">
                                                         </div>
-                                                        <div class="p-4">
-                                                            <div class="bg-gray-100 p-3 rounded-lg mb-3">
-                                                                <p class="text-gray-800">Hi there! Congratulations! 🎉 Your game account has been selected to receive 5000 V-Bucks! I just need your dad's credit card number to verify your identity and send the prize. This is totally safe! We're an official partner with the game company!</p>
+                                                            <p class="text-xl font-bold text-yellow-300 mt-2">Detective Badge Earned!</p>
+                                                            <p class="text-purple-200">You've proven your skill at spotting fakes!</p>
                                                             </div>
                                                             
-                                                            <div class="bg-red-100 p-3 rounded-lg border border-red-300">
-                                                                <p class="text-red-800 font-bold mb-2">WARNING SIGNS:</p>
-                                                                <ul class="list-disc pl-5 text-red-700 space-y-1">
-                                                                    <li>Offers free game currency (V-Bucks)</li>
-                                                                    <li>Asks for your parent's credit card information</li>
-                                                                    <li>Claims to be an "official partner" but contacts you through a private message</li>
-                                                                    <li>Uses urgency and excitement to trick you</li>
-                                                                </ul>
-                                                                
-                                                                <p class="mt-3 text-red-800 font-bold">CORRECT RESPONSE: Block and report this account. NEVER share credit card information.</p>
+                                                        <div class="flex justify-center space-x-4">
+                                                            <button id="retry-quiz" class="px-6 py-2 bg-gray-700 hover:bg-gray-600 text-white font-bold rounded-lg shadow-lg transition-all">
+                                                                Try Again
+                                                            </button>
+                                                            <button id="complete-spot-fake" class="px-6 py-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-bold rounded-lg shadow-lg transition-all">
+                                                                Continue
+                                                            </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     
-                                                    <!-- Message Example 2 -->
-                                                    <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300">
-                                                        <div class="bg-purple-600 p-3 flex items-center">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                                                            </svg>
-                                                            <span class="text-white font-bold">Message from: SchoolProject392</span>
+                                    <!-- Stage 2: Escape the Hacker Maze -->
+                                    <div id="social-stage2" class="social-stage hidden">
+                                        <h3 class="text-xl font-game mb-4 text-center text-blue-300">Escape the Hacker Maze</h3>
+                                        <p class="text-center text-white mb-6">Navigate through the maze while answering cybersecurity questions to escape the hacker's traps!</p>
+                                        
+                                        <!-- Game interface -->
+                                        <div class="bg-black/30 p-6 rounded-xl border border-blue-500/30 mb-6">
+                                            <!-- SocialShield VS Profile Phantom -->
+                                            <div class="flex items-center justify-between mb-6">
+                                                <div class="flex items-center">
+                                                    <div class="w-16 h-16 relative mr-3">
+                                                        <div class="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full opacity-20 animate-pulse"></div>
+                                                        <img src="https://cdn-icons-png.flaticon.com/512/2371/2371580.png" alt="SocialShield" class="w-full h-full object-contain relative z-10">
                                                         </div>
-                                                        <div class="p-4">
-                                                            <div class="bg-gray-100 p-3 rounded-lg mb-3">
-                                                                <p class="text-gray-800">Hey, I'm doing a school project and need to call some people for a quick survey. Can you send me your dad's phone number? I need to talk to a parent for permission. It's urgent - due tomorrow! Thanks!</p>
+                                                    <div>
+                                                        <h4 class="text-cyan-300 font-bold">SocialShield</h4>
+                                                        <div class="w-24 h-3 bg-gray-700 rounded-full mt-1">
+                                                            <div class="h-full bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full" style="width: 100%"></div>
+                                                    </div>
+                                                </div>
                                                             </div>
                                                             
-                                                            <div class="bg-red-100 p-3 rounded-lg border border-red-300">
-                                                                <p class="text-red-800 font-bold mb-2">WARNING SIGNS:</p>
-                                                                <ul class="list-disc pl-5 text-red-700 space-y-1">
-                                                                    <li>Stranger asking for your parent's contact information</li>
-                                                                    <li>Creates a sense of urgency ("due tomorrow")</li>
-                                                                    <li>Uses a school project as an excuse</li>
-                                                                    <li>The account name has random numbers (SchoolProject392)</li>
-                                                                </ul>
-                                                                
-                                                                <p class="mt-3 text-red-800 font-bold">CORRECT RESPONSE: Don't reply or tell them you need to ask your parents first (then tell your parents).</p>
+                                                <div class="text-xl font-game text-white">VS</div>
+                                                
+                                                <div class="flex items-center">
+                                                    <div>
+                                                        <h4 class="text-red-400 font-bold text-right">Profile Phantom</h4>
+                                                        <div class="w-24 h-3 bg-gray-700 rounded-full mt-1">
+                                                            <div id="phantom-health" class="h-full bg-gradient-to-r from-red-500 to-purple-500 rounded-full" style="width: 100%"></div>
                                                             </div>
                                                         </div>
+                                                    <div class="w-16 h-16 relative ml-3">
+                                                        <div class="absolute inset-0 bg-gradient-to-r from-red-500 to-purple-500 rounded-full opacity-20 animate-pulse"></div>
+                                                        <img src="https://cdn-icons-png.flaticon.com/512/1680/1680422.png" alt="Profile Phantom" class="w-full h-full object-contain relative z-10">
                                                     </div>
                                                 </div>
                                             </div>
                                             
-                                            <div class="mt-8 bg-purple-900/40 p-4 rounded-lg border border-purple-500/30">
-                                                <h3 class="font-game text-lg mb-3 text-purple-200">Rules for Safe Messaging:</h3>
-                                                <ul class="list-disc pl-6 space-y-2 text-white/90">
-                                                    <li>NEVER share personal information with strangers online</li>
-                                                    <li>NEVER give out your parents' contact information or credit card details</li>
-                                                    <li>Be suspicious of messages offering free prizes or game currency</li>
-                                                    <li>Don't respond to messages that create urgency or try to scare you</li>
-                                                    <li>Tell a trusted adult if you receive suspicious messages</li>
-                                                    <li>Block and report accounts that send inappropriate messages</li>
-                                                </ul>
+                                            <!-- Game Canvas -->
+                                            <div class="relative w-full h-72 bg-gradient-to-r from-blue-900/40 to-purple-900/40 rounded-lg overflow-hidden border border-blue-500/30 mb-6">
+                                                <!-- Game Background with Grid -->
+                                                <div class="absolute inset-0" id="maze-background">
+                                                    <div class="w-full h-full grid grid-cols-24 grid-rows-12 gap-px opacity-20">
+                                                        @for ($i = 0; $i < 288; $i++)
+                                                            <div class="bg-blue-500/20"></div>
+                                                        @endfor
+                                                    </div>
                                             </div>
                                             
-                                            <div class="text-center mt-8 space-x-4">
-                                                <button id="to-social-stage1" class="px-6 py-3 bg-gray-600 text-white rounded-full font-bold hover:bg-gray-700 transition-all transform hover:scale-105">← Back</button>
-                                                <button id="to-social-stage3" class="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full font-bold hover:from-blue-600 hover:to-purple-700 transform hover:scale-105 transition-all">Next: Chat Simulation →</button>
+                                                <!-- Game Canvas Elements -->
+                                                <div id="game-container" class="absolute inset-0 overflow-hidden">
+                                                    <!-- Character -->
+                                                    <div id="player" class="absolute bottom-6 left-10 w-12 h-12 z-20">
+                                                        <img src="https://cdn-icons-png.flaticon.com/512/2371/2371580.png" class="w-full h-full object-contain">
                                             </div>
-                                        `;
-                                        
-                                        const stage3Content = `
-                                            <div class="mb-6">
-                                                <h3 class="font-game text-lg mb-4 text-center text-blue-100">Chat Simulation Test</h3>
-                                                <p class="text-white/90 mb-4">Time to test your knowledge! You'll see a suspicious message and need to choose how to respond. Your answer will be evaluated and scored.</p>
-                                                
-                                                <div class="bg-white rounded-lg shadow-lg overflow-hidden mt-6 animate__animated animate__fadeIn">
-                                                    <div class="bg-blue-600 p-3 flex items-center">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                                        
+                                                    <!-- Villain that appears randomly -->
+                                                    <div id="villain" class="absolute w-12 h-12 z-10 hidden">
+                                                        <img src="https://cdn-icons-png.flaticon.com/512/1680/1680422.png" class="w-full h-full object-contain">
+                                                                </div>
+                                                    
+                                                    <!-- Game Obstacles Container -->
+                                                    <div id="obstacles-container" class="absolute inset-0">
+                                                        <!-- Obstacles will be generated dynamically -->
+                                                    </div>
+                                                            
+                                                    <!-- Score and Level -->
+                                                    <div class="absolute top-2 left-2 bg-black/40 px-3 py-1 rounded-full text-sm text-cyan-300 font-medium">
+                                                        Score: <span id="game-score">0</span>
+                                                    </div>
+                                                    <div class="absolute top-2 right-2 bg-black/40 px-3 py-1 rounded-full text-sm text-cyan-300 font-medium">
+                                                        Level: <span id="game-level">1</span>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                <!-- Game Controls -->
+                                                <div class="absolute bottom-2 left-2 flex space-x-2">
+                                                    <button id="btn-jump" class="w-12 h-12 bg-blue-600/60 hover:bg-blue-600/80 rounded-full flex items-center justify-center text-white border border-blue-400/50">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
                                                         </svg>
-                                                        <span class="text-white font-bold">Messenger Chat with: GamerBuddy428</span>
-                                                    </div>
-                                                    <div class="p-4 bg-gray-100">
-                                                        <div class="flex flex-col space-y-4 h-64 overflow-y-auto mb-4 p-2" id="chat-messages">
-                                                            <!-- Incoming message -->
-                                                            <div class="flex">
-                                                                <div class="bg-blue-500 text-white p-3 rounded-lg rounded-tl-none max-w-xs">
-                                                                    <p>Hey there! I'm looking for new friends who like gaming. What's your favorite game?</p>
-                                                                </div>
+                                                    </button>
+                                                        </div>
+                                                        
+                                                <!-- Start/Pause Button -->
+                                                <div class="absolute bottom-2 right-2">
+                                                    <button id="btn-start" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-lg text-white font-bold hover:from-blue-700 hover:to-cyan-700 border border-blue-400/50">
+                                                        Start Game
+                                                    </button>
+                                                    <button id="btn-pause" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-lg text-white font-bold hover:from-blue-700 hover:to-cyan-700 border border-blue-400/50 hidden">
+                                                        Pause
+                                                    </button>
+                                                        </div>
+                                                        
+                                                <!-- Game Over Screen (Initially Hidden) -->
+                                                <div id="game-over-screen" class="absolute inset-0 bg-black/80 flex flex-col items-center justify-center hidden">
+                                                    <h3 class="text-2xl font-game text-red-500 mb-2">Game Over!</h3>
+                                                    <p class="text-white mb-4">You scored: <span id="final-game-score">0</span></p>
+                                                    <button id="btn-retry" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-lg text-white font-bold hover:from-blue-700 hover:to-cyan-700">
+                                                        Try Again
+                                                    </button>
                                                             </div>
                                                             
-                                                            <!-- Your response will be added here by JavaScript -->
-                                                        </div>
-                                                        
-                                                        <div id="response-options" class="space-y-2">
-                                                            <p class="font-bold text-gray-800 mb-2">How would you respond?</p>
-                                                            <button class="response-option w-full text-left p-3 bg-gray-200 hover:bg-gray-300 rounded-md transition transform hover:scale-102" data-score="1" data-response="I like Minecraft and Roblox. What games do you play?">I like Minecraft and Roblox. What games do you play?</button>
-                                                            <button class="response-option w-full text-left p-3 bg-gray-200 hover:bg-gray-300 rounded-md transition transform hover:scale-102" data-score="0" data-response="I'm 10 years old and I live in Chicago. I like playing online games after school.">I'm 10 years old and I live in Chicago. I like playing online games after school.</button>
-                                                            <button class="response-option w-full text-left p-3 bg-gray-200 hover:bg-gray-300 rounded-md transition transform hover:scale-102" data-score="2" data-response="I enjoy gaming too, but I don't chat with people I don't know. Have a nice day!">I enjoy gaming too, but I don't chat with people I don't know. Have a nice day!</button>
-                                                        </div>
-                                                        
-                                                        <!-- Hidden next stage that will be shown after first response -->
-                                                        <div id="response-stage2" class="hidden space-y-4 mt-4">
-                                                            <div class="flex">
-                                                                <div class="bg-blue-500 text-white p-3 rounded-lg rounded-tl-none max-w-xs">
-                                                                    <p>Cool! Hey, I'm running a gaming tournament this weekend with prizes. I need your parent's credit card to register you. Can you ask them and let me know?</p>
-                                                                </div>
-                                                            </div>
-                                                            
-                                                            <div class="space-y-2">
-                                                                <p class="font-bold text-gray-800 mb-2">How would you respond now?</p>
-                                                                <button class="response-option2 w-full text-left p-3 bg-gray-200 hover:bg-gray-300 rounded-md transition transform hover:scale-102" data-score="1" data-response="I need to check with my parents first. Can you send me more information about the tournament?">I need to check with my parents first. Can you send me more information about the tournament?</button>
-                                                                <button class="response-option2 w-full text-left p-3 bg-gray-200 hover:bg-gray-300 rounded-md transition transform hover:scale-102" data-score="0" data-response="Sure, let me ask my dad for his credit card. What details do you need?">Sure, let me ask my dad for his credit card. What details do you need?</button>
-                                                                <button class="response-option2 w-full text-left p-3 bg-gray-200 hover:bg-gray-300 rounded-md transition transform hover:scale-102" data-score="3" data-response="No thanks. Tournaments don't need credit card info to register. I'm going to block you now.">No thanks. Tournaments don't need credit card info to register. I'm going to block you now.</button>
+                                                <!-- Question Popup (Initially Hidden) -->
+                                                <div id="question-popup" class="absolute inset-0 bg-black/80 flex flex-col items-center justify-center p-4 hidden">
+                                                    <h3 class="text-xl font-game text-cyan-300 mb-3">Cybersecurity Question</h3>
+                                                    <div class="bg-gray-900/90 p-4 rounded-lg border border-blue-500/30 mb-4 w-full max-w-md">
+                                                        <p id="question-text" class="text-white mb-4">What should you do if someone you don't know asks for your personal information online?</p>
+                                                        <div class="space-y-2" id="question-options">
+                                                            <label class="flex items-center bg-gray-800/50 p-2 rounded hover:bg-gray-800/70 transition cursor-pointer">
+                                                                <input type="radio" name="question-answer" value="0" class="mr-2">
+                                                                <span class="text-white">Share it if they seem nice</span>
+                                                            </label>
+                                                            <label class="flex items-center bg-gray-800/50 p-2 rounded hover:bg-gray-800/70 transition cursor-pointer">
+                                                                <input type="radio" name="question-answer" value="1" class="mr-2">
+                                                                <span class="text-white">Never share personal information with strangers</span>
+                                                            </label>
+                                                            <label class="flex items-center bg-gray-800/50 p-2 rounded hover:bg-gray-800/70 transition cursor-pointer">
+                                                                <input type="radio" name="question-answer" value="2" class="mr-2">
+                                                                <span class="text-white">Only share your address, not your phone number</span>
+                                                            </label>
                                                             </div>
                                                         </div>
+                                                    <button id="btn-submit-answer" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-lg text-white font-bold hover:from-blue-700 hover:to-cyan-700">
+                                                        Submit Answer
+                                                    </button>
+                                                        </div>
                                                         
-                                                        <!-- Results section (initially hidden) -->
-                                                        <div id="chat-results" class="hidden mt-6">
-                                                            <div class="bg-blue-100 border border-blue-300 rounded-lg p-4">
-                                                                <h4 class="text-lg font-bold text-blue-800 mb-2">Test Results</h4>
-                                                                <p class="mb-2">Your score: <span id="final-score" class="font-bold">0</span>/5</p>
-                                                                <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2 mb-4">
-                                                                    <div id="score-progress" class="bg-blue-600 h-2.5 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                                                <!-- Level Complete Screen (Initially Hidden) -->
+                                                <div id="level-complete" class="absolute inset-0 bg-black/80 flex flex-col items-center justify-center hidden">
+                                                    <div class="animate__animated animate__bounceIn">
+                                                        <h3 class="text-2xl font-game text-green-400 mb-2">Level Complete!</h3>
+                                                        <div class="w-24 h-24 mx-auto my-4 relative">
+                                                            <div class="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full opacity-20 animate-pulse"></div>
+                                                            <img src="https://cdn-icons-png.flaticon.com/512/1792/1792525.png" alt="Escape Artist Badge" class="w-full h-full object-contain relative z-10">
                                                                 </div>
-                                                                <div id="score-feedback" class="mt-3"></div>
-                                                                
-                                                                <div class="mt-4 pt-3 border-t border-blue-200">
-                                                                    <h5 class="font-bold mb-2">Remember these safety tips:</h5>
-                                                                    <ul class="list-disc pl-5 space-y-1">
-                                                                        <li>Never share personal information with strangers online</li>
-                                                                        <li>Never give out your parents' credit card or contact information</li>
-                                                                        <li>Be suspicious of people asking for personal details</li>
-                                                                        <li>Tell a trusted adult if someone asks for this information</li>
+                                                        <p class="text-xl font-bold text-yellow-300 mb-2">Escape Artist Badge Earned!</p>
+                                                        <p class="text-white mb-4">You've defeated Profile Phantom's maze!</p>
+                                                        <button id="btn-continue" class="px-6 py-2 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-lg text-white font-bold hover:from-blue-700 hover:to-cyan-700">
+                                                            Continue to Next Challenge
+                                                        </button>
+                                            </div>
+                                            </div>
+                                            </div>
+                                            
+                                            <!-- Game Instructions -->
+                                            <div class="bg-blue-900/30 p-4 rounded-lg border border-blue-500/30">
+                                                <h4 class="font-bold text-cyan-300 mb-2">How to Play:</h4>
+                                                <ul class="list-disc pl-5 text-sm text-white space-y-1">
+                                                    <li>Press <span class="font-bold text-cyan-200">Start</span> to begin the game</li>
+                                                    <li>Use the <span class="font-bold text-cyan-200">Jump button</span> or press <span class="font-bold text-cyan-200">Space bar</span> to jump over obstacles</li>
+                                                    <li>Avoid touching scam messages and fake giveaway ads</li>
+                                                    <li>Answer cybersecurity questions correctly to advance</li>
+                                                    <li>Watch out for Profile Phantom's tricks!</li>
                                                                     </ul>
+                                                </div>
                                                                 </div>
                                                             </div>
                                                             
-                                                            <div class="text-center mt-6">
-                                                                <form action="{{ route('game.submit-mission', $mission['id']) }}" method="POST" class="inline">
-                                                                    @csrf
-                                                                    <input type="hidden" name="social_media_complete" value="1">
-                                                                    <input type="hidden" id="final-score-input" name="social_media_score" value="0">
-                                                                    <button type="submit" class="px-8 py-4 bg-green-600 text-white rounded-full font-bold hover:bg-green-700 transition-all transform hover:scale-105 animate-pulse">Complete Mission</button>
-                                                                </form>
+                                    <!-- Stage 3: Chat Simulation -->
+                                    <div id="social-stage3" class="social-stage hidden">
+                                        <h3 class="text-xl font-game mb-4 text-center text-cyan-300">Chat Safety Simulator</h3>
+                                        <p class="text-center text-white mb-6">Practice how to respond to suspicious messages in this chat simulator!</p>
+                                        
+                                        <!-- Chat Simulator Interface -->
+                                        <div class="bg-black/30 p-6 rounded-xl border border-cyan-500/30 mb-6">
+                                            <!-- SocialShield Character -->
+                                            <div class="mb-6 bg-gradient-to-r from-blue-900/80 to-purple-900/80 border-2 border-cyan-500/50 rounded-xl p-4 shadow-lg relative overflow-hidden">
+                                                <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
+                                                <div class="flex items-center gap-4">
+                                                    <div class="w-24 h-24 flex-shrink-0">
+                                                        <img src="https://cdn-icons-png.flaticon.com/512/1839/1839274.png" alt="SocialShield" class="w-full h-full object-contain drop-shadow-[0_0_15px_rgba(6,182,212,0.5)]">
                                                             </div>
+                                                    <div class="flex-1">
+                                                        <h3 class="text-xl font-game text-cyan-400 mb-2">SocialShield</h3>
+                                                        <p class="text-white" id="social-shield-guidance">Welcome to the Chat Simulator! I'll help you learn how to recognize and respond to suspicious messages. Remember, never share personal information and be cautious about unusual requests!</p>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                            
+                                            <!-- Chat Interface -->
+                                            <div class="bg-gray-900 rounded-xl overflow-hidden border border-gray-700/50 shadow-lg mb-6">
+                                                <!-- Chat header -->
+                                                <div class="bg-gray-800 p-3 flex items-center border-b border-gray-700">
+                                                    <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                                        </svg>
+                                                        </div>
+                                                        <div>
+                                                        <p class="font-bold text-white" id="chat-sender-name">Unknown Contact</p>
+                                                        <p class="text-xs text-gray-400" id="chat-sender-status">Online</p>
+                                                </div>
+                                            </div>
+                                            
+                                                <!-- Chat messages area -->
+                                                <div class="p-4 h-80 overflow-y-auto bg-gray-900" id="chat-messages">
+                                                    <!-- Messages will be inserted here via JavaScript -->
+                                            </div>
+                                                
+                                                <!-- Response options -->
+                                                <div class="p-4 bg-gray-800 border-t border-gray-700">
+                                                    <div id="response-options" class="space-y-2">
+                                                        <!-- Response options will be inserted here via JavaScript -->
                                                         </div>
                                                     </div>
                                                 </div>
+                                                
+                                            <!-- Progress indicator -->
+                                            <div class="flex items-center justify-between mb-2">
+                                                <span class="text-white/80 text-sm">Scenario: <span id="current-scenario">1</span> of <span id="total-scenarios">5</span></span>
+                                                <span class="text-white/80 text-sm">Score: <span id="chat-score">0</span> points</span>
+                                                </div>
+                                            <div class="w-full bg-gray-800 rounded-full h-2.5">
+                                                <div class="bg-gradient-to-r from-cyan-500 to-blue-500 h-2.5 rounded-full" id="chat-progress" style="width: 0%"></div>
+                                                                </div>
+                                            
+                                            <!-- Results panel (hidden initially) -->
+                                            <div id="chat-results" class="mt-6 bg-gradient-to-r from-blue-900/60 to-purple-900/60 rounded-lg p-6 border border-cyan-500/30 hidden">
+                                                <h3 class="text-xl font-game text-center text-cyan-300 mb-4">Chat Safety Results</h3>
+                                                <p class="text-center text-white mb-4">You've completed the Chat Safety Simulator!</p>
+                                                <div class="flex justify-center items-center gap-3 mb-4">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                                    </svg>
+                                                    <div class="bg-gray-800/80 rounded-full h-8 w-64 overflow-hidden">
+                                                        <div id="final-score-bar" class="h-full bg-gradient-to-r from-cyan-500 to-blue-500" style="width: 0%"></div>
+                                                </div>
+                                                    <span id="final-score-text" class="text-white font-bold">0%</span>
+                                                        </div>
+                                                <p id="final-score-message" class="text-center text-white mb-6">Thanks for practicing chat safety! Your score shows how well you can identify and respond to suspicious messages.</p>
+                                                <div class="flex justify-center">
+                                                    <button id="restart-chat" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg mr-3 transition">Try Again</button>
+                                                    <button id="complete-chat-sim" class="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white rounded-lg transition">Complete Challenge</button>
+                                                    </div>
+                                                </div>
+                                                </div>
                                             </div>
                                             
-                                            <div class="text-center mt-6 space-x-4">
-                                                <button id="to-social-stage2-from-3" class="px-6 py-3 bg-gray-600 text-white rounded-full font-bold hover:bg-gray-700 transition-all transform hover:scale-105">← Back</button>
-                                            </div>
-                                        `;
+                                    <form id="social-media-form" action="{{ route('game.submit-mission', ['id' => $mission['id']]) }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="social_media_complete" id="social_media_complete" value="0">
+                                        <input type="hidden" name="social_media_score" id="social_media_score" value="0">
+                                        <input type="hidden" name="social_spot_fake_complete" id="social_spot_fake_complete" value="0">
+                                        <input type="hidden" name="social_maze_complete" id="social_maze_complete" value="0">
+                                        <input type="hidden" name="social_chat_complete" id="social_chat_complete" value="0">
                                         
-                                        // Set up navigation logic and event listeners
-                                        function setupStage2() {
-                                            const stage2 = document.createElement('div');
-                                            stage2.id = 'social-stage2';
-                                            stage2.className = 'social-stage hidden';
-                                            stage2.innerHTML = stage2Content;
-                                            
-                                            if (document.getElementById('social-stage2')) {
-                                                document.getElementById('social-stage2').remove();
-                                            }
-                                            
-                                            // Insert after stage1
-                                            stage1.insertAdjacentElement('afterend', stage2);
-                                            
-                                            // Set up event listeners for stage2
-                                            document.getElementById('to-social-stage1').addEventListener('click', showStage1);
-                                            document.getElementById('to-social-stage3').addEventListener('click', showStage3);
-                                        }
-                                        
-                                        function setupStage3() {
-                                            const stage3 = document.createElement('div');
-                                            stage3.id = 'social-stage3';
-                                            stage3.className = 'social-stage hidden';
-                                            stage3.innerHTML = stage3Content;
-                                            
-                                            if (document.getElementById('social-stage3')) {
-                                                document.getElementById('social-stage3').remove();
-                                            }
-                                            
-                                            // Insert after stage2
-                                            document.getElementById('social-stage2').insertAdjacentElement('afterend', stage3);
-                                            
-                                            // Set up event listeners for stage3
-                                            document.getElementById('to-social-stage2-from-3').addEventListener('click', showStage2);
-                                            
-                                            // Set up chat simulation responses
-                                            document.querySelectorAll('.response-option').forEach(button => {
-                                                button.addEventListener('click', handleFirstResponse);
-                                            });
-                                        }
-                                        
-                                        function showStage1() {
-                                            document.querySelectorAll('.social-stage').forEach(stage => {
-                                                stage.classList.add('hidden');
-                                                stage.classList.remove('active');
-                                            });
-                                            stage1.classList.remove('hidden');
-                                            stage1.classList.add('active');
-                                            
-                                            // Update button styles
-                                            document.querySelectorAll('.social-stage-btn').forEach(btn => {
-                                                btn.classList.remove('bg-gradient-to-r', 'from-blue-600', 'to-purple-600', 'text-white');
-                                                btn.classList.add('bg-gray-800/70', 'text-gray-400');
-                                            });
-                                            stage1Btn.classList.add('bg-gradient-to-r', 'from-blue-600', 'to-purple-600', 'text-white');
-                                            stage1Btn.classList.remove('bg-gray-800/70', 'text-gray-400');
-                                            
-                                            // Update assistant text and progress
-                                            assistantText.innerText = "Hi there! I'm SocialShield! I'll help you learn how to spot fake groups and suspicious messages on social media. Let's keep your online social life safe and fun!";
-                                            progressBar.style.width = "33%";
-                                        }
-                                        
-                                        function showStage2() {
-                                            if (!document.getElementById('social-stage2')) {
-                                                setupStage2();
-                                            }
-                                            
-                                            document.querySelectorAll('.social-stage').forEach(stage => {
-                                                stage.classList.add('hidden');
-                                                stage.classList.remove('active');
-                                            });
-                                            document.getElementById('social-stage2').classList.remove('hidden');
-                                            document.getElementById('social-stage2').classList.add('active');
-                                            
-                                            // Update button styles
-                                            document.querySelectorAll('.social-stage-btn').forEach(btn => {
-                                                btn.classList.remove('bg-gradient-to-r', 'from-blue-600', 'to-purple-600', 'text-white');
-                                                btn.classList.add('bg-gray-800/70', 'text-gray-400');
-                                            });
-                                            stage2Btn.classList.add('bg-gradient-to-r', 'from-blue-600', 'to-purple-600', 'text-white');
-                                            stage2Btn.classList.remove('bg-gray-800/70', 'text-gray-400');
-                                            
-                                            // Update assistant text and progress
-                                            assistantText.innerText = "Be careful with messages from strangers! They might be trying to get your personal information or your parent's details. Always be cautious!";
-                                            progressBar.style.width = "66%";
-                                        }
-                                        
-                                        function showStage3() {
-                                            if (!document.getElementById('social-stage3')) {
-                                                setupStage3();
-                                            }
-                                            
-                                            document.querySelectorAll('.social-stage').forEach(stage => {
-                                                stage.classList.add('hidden');
-                                                stage.classList.remove('active');
-                                            });
-                                            document.getElementById('social-stage3').classList.remove('hidden');
-                                            document.getElementById('social-stage3').classList.add('active');
-                                            
-                                            // Update button styles
-                                            document.querySelectorAll('.social-stage-btn').forEach(btn => {
-                                                btn.classList.remove('bg-gradient-to-r', 'from-blue-600', 'to-purple-600', 'text-white');
-                                                btn.classList.add('bg-gray-800/70', 'text-gray-400');
-                                            });
-                                            stage3Btn.classList.add('bg-gradient-to-r', 'from-blue-600', 'to-purple-600', 'text-white');
-                                            stage3Btn.classList.remove('bg-gray-800/70', 'text-gray-400');
-                                            
-                                            // Update assistant text and progress
-                                            assistantText.innerText = "Time to test your skills! Let's see how you respond to suspicious messages. Remember everything you've learned!";
-                                            progressBar.style.width = "100%";
-                                        }
-                                        
-                                        // Handle chat simulation responses
-                                        let totalScore = 0;
-                                        
-                                        function handleFirstResponse() {
-                                            const score = parseInt(this.getAttribute('data-score'));
-                                            const response = this.getAttribute('data-response');
-                                            
-                                            // Add user response to chat with animation
-                                            const chatMessages = document.getElementById('chat-messages');
-                                            const userResponseDiv = document.createElement('div');
-                                            userResponseDiv.className = 'flex justify-end';
-                                            userResponseDiv.innerHTML = `
-                                                <div class="bg-green-500 text-white p-3 rounded-lg rounded-tr-none max-w-xs">
-                                                    <p>${response}</p>
-                                                </div>
-                                            `;
-                                            chatMessages.appendChild(userResponseDiv);
-                                            
-                                            // Update score
-                                            totalScore += score;
-                                            
-                                            // Hide first response options and show second stage
-                                            document.getElementById('response-options').classList.add('hidden');
-                                            setTimeout(() => {
-                                                document.getElementById('response-stage2').classList.remove('hidden');
-                                                // Set up event listeners for stage2 responses
-                                                document.querySelectorAll('.response-option2').forEach(button => {
-                                                    button.addEventListener('click', handleSecondResponse);
-                                                });
-                                            }, 1000);
-                                        }
-                                        
-                                        function handleSecondResponse() {
-                                            const score = parseInt(this.getAttribute('data-score'));
-                                            const response = this.getAttribute('data-response');
-                                            
-                                            // Add user response to chat
-                                            const chatMessages = document.getElementById('chat-messages');
-                                            const userResponseDiv = document.createElement('div');
-                                            userResponseDiv.className = 'flex justify-end';
-                                            userResponseDiv.innerHTML = `
-                                                <div class="bg-green-500 text-white p-3 rounded-lg rounded-tr-none max-w-xs">
-                                                    <p>${response}</p>
-                                                </div>
-                                            `;
-                                            chatMessages.appendChild(userResponseDiv);
-                                            
-                                            // Update total score
-                                            totalScore += score;
-                                            
-                                            // Hide response options and show results
-                                            document.getElementById('response-stage2').classList.add('hidden');
-                                            setTimeout(() => {
-                                                document.getElementById('chat-results').classList.remove('hidden');
-                                                
-                                                // Update score display
-                                                document.getElementById('final-score').textContent = totalScore;
-                                                document.getElementById('final-score-input').value = totalScore;
-                                                
-                                                // Update score progress bar
-                                                document.getElementById('score-progress').style.width = (totalScore / 5) * 100 + '%';
-                                                
-                                                // Show appropriate feedback based on score
-                                                const scoreFeedback = document.getElementById('score-feedback');
-                                                if (totalScore >= 4) {
-                                                    scoreFeedback.innerHTML = `
-                                                        <p class="text-green-700 font-bold">Excellent job! You handled these messages safely!</p>
-                                                        <p>You recognized the warning signs and responded appropriately to protect your personal information.</p>
-                                                    `;
-                                                } else if (totalScore >= 2) {
-                                                    scoreFeedback.innerHTML = `
-                                                        <p class="text-yellow-700 font-bold">Good effort, but there's room for improvement.</p>
-                                                        <p>Remember to be more cautious when strangers ask for personal information or credit card details.</p>
-                                                    `;
-                                                } else {
-                                                    scoreFeedback.innerHTML = `
-                                                        <p class="text-red-700 font-bold">You need to be more careful online!</p>
-                                                        <p>Never share personal information with strangers, and always be suspicious of requests for credit card details.</p>
-                                                    `;
-                                                }
-                                            }, 1000);
-                                        }
-                                        
-                                        // Set up stage navigation
-                                        if (stage1) {
-                                            stage1.classList.remove('hidden');
-                                            stage1.classList.add('active');
-                                            
-                                            // Set up event listeners for stage buttons
-                                            if (stage1Btn) {
-                                                stage1Btn.addEventListener('click', showStage1);
-                                                stage2Btn.addEventListener('click', showStage2);
-                                                stage3Btn.addEventListener('click', showStage3);
-                                            }
-                                        }
-                                    });
-                                </script>
+                                        <div class="mt-6 text-center">
+                                            <button type="submit" id="submit-social-media-mission" class="btn-primary px-8 py-3 hidden" disabled>
+                                                Complete Mission
+                                            </button>
+                                                        </div>
+                                    </form>
+                                                        </div>
                             </div>
                         </div>
-                    @endif
-                @break
-                @default
-                    <h2 class="text-xl font-game mb-4 text-center">{{ $mission['title'] }}</h2>
-                    <p class="text-center mb-6">{{ $mission['description'] }}</p>
-                    <div class="text-center">
-                        <a href="{{ route('game.story') }}" class="btn-secondary">
-                            Back to Story Mode
-                        </a>
                     </div>
-            @endswitch
+                </div>
+            </div>
         </div>
         
         <!-- Navigation -->
         <div class="flex justify-between">
+            @endswitch
             <a href="{{ route('game.story') }}" class="btn-secondary">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mr-2">
                     <path fill-rule="evenodd" d="M7.28 7.72a.75.75 0 010 1.06l-2.47 2.47H21a.75.75 0 010 1.5H4.81l2.47 2.47a.75.75 0 11-1.06 1.06l-3.75-3.75a.75.75 0 010-1.06l3.75-3.75a.75.75 0 011.06 0z" clip-rule="evenodd" />
@@ -2210,8 +1589,8 @@
                 Back to Mission List
             </a>
             
-            <a href="{{ route('game.village') }}" class="btn-primary">
-                Visit Cyber Village
+            <a href="{{ route('game.secret-code') }}" class="btn-primary">
+                Visit Secret Code Challenge
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 ml-2">
                     <path fill-rule="evenodd" d="M16.72 7.72a.75.75 0 011.06 0l3.75 3.75a.75.75 0 010 1.06l-3.75 3.75a.75.75 0 11-1.06-1.06l2.47-2.47H3a.75.75 0 010-1.5h16.19l-2.47-2.47a.75.75 0 010-1.06z" clip-rule="evenodd" />
                 </svg>
@@ -3023,402 +2402,513 @@
         let currentPhishingStage = 1;
         let phishingStagesCompleted = [false, false, false, false, false];
         
-        // PhishGuard character text
-        const phishingAssistantText = document.getElementById('phishing-assistant-text');
+        // ... existing code ...
+
+        // Code rain animation for email challenge (similar to Secret Code page)
+        const emailCodeRainCanvas = document.getElementById('email-code-rain');
+        if (emailCodeRainCanvas) {
+            const ctx = emailCodeRainCanvas.getContext('2d');
+            
+            // Set canvas dimensions
+            function resizeCanvas() {
+                emailCodeRainCanvas.width = emailCodeRainCanvas.parentElement.offsetWidth;
+                emailCodeRainCanvas.height = emailCodeRainCanvas.parentElement.offsetHeight;
+            }
+            
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            
+            // Matrix rain effect
+            const fontSize = 12;
+            const columns = Math.floor(emailCodeRainCanvas.width / fontSize);
+            const drops = [];
+            
+            // Initialize drops
+            for (let i = 0; i < columns; i++) {
+                drops[i] = Math.floor(Math.random() * -100);
+            }
+            
+            // Characters to display
+            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンабвгдеёжзийклмнопрстуфхцчшщъыьэюя';
+            
+            function draw() {
+                // Semi-transparent black to create fade effect
+                ctx.fillStyle = 'rgba(15, 23, 42, 0.05)';
+                ctx.fillRect(0, 0, emailCodeRainCanvas.width, emailCodeRainCanvas.height);
+                
+                // Set text color and font
+                ctx.font = `${fontSize}px monospace`;
+                
+                // Draw characters
+                for (let i = 0; i < drops.length; i++) {
+                    // Random character
+                    const text = chars[Math.floor(Math.random() * chars.length)];
+                    
+                    // Different shades of green/blue for matrix effect
+                    const gradient = Math.random();
+                    if (gradient < 0.7) {
+                        ctx.fillStyle = 'rgba(16, 185, 129, 0.6)'; // Teal (primary color from Secret Code)
+                    } else {
+                        ctx.fillStyle = 'rgba(20, 184, 166, 0.5)'; // Lighter teal shade
+                    }
+                    
+                    // Draw the character
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    
+                    // Move drops down and reset when off the screen
+                    drops[i]++;
+                    
+                    // Random reset to create varied rain effect
+                    if (drops[i] * fontSize > emailCodeRainCanvas.height && Math.random() > 0.975) {
+                        drops[i] = Math.floor(Math.random() * -20);
+                    }
+                }
+            }
+            
+            // Animation loop
+            setInterval(draw, 50);
+        }
         
-        // Form elements
-        const phishingMissionForm = document.getElementById('phishing-mission-form');
-        const submitPhishingMissionBtn = document.getElementById('submit-phishing-mission');
-        const phishingStage1CompleteInput = document.getElementById('phishing_stage1_complete');
-        const phishingStage2CompleteInput = document.getElementById('phishing_stage2_complete');
-        const phishingStage3CompleteInput = document.getElementById('phishing_stage3_complete');
-        const phishingStage4CompleteInput = document.getElementById('phishing_stage4_complete');
-        const phishingStage5CompleteInput = document.getElementById('phishing_stage5_complete');
-        const phishingTestScoreInput = document.getElementById('phishing_test_score');
-        const totalPhishingScoreInput = document.getElementById('total_phishing_score');
-        const cluesHiddenInput = document.getElementById('clues_hidden');
-        const actionHiddenInput = document.getElementById('action_hidden');
+        // Create cybersecurity grid effect
+        const cyberGrid = document.querySelector('.cyber-grid');
+        if (cyberGrid) {
+            const gridSize = 20;
+            const rows = Math.ceil(cyberGrid.parentElement.offsetHeight / gridSize);
+            const cols = Math.ceil(cyberGrid.parentElement.offsetWidth / gridSize);
+            
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
+                    // Create grid cell with random chance to be visible
+                    if (Math.random() > 0.85) {
+                        const cell = document.createElement('div');
+                        cell.classList.add('cyber-grid-cell');
+                        cell.style.top = `${i * gridSize}px`;
+                        cell.style.left = `${j * gridSize}px`;
+                        cell.style.width = `${gridSize - 2}px`;
+                        cell.style.height = `${gridSize - 2}px`;
+                        cell.style.opacity = Math.random() * 0.2 + 0.1;
+                        
+                        // Randomly choose color
+                        const colorClass = Math.random() > 0.5 ? 'cyber-grid-cell-blue' : 'cyber-grid-cell-green';
+                        cell.classList.add(colorClass);
+                        
+                        cyberGrid.appendChild(cell);
+                    }
+                }
+            }
+        }
         
-        // Stage 1: Email Basics
-        const checkBasicsBtn = document.getElementById('check-basics');
+        // Animate typing effect for PhishGuard assistant
+        const typingText = document.querySelector('.typing-text');
+        if (typingText) {
+            const originalText = typingText.textContent;
+            typingText.textContent = '';
+            
+            let charIndex = 0;
+            const typingSpeed = 30; // ms per character
+            
+            function typeChar() {
+                if (charIndex < originalText.length) {
+                    typingText.textContent += originalText.charAt(charIndex);
+                    charIndex++;
+                    setTimeout(typeChar, typingSpeed);
+                }
+            }
+            
+            // Start typing animation
+            typeChar();
+        }
+        
+        // Scanner line animation
+        const scannerLine = document.querySelector('.email-scanner-line');
+        if (scannerLine) {
+            scannerLine.style.animation = 'emailScan 3s ease-in-out infinite';
+        }
+        
+        // Highlight suspicious elements in the email when hovering over checkbox items
         const clueCheckboxes = document.querySelectorAll('input[name="clues[]"]');
-        const actionRadios = document.querySelectorAll('input[name="action"]');
+        const emailContent = document.querySelector('.email-content');
         
-        // Stage 2: Outlook Phishing
-        const checkOutlookBtn = document.getElementById('check-outlook');
-        const outlookClueCheckboxes = document.querySelectorAll('input[name="outlook-clues[]"]');
-        
-        // Stage 3: Gmail Phishing
-        const checkGmailBtn = document.getElementById('check-gmail');
-        const gmailClueCheckboxes = document.querySelectorAll('input[name="gmail-clues[]"]');
-        
-        // Stage 4: SMS Scams
-        const checkSmsBtn = document.getElementById('check-sms');
-        const smsClueCheckboxes = document.querySelectorAll('input[name="sms-clues[]"]');
-        const smsActionRadios = document.querySelectorAll('input[name="sms-action"]');
-        
-        // Stage 5: Final Test
-        const checkTestAnswersBtn = document.getElementById('check-test-answers');
-        const testResultsModal = document.getElementById('test-results');
-        const closeResultsBtn = document.getElementById('close-results');
-        const completeTestBtn = document.getElementById('complete-test');
-        const resultsCircle = document.getElementById('results-circle');
-        const resultsPercentage = document.getElementById('results-percentage');
-        const resultsCorrect = document.getElementById('results-correct');
-        const resultsMessage = document.getElementById('results-message');
-        const villainPowerMeter = document.getElementById('villain-power-meter');
-        const villainPower = document.getElementById('villain-power');
-        
-        // Test answers (correct answers for scoring)
-        const correctTestAnswers = {
-            q1: 'b', // Email with spelling errors claiming prize
-            q2: 'c', // Delete it or mark as spam
-            q3: 'b', // support@bankofamerica.com
-            q4: 'b', // Mentioning deadlines and consequences
-            q5: 'b', // Domain name
-            q6: 'c', // Ignore and call bank directly
-            q7: 'c', // Targeted email from school principal
-            q8: 'c', // School email with calendar invite
-            q9: 'b', // Email encryption and digital signatures
-            q10: 'c' // Generic greeting, unexpected doc, non-Google URL
-        };
-        
-        // Add event listeners for stage navigation
-        phishingStageBtns.forEach((btn, index) => {
-            btn.addEventListener('click', function() {
-                const stageNumber = index + 1;
-                let canNavigate = false;
-                
-                if (stageNumber === 1) {
-                    canNavigate = true;
-                } else if (stageNumber === 2) {
-                    canNavigate = phishingStagesCompleted[0];
-                } else if (stageNumber === 3) {
-                    canNavigate = phishingStagesCompleted[1];
-                } else if (stageNumber === 4) {
-                    canNavigate = phishingStagesCompleted[2];
-                } else if (stageNumber === 5) {
-                    canNavigate = phishingStagesCompleted[3];
-                }
-                
-                if (canNavigate) {
-                    navigateToPhishingStage(stageNumber);
-                }
-            });
-        });
-        
-        // [Existing code for previous stages remains the same]
-        // Stage 1: Email Basics check button
-        checkBasicsBtn.addEventListener('click', function() {
-            const selectedClues = Array.from(clueCheckboxes)
-                .filter(checkbox => checkbox.checked)
-                .map(checkbox => checkbox.value);
-            
-            const selectedAction = Array.from(actionRadios)
-                .find(radio => radio.checked)?.value;
-            
-            // Store selected values in hidden inputs
-            cluesHiddenInput.value = selectedClues.join(',');
-            actionHiddenInput.value = selectedAction || '';
-            
-            // Calculate score
-            const correctClues = ['sender', 'urgency', 'spelling', 'prize', 'link'];
-            const correctAction = 'report';
-            
-            let score = 0;
-            let totalCorrectItems = 0;
-            
-            // Count correct clues
-            correctClues.forEach(clue => {
-                if (selectedClues.includes(clue)) {
-                    score++;
-                    totalCorrectItems++;
-                }
+        if (clueCheckboxes && emailContent) {
+            // Add hover effects
+            document.getElementById('clue1').parentNode.addEventListener('mouseenter', () => {
+                const senderElement = emailContent.querySelector(':first-child');
+                if (senderElement) senderElement.classList.add('highlight-suspicious');
             });
             
-            // Check action
-            if (selectedAction === correctAction) {
-                score++;
-                totalCorrectItems++;
-            }
-            
-            // Maximum score is 6 (5 clues + 1 action)
-            const maxScore = 6;
-            const percentage = (score / maxScore) * 100;
-            
-            // Update PhishGuard's advice
-            updatePhishGuardAdvice('stage1-feedback', percentage, score, maxScore);
-            
-            // Mark stage as complete if score is good enough
-            if (percentage >= 70) {
-                phishingStagesCompleted[0] = true;
-                phishingStage1CompleteInput.value = "1";
-                
-                // Enable Stage 2 button
-                document.getElementById('phishing-stage2-btn').classList.remove('bg-gray-800/70', 'text-gray-400');
-                document.getElementById('phishing-stage2-btn').classList.add('bg-gradient-to-r', 'from-red-600', 'to-purple-600', 'text-white');
-                
-                // Update total score
-                updateTotalPhishingScore();
-                
-                // Auto navigate to next stage after delay
-                setTimeout(() => {
-                    navigateToPhishingStage(2);
-                }, 2500);
-            }
-        });
-        
-        // Stage 2: Outlook check button
-        checkOutlookBtn.addEventListener('click', function() {
-            const selectedOutlookClues = Array.from(outlookClueCheckboxes)
-                .filter(checkbox => checkbox.checked)
-                .map(checkbox => checkbox.value);
-            
-            // Calculate score
-            const correctOutlookClues = ['sender-domain', 'generic-greeting', 'urgency', 'hover-link', 'vague-footer'];
-            
-            let score = 0;
-            
-            // Count correct clues
-            correctOutlookClues.forEach(clue => {
-                if (selectedOutlookClues.includes(clue)) {
-                    score++;
-                }
+            document.getElementById('clue1').parentNode.addEventListener('mouseleave', () => {
+                const senderElement = emailContent.querySelector(':first-child');
+                if (senderElement) senderElement.classList.remove('highlight-suspicious');
             });
             
-            // Maximum score is 5
-            const maxScore = 5;
-            const percentage = (score / maxScore) * 100;
-            
-            // Update PhishGuard's advice
-            updatePhishGuardAdvice('stage2-feedback', percentage, score, maxScore);
-            
-            // Mark stage as complete if score is good enough
-            if (percentage >= 70) {
-                phishingStagesCompleted[1] = true;
-                phishingStage2CompleteInput.value = "1";
-                
-                // Enable Stage 3 button
-                document.getElementById('phishing-stage3-btn').classList.remove('bg-gray-800/70', 'text-gray-400');
-                document.getElementById('phishing-stage3-btn').classList.add('bg-gradient-to-r', 'from-red-600', 'to-purple-600', 'text-white');
-                
-                // Update total score
-                updateTotalPhishingScore();
-                
-                // Auto navigate to next stage after delay
-                setTimeout(() => {
-                    navigateToPhishingStage(3);
-                }, 2500);
-            }
-        });
-        
-        // Stage 3: Gmail check button
-        checkGmailBtn.addEventListener('click', function() {
-            const selectedGmailClues = Array.from(gmailClueCheckboxes)
-                .filter(checkbox => checkbox.checked)
-                .map(checkbox => checkbox.value);
-            
-            // Calculate score
-            const correctGmailClues = ['sender-domain', 'generic-greeting', 'urgency', 'payment-method', 'browser-link'];
-            
-            let score = 0;
-            
-            // Count correct clues
-            correctGmailClues.forEach(clue => {
-                if (selectedGmailClues.includes(clue)) {
-                    score++;
-                }
+            // Highlight urgency text
+            document.getElementById('clue2').parentNode.addEventListener('mouseenter', () => {
+                const urgencyElements = emailContent.querySelectorAll('p:nth-child(3), p:nth-child(6)');
+                urgencyElements.forEach(el => el.classList.add('highlight-suspicious'));
             });
             
-            // Maximum score is 5
-            const maxScore = 5;
-            const percentage = (score / maxScore) * 100;
-            
-            // Update PhishGuard's advice
-            updatePhishGuardAdvice('stage3-feedback', percentage, score, maxScore);
-            
-            // Mark stage as complete if score is good enough
-            if (percentage >= 70) {
-                phishingStagesCompleted[2] = true;
-                phishingStage3CompleteInput.value = "1";
-                
-                // Enable Stage 4 button
-                document.getElementById('phishing-stage4-btn').classList.remove('bg-gray-800/70', 'text-gray-400');
-                document.getElementById('phishing-stage4-btn').classList.add('bg-gradient-to-r', 'from-red-600', 'to-purple-600', 'text-white');
-                
-                // Update total score
-                updateTotalPhishingScore();
-                
-                // Auto navigate to next stage after delay
-                setTimeout(() => {
-                    navigateToPhishingStage(4);
-                }, 2500);
-            }
-        });
-        
-        // Stage 4: SMS check button
-        checkSmsBtn.addEventListener('click', function() {
-            const selectedSmsClues = Array.from(smsClueCheckboxes)
-                .filter(checkbox => checkbox.checked)
-                .map(checkbox => checkbox.value);
-            
-            const selectedSmsAction = Array.from(smsActionRadios)
-                .find(radio => radio.checked)?.value;
-            
-            // Calculate score
-            const correctSmsClues = ['short-codes', 'suspicious-urls', 'false-urgency', 'unexpected-prizes', 'personal-info'];
-            const correctSmsAction = 'ignore-report';
-            
-            let score = 0;
-            
-            // Count correct clues
-            correctSmsClues.forEach(clue => {
-                if (selectedSmsClues.includes(clue)) {
-                    score++;
-                }
+            document.getElementById('clue2').parentNode.addEventListener('mouseleave', () => {
+                const urgencyElements = emailContent.querySelectorAll('p:nth-child(3), p:nth-child(6)');
+                urgencyElements.forEach(el => el.classList.remove('highlight-suspicious'));
             });
             
-            // Check action
-            if (selectedSmsAction === correctSmsAction) {
-                score += 2; // Worth more points
-            }
+            // Highlight spelling errors
+            document.getElementById('clue3').parentNode.addEventListener('mouseenter', () => {
+                const spellingElements = emailContent.querySelectorAll('p:first-child, p:nth-child(4)');
+                spellingElements.forEach(el => el.classList.add('highlight-suspicious'));
+            });
             
-            // Maximum score is 7 (5 clues + 2 for action)
-            const maxScore = 7;
-            const percentage = (score / maxScore) * 100;
+            document.getElementById('clue3').parentNode.addEventListener('mouseleave', () => {
+                const spellingElements = emailContent.querySelectorAll('p:first-child, p:nth-child(4)');
+                spellingElements.forEach(el => el.classList.remove('highlight-suspicious'));
+            });
             
-            // Update PhishGuard's advice
-            updatePhishGuardAdvice('stage4-feedback', percentage, score, maxScore);
+            // Highlight prize text
+            document.getElementById('clue4').parentNode.addEventListener('mouseenter', () => {
+                const prizeElements = emailContent.querySelectorAll('p:nth-child(3)');
+                prizeElements.forEach(el => el.classList.add('highlight-suspicious'));
+            });
             
-            // Mark stage as complete if score is good enough
-            if (percentage >= 70) {
-                phishingStagesCompleted[3] = true;
-                phishingStage4CompleteInput.value = "1";
-                
-                // Enable Stage 5 button
-                document.getElementById('phishing-stage5-btn').classList.remove('bg-gray-800/70', 'text-gray-400');
-                document.getElementById('phishing-stage5-btn').classList.add('bg-gradient-to-r', 'from-red-600', 'to-purple-600', 'text-white');
-                
-                // Update total score
-                updateTotalPhishingScore();
-                
-                // Auto navigate to final test stage after delay
-                setTimeout(() => {
-                    navigateToPhishingStage(5);
-                }, 2500);
-            }
-        });
+            document.getElementById('clue4').parentNode.addEventListener('mouseleave', () => {
+                const prizeElements = emailContent.querySelectorAll('p:nth-child(3)');
+                prizeElements.forEach(el => el.classList.remove('highlight-suspicious'));
+            });
+            
+            // Highlight suspicious link
+            document.getElementById('clue5').parentNode.addEventListener('mouseenter', () => {
+                const linkElements = emailContent.querySelectorAll('.suspicious-link');
+                linkElements.forEach(el => el.classList.add('highlight-suspicious'));
+            });
+            
+            document.getElementById('clue5').parentNode.addEventListener('mouseleave', () => {
+                const linkElements = emailContent.querySelectorAll('.suspicious-link');
+                linkElements.forEach(el => el.classList.remove('highlight-suspicious'));
+            });
+        }
+    });
+</script>
+
+<style>
+    /* Email Challenge Code Style (similar to Secret Code page) */
+    .code-scanner {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .code-scanner::before {
+        content: '';
+        position: absolute;
+        top: -100%;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(to right, transparent, #10b981, transparent);
+        animation: scan 3s ease-in-out infinite;
+        box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+        z-index: 1;
+    }
+    
+    @keyframes scan {
+        0%, 100% { top: -10px; opacity: 0; }
+        25%, 75% { opacity: 1; }
+        50% { top: 100%; }
+    }
+    
+    /* Email scanner line */
+    .email-scanner-line {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(to right, transparent, #38bdf8, transparent);
+        box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+        z-index: 5;
+        pointer-events: none;
+        animation: emailScan 3s ease-in-out infinite;
+    }
+    
+    @keyframes emailScan {
+        0%, 100% { top: 0; opacity: 0; }
+        10%, 90% { opacity: 1; }
+        50% { top: 100%; }
+    }
+    
+    /* Cyber grid styling */
+    .cyber-grid-cell {
+        position: absolute;
+        border-radius: 2px;
+        transition: all 0.5s ease;
+    }
+    
+    .cyber-grid-cell-blue {
+        background-color: rgba(56, 189, 248, 0.4);
+        box-shadow: 0 0 5px rgba(56, 189, 248, 0.3);
+    }
+    
+    .cyber-grid-cell-green {
+        background-color: rgba(16, 185, 129, 0.4);
+        box-shadow: 0 0 5px rgba(16, 185, 129, 0.3);
+    }
+    
+    /* Typing animation */
+    .typing-container {
+        position: relative;
+    }
+    
+    /* Animation classes */
+    .hover-glow {
+        transition: box-shadow 0.3s ease, transform 0.2s ease;
+    }
+    
+    .hover-glow:hover {
+        box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+        transform: translateY(-2px);
+    }
+    
+    .bounce-subtle {
+        animation: bounce-subtle 3s ease-in-out infinite;
+    }
+    
+    @keyframes bounce-subtle {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+    
+    .pulse-subtle {
+        animation: pulse-subtle 2s infinite;
+    }
+    
+    @keyframes pulse-subtle {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.4); }
+        50% { box-shadow: 0 0 0 10px rgba(56, 189, 248, 0); }
+    }
+    
+    .hover-float {
+        transition: transform 0.3s ease;
+    }
+    
+    .hover-float:hover {
+        transform: translateY(-10px);
+    }
+    
+    /* Suspicious highlighting */
+    .highlight-suspicious {
+        background-color: rgba(239, 68, 68, 0.2);
+        color: #f87171;
+        transition: all 0.3s ease;
+        border-radius: 4px;
+        padding: 2px 4px;
+    }
+    
+    /* Cyber button styling */
+    .cyber-button {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .cyber-button-glitch {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, 
+            rgba(255,255,255,0) 0%, 
+            rgba(255,255,255,0.2) 25%, 
+            rgba(255,255,255,0.2) 50%, 
+            rgba(255,255,255,0) 100%);
+        animation: glitch-anim 3s infinite;
+    }
+    
+    @keyframes glitch-anim {
+        0% { left: -100%; }
+        100% { left: 100%; }
+    }
+    
+    /* Checkbox and radio styling */
+    .cyber-checkbox, .cyber-radio {
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(56, 189, 248, 0.4);
+        background-color: rgba(15, 23, 42, 0.8);
+        border-radius: 4px;
+        cursor: pointer;
+        position: relative;
+        outline: none;
+        transition: all 0.2s ease;
+    }
+    
+    .cyber-radio {
+        border-radius: 50%;
+    }
+    
+    .cyber-checkbox:checked, .cyber-radio:checked {
+        background-color: rgba(16, 185, 129, 0.8);
+        border-color: rgba(16, 185, 129, 0.6);
+    }
+    
+    .cyber-checkbox:checked::after {
+        content: '✓';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 14px;
+    }
+    
+    .cyber-radio:checked::after {
+    content: '';
+    position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 10px;
+        height: 10px;
+        background-color: white;
+        border-radius: 50%;
+    }
+    
+    .cyber-checkbox:hover, .cyber-radio:hover {
+        box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+    }
+    
+    .checkbox-wrapper:hover label, .radio-wrapper:hover label {
+        color: #38bdf8;
+    }
+    
+    /* Perspective for 3D effect */
+    .perspective {
+        perspective: 800px;
+}
+</style>
+@endif 
+
+<!-- Add animation for social media safety section -->
+<style>
+.social-badge-animate {
+    animation: pop-and-glow 1s ease-in-out;
+}
+
+@keyframes pop-and-glow {
+    0% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(59, 130, 246, 0.8)); }
+    50% { transform: scale(1.2); filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.8)); }
+    100% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.8)); }
+}
+</style>
+
+<!-- Social Media Safety Interactive Script -->
+<script>
+    // Add interactive elements for Social Media Safety section if it exists
+    document.addEventListener('DOMContentLoaded', function() {
+        const safetyPledgeBtn = document.getElementById('safety-pledge-btn');
         
-        // Stage 5: Final Test check answers button
-        checkTestAnswersBtn.addEventListener('click', function() {
-            let correctAnswers = 0;
-            
-            // Check each question against the correct answers
-            for (let i = 1; i <= 10; i++) {
-                const questionRadios = document.querySelectorAll(`input[name="q${i}"]`);
-                const selectedAnswer = Array.from(questionRadios).find(radio => radio.checked)?.value;
+        if (safetyPledgeBtn) {
+            safetyPledgeBtn.addEventListener('click', function() {
+                // Create a safety badge element
+                const badgeContainer = document.createElement('div');
+                badgeContainer.className = 'fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-gradient-to-r from-blue-900 to-purple-900 p-8 rounded-2xl border-4 border-yellow-400 shadow-2xl animate__animated animate__zoomIn text-center';
                 
-                if (selectedAnswer === correctTestAnswers[`q${i}`]) {
-                    correctAnswers++;
+                badgeContainer.innerHTML = `
+                    <div class="mb-4">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2526/2526496.png" alt="Safety Badge" class="h-32 mx-auto social-badge-animate">
+                                        </div>
+                    <h3 class="text-yellow-300 text-2xl font-bold mb-2">Congratulations!</h3>
+                    <p class="text-white mb-4">You're now a Social Media Safety Champion!</p>
+                    <button id="close-badge" class="px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700">Continue My Mission</button>
+                `;
+                
+                document.body.appendChild(badgeContainer);
+                
+                // Add confetti effect
+                const confettiColors = ['#3b82f6', '#8b5cf6', '#ec4899', '#fbbf24'];
+                for (let i = 0; i < 50; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'absolute w-3 h-3 rounded-full';
+                    confetti.style.backgroundColor = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+                    confetti.style.top = `${Math.random() * 100}%`;
+                    confetti.style.left = `${Math.random() * 100}%`;
+                    confetti.style.opacity = Math.random();
+                    confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+                    badgeContainer.appendChild(confetti);
                 }
-            }
-            
-            // Calculate percentage
-            const percentage = (correctAnswers / 10) * 100;
-            
-            // Update villain power meter
-            const newPowerLevel = 100 - (correctAnswers * 10);
-            villainPowerMeter.style.width = `${newPowerLevel}%`;
-            villainPower.textContent = `${newPowerLevel}%`;
-            
-            // Update the results modal
-            resultsPercentage.textContent = `${percentage}%`;
-            resultsCorrect.textContent = correctAnswers;
-            
-            // Animate the results circle
-            const circumference = 2 * Math.PI * 45; // r = 45
-            const offset = circumference - (percentage / 100) * circumference;
-            resultsCircle.style.strokeDasharray = `${circumference} ${circumference}`;
-            resultsCircle.style.strokeDashoffset = offset;
-            
-            // Set the message based on score
-            if (percentage >= 90) {
-                resultsMessage.textContent = "Amazing! You've mastered phishing detection. Captain Clickbait is no match for your cyber security skills!";
-                resultsMessage.classList.add('bg-green-900/40', 'border-green-500/30');
-            } else if (percentage >= 70) {
-                resultsMessage.textContent = "Good job! You've learned a lot about phishing detection. Keep practicing to become even better!";
-                resultsMessage.classList.add('bg-blue-900/40', 'border-blue-500/30');
-            } else if (percentage >= 50) {
-                resultsMessage.textContent = "You're making progress! With more practice, you'll get better at spotting phishing attempts.";
-                resultsMessage.classList.add('bg-yellow-900/40', 'border-yellow-500/30');
-            } else {
-                resultsMessage.textContent = "Don't worry! Phishing can be tricky. Review the lessons and try again to improve your detection skills.";
-                resultsMessage.classList.add('bg-red-900/40', 'border-red-500/30');
-            }
-            
-            // Save score to form input
-            phishingTestScoreInput.value = correctAnswers;
-            
-            // Mark stage as complete
-            phishingStagesCompleted[4] = true;
-            phishingStage5CompleteInput.value = "1";
-            
-            // Update total score
-            updateTotalPhishingScore();
-            
-            // Show the results modal
-            testResultsModal.classList.remove('hidden');
-            testResultsModal.classList.add('animate__animated', 'animate__fadeIn');
+                
+                // Close button functionality
+                document.getElementById('close-badge').addEventListener('click', function() {
+                    badgeContainer.classList.remove('animate__zoomIn');
+                    badgeContainer.classList.add('animate__zoomOut');
+                    setTimeout(() => {
+                        document.body.removeChild(badgeContainer);
+                    }, 500);
+                });
+                
+                // Add CSS animation for confetti
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes fall {
+                        0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+                        100% { transform: translateY(500px) rotate(360deg); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            });
+        }
+    });
+</script>
+
+<!-- Social Media Mayhem Scripts -->
+<script>
+    // Execute when DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        // Only run this code if on Social Media Mayhem mission
+        if (!document.getElementById('social-stage1')) return;
+        
+        // Element references
+        const socialStageBtns = document.querySelectorAll('.social-stage-btn');
+        const socialStages = document.querySelectorAll('.social-stage');
+        const progressBar = document.getElementById('mission-progress-bar');
+        const progressText = document.getElementById('mission-progress-text');
+        const submitBtn = document.getElementById('submit-social-media-mission');
+        
+        // Form inputs
+        const completeInput = document.getElementById('social_media_complete');
+        const scoreInput = document.getElementById('social_media_score');
+        const spotFakeInput = document.getElementById('social_spot_fake_complete');
+        const mazeInput = document.getElementById('social_maze_complete');
+        const chatInput = document.getElementById('social_chat_complete');
+        
+        // Track completion status
+        const stagesCompleted = [false, false, false];
+        
+        // Navigation between stages
+        socialStageBtns.forEach((btn, index) => {
+            btn.addEventListener('click', () => navigateToStage(index + 1));
         });
         
-        // Close results button
-        closeResultsBtn.addEventListener('click', function() {
-            testResultsModal.classList.add('animate__fadeOut');
-            setTimeout(() => {
-                testResultsModal.classList.add('hidden');
-                testResultsModal.classList.remove('animate__fadeOut');
-            }, 300);
-        });
-        
-        // Complete test button
-        completeTestBtn.addEventListener('click', function() {
-            // Close the modal
-            testResultsModal.classList.add('hidden');
-            
-            // Enable and show the submission button
-            submitPhishingMissionBtn.classList.remove('hidden');
-            submitPhishingMissionBtn.disabled = false;
-            
-            // Scroll to the submit button
-            submitPhishingMissionBtn.scrollIntoView({ behavior: 'smooth' });
-        });
-        
-        // Helper function to navigate between stages
-        function navigateToPhishingStage(stageNumber) {
-            currentPhishingStage = stageNumber;
-            
-            // Update stage buttons
-            phishingStageBtns.forEach((btn, index) => {
-                if (index + 1 === stageNumber) {
-                    btn.classList.add('active', 'bg-gradient-to-r', 'from-red-600', 'to-purple-600', 'text-white');
+        function navigateToStage(stageNum) {
+            // Update button styles
+            socialStageBtns.forEach((btn, i) => {
+                if (i + 1 === stageNum) {
+                    btn.classList.add('active', 'bg-gradient-to-r', 'from-purple-600', 'to-blue-600', 'text-white');
                     btn.classList.remove('bg-gray-800/70', 'text-gray-400');
                 } else {
                     btn.classList.remove('active');
-                    
-                    // If this stage is completed, keep its colored style
-                    if (phishingStagesCompleted[index]) {
-                        btn.classList.add('bg-gradient-to-r', 'from-red-600', 'to-purple-600', 'text-white');
+                    // Keep colored style if completed
+                    if (stagesCompleted[i]) {
+                        btn.classList.add('bg-gradient-to-r', 'from-purple-600', 'to-blue-600', 'text-white');
                         btn.classList.remove('bg-gray-800/70', 'text-gray-400');
                     } else {
-                        btn.classList.remove('bg-gradient-to-r', 'from-red-600', 'to-purple-600', 'text-white');
+                        btn.classList.remove('bg-gradient-to-r', 'from-purple-600', 'to-blue-600', 'text-white');
                         btn.classList.add('bg-gray-800/70', 'text-gray-400');
                     }
                 }
             });
             
-            // Show the correct stage
-            phishingStages.forEach((stage, index) => {
-                if (index + 1 === stageNumber) {
+            // Show selected stage, hide others
+            socialStages.forEach((stage, i) => {
+                if (i + 1 === stageNum) {
                     stage.classList.remove('hidden');
                     stage.classList.add('active', 'animate__animated', 'animate__fadeIn');
                 } else {
@@ -3426,158 +2916,901 @@
                     stage.classList.remove('active', 'animate__animated', 'animate__fadeIn');
                 }
             });
+        }
+        
+        // Update progress indicators
+        function updateProgress() {
+            const count = stagesCompleted.filter(Boolean).length;
+            const percentage = (count / 3) * 100;
             
-            // Update PhishGuard's advice
-            updatePhishGuardStageAdvice(stageNumber);
+            progressBar.style.width = `${percentage}%`;
+            progressText.textContent = `${count}/3 Challenges`;
             
-            // If entering final test stage, show Captain Clickbait introduction with animation
-            if (stageNumber === 5) {
-                // Animate villain power meter to 100%
-                villainPowerMeter.style.width = '100%';
-                villainPower.textContent = '100%';
+            // Update score and check for completion
+            scoreInput.value = count;
+            
+            if (count === 3) {
+                completeInput.value = "1";
+                submitBtn.classList.remove('hidden');
+                submitBtn.disabled = false;
             }
         }
         
-        // Update PhishGuard's advice based on the stage
-        function updatePhishGuardStageAdvice(stage) {
-            const assistantContainer = phishingAssistantText.closest('.flex');
-            assistantContainer.classList.remove('animate__animated', 'animate__bounce', 'animate__tada', 'animate__shakeX');
+        // === SPOT THE FAKE QUIZ GAME ===
+        if (document.getElementById('spot-fake-quiz-container')) {
+            const quizCard = document.getElementById('current-quiz-card');
+            const quizResults = document.getElementById('quiz-results');
+            const questionNum = document.getElementById('current-question-num');
+            const scoreDisplay = document.getElementById('current-score');
+            const postText = document.getElementById('post-text');
+            const postImage = document.getElementById('post-image');
+            const submitAnswerBtn = document.getElementById('submit-answer');
+            const feedback = document.getElementById('answer-feedback');
+            const feedbackIcon = document.getElementById('feedback-icon');
+            const feedbackTitle = document.getElementById('feedback-title');
+            const feedbackMsg = document.getElementById('feedback-message');
+            const redFlagsList = document.getElementById('red-flags-list');
+            const nextBtn = document.getElementById('next-question');
+            const scorePercent = document.getElementById('score-percent');
+            const finalScore = document.getElementById('final-score');
+            const scoreMessage = document.getElementById('score-message');
+            const badgeEarned = document.getElementById('badge-earned');
+            const retryBtn = document.getElementById('retry-quiz');
+            const completeBtn = document.getElementById('complete-spot-fake');
             
-            switch(stage) {
-                case 1:
-                    phishingAssistantText.textContent = "Hi there! I'm PhishGuard! I'll help you spot tricky emails and messages that might be trying to steal your information. Let's learn how to stay safe online!";
-                    assistantContainer.classList.add('animate__animated', 'animate__bounce');
-                    break;
-                case 2:
-                    phishingAssistantText.textContent = "Great job on the basics! Now let's look at a tricky Outlook email. Microsoft account security emails are often faked by scammers. Can you spot the signs?";
-                    assistantContainer.classList.add('animate__animated', 'animate__bounce');
-                    break;
-                case 3:
-                    phishingAssistantText.textContent = "You're getting good at this! PayPal is another company scammers love to imitate. Let's see if you can spot the tricks in this Gmail message.";
-                    assistantContainer.classList.add('animate__animated', 'animate__bounce');
-                    break;
-                case 4:
-                    phishingAssistantText.textContent = "Time for a new challenge! Phishing doesn't just happen in emails - text messages (SMS) can also contain scams. These are called 'smishing' attacks!";
-                    assistantContainer.classList.add('animate__animated', 'animate__bounce');
-                    break;
-                case 5:
-                    phishingAssistantText.textContent = "You've learned the basics of spotting phishing! Now it's time to face Captain Clickbait's final test. Answer the questions to show how much you've learned!";
-                    assistantContainer.classList.add('animate__animated', 'animate__tada');
-                    break;
+            // Quiz data
+            let currentQuestion = 0;
+            let score = 0;
+            const questions = [
+                {
+                    text: "Hey everyone! I just got accepted into this awesome gaming group! They're giving away FREE gaming consoles to the first 100 kids who join! All I had to do was share my home address and my parents' email. Can't wait to get my prize! Join now at gamingprizes4kids.com!",
+                    image: "https://cdn-icons-png.flaticon.com/512/5778/5778578.png",
+                    isReal: false,
+                    redFlags: [
+                        "Asking for personal information (home address)",
+                        "Requesting parent's email from children",
+                        "Offering expensive free prizes (gaming consoles)",
+                        "Using a suspicious website (not an official gaming company)",
+                        "Creating urgency with 'first 100 kids'"
+                    ]
+                },
+                {
+                    text: "Just finished my school project about space! I learned so much about the planets and stars. Check out the model of the solar system I made with my dad! #Science #Space #SchoolProject",
+                    image: "https://cdn-icons-png.flaticon.com/512/3074/3074621.png",
+                    isReal: true,
+                    redFlags: []
+                },
+                {
+                    text: "URGENT MESSAGE: Your account has been selected for a special reward! You have been chosen to test the newest iPhone 15 Pro Max and keep it for FREE! Click here to claim: testnewiphone-free.com/claim",
+                    image: "https://cdn-icons-png.flaticon.com/512/644/644458.png",
+                    isReal: false,
+                    redFlags: [
+                        "Creating urgency with 'URGENT MESSAGE'",
+                        "Offering expensive free products",
+                        "Using a suspicious website (not Apple's official website)",
+                        "Too good to be true offer (test and keep a new iPhone)",
+                        "Prompting immediate action with 'Click here to claim'"
+                    ]
+                },
+                {
+                    text: "Had so much fun at the school science fair today! Our team won second place with our volcano project. Thanks to Ms. Johnson for being an awesome science teacher! #ScienceFair #SchoolFun",
+                    image: "https://cdn-icons-png.flaticon.com/512/2646/2646083.png",
+                    isReal: true,
+                    redFlags: []
+                },
+                {
+                    text: "I'm giving away my Roblox password to the first 5 people who message me! I have rare items and lots of Robux! You just need to send me your username and password first so I can check if you're eligible!",
+                    image: "https://cdn-icons-png.flaticon.com/512/681/681494.png",
+                    isReal: false,
+                    redFlags: [
+                        "Offering to share account passwords (major security risk)",
+                        "Asking others for their passwords",
+                        "Creating urgency with 'first 5 people'",
+                        "Breaking platform rules (sharing accounts is against terms of service)",
+                        "Suspicious exchange of sensitive information"
+                    ]
+                }
+            ];
+            
+            // Initialize quiz
+            function initQuiz() {
+                currentQuestion = 0;
+                score = 0;
+                loadQuestion();
+                scoreDisplay.textContent = score;
+                quizResults.classList.add('hidden');
+                quizCard.classList.remove('hidden');
+            }
+            
+            // Load current question
+            function loadQuestion() {
+                const q = questions[currentQuestion];
+                questionNum.textContent = currentQuestion + 1;
+                postText.textContent = q.text;
+                postImage.src = q.image;
+                
+                // Reset radio buttons
+                document.querySelectorAll('input[name="quiz-answer"]').forEach(radio => {
+                    radio.checked = false;
+                });
+                
+                feedback.classList.add('hidden');
+                document.getElementById('answer-options').classList.remove('hidden');
+                submitAnswerBtn.classList.remove('hidden');
+            }
+            
+            // Check answer
+            function checkAnswer() {
+                const selected = document.querySelector('input[name="quiz-answer"]:checked')?.value;
+                if (!selected) return;
+                
+                const q = questions[currentQuestion];
+                const isCorrect = (selected === "real" && q.isReal) || (selected === "fake" && !q.isReal);
+                
+                // Hide options, show feedback
+                document.getElementById('answer-options').classList.add('hidden');
+                submitAnswerBtn.classList.add('hidden');
+                feedback.classList.remove('hidden');
+                
+                if (isCorrect) {
+                    score++;
+                    scoreDisplay.textContent = score;
+                    
+                    feedbackIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>';
+                    feedbackIcon.className = 'w-10 h-10 rounded-full bg-green-900/50 flex items-center justify-center flex-shrink-0 mr-3';
+                    
+                    if (q.isReal) {
+                        feedbackTitle.textContent = 'Correct! This is a real post.';
+                        feedbackTitle.className = 'font-bold text-lg mb-2 text-green-400';
+                        feedbackMsg.textContent = 'This post shows normal social activity and doesn\'t ask for personal information or contain suspicious links.';
+                    } else {
+                        feedbackTitle.textContent = 'Correct! This is a fake post.';
+                        feedbackTitle.className = 'font-bold text-lg mb-2 text-green-400';
+                        feedbackMsg.textContent = 'Great job spotting this fake! Profile Phantom created this to try to trick people.';
+                    }
+                } else {
+                    feedbackIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>';
+                    feedbackIcon.className = 'w-10 h-10 rounded-full bg-red-900/50 flex items-center justify-center flex-shrink-0 mr-3';
+                    
+                    if (q.isReal) {
+                        feedbackTitle.textContent = 'Incorrect. This is actually a real post.';
+                        feedbackTitle.className = 'font-bold text-lg mb-2 text-red-400';
+                        feedbackMsg.textContent = 'This post shows normal social activity and doesn\'t contain any warning signs of being fake.';
+                    } else {
+                        feedbackTitle.textContent = 'Incorrect. This is a fake post.';
+                        feedbackTitle.className = 'font-bold text-lg mb-2 text-red-400';
+                        feedbackMsg.textContent = 'Profile Phantom created this fake post to trick people. Look at the red flags below to learn what to watch for.';
+                    }
+                }
+                
+                // Show red flags
+                redFlagsList.innerHTML = '';
+                if (!q.isReal) {
+                    q.redFlags.forEach(flag => {
+                        const li = document.createElement('li');
+                        li.textContent = flag;
+                        li.className = 'text-red-300';
+                        redFlagsList.appendChild(li);
+                    });
+                } else {
+                    redFlagsList.innerHTML = '<li class="text-green-300">No red flags! This is a safe post.</li>';
+                }
+            }
+            
+            // Show results
+            function showResults() {
+                quizCard.classList.add('hidden');
+                quizResults.classList.remove('hidden');
+                
+                const percentage = (score / questions.length) * 100;
+                scorePercent.textContent = `${percentage}%`;
+                finalScore.textContent = score;
+                
+                // Animate score circle
+                const circumference = 2 * Math.PI * 45;
+                const offset = circumference - (percentage / 100) * circumference;
+                const scoreCircle = document.getElementById('score-circle');
+                scoreCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+                scoreCircle.style.strokeDashoffset = offset;
+                
+                // Set message
+                if (percentage >= 80) {
+                    scoreMessage.innerHTML = '<p class="text-green-300 font-bold">Amazing!</p><p class="text-white">You\'re a social media detective! You can easily spot Profile Phantom\'s tricks!</p>';
+                    
+                    // Show badge for high scores
+                    badgeEarned.classList.remove('hidden');
+                    
+                    // Mark stage complete
+                    stagesCompleted[0] = true;
+                    spotFakeInput.value = "1";
+                    updateProgress();
+                    
+                    // Update UI
+                    socialStageBtns[0].classList.remove('bg-gray-800/70', 'text-gray-400');
+                    socialStageBtns[0].classList.add('bg-gradient-to-r', 'from-purple-600', 'to-blue-600', 'text-white');
+                } else if (percentage >= 60) {
+                    scoreMessage.innerHTML = '<p class="text-blue-300 font-bold">Good job!</p><p class="text-white">You caught most of the fake posts. With a bit more practice, you\'ll be an expert!</p>';
+                    badgeEarned.classList.add('hidden');
+                } else {
+                    scoreMessage.innerHTML = '<p class="text-yellow-300 font-bold">Keep practicing!</p><p class="text-white">Spotting fakes can be tricky. Try the quiz again to improve your detection skills!</p>';
+                    badgeEarned.classList.add('hidden');
+                }
+            }
+            
+            // Event listeners
+            submitAnswerBtn.addEventListener('click', checkAnswer);
+            nextBtn.addEventListener('click', function() {
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                    loadQuestion();
+                } else {
+                    showResults();
+                }
+            });
+            retryBtn.addEventListener('click', initQuiz);
+            completeBtn.addEventListener('click', function() {
+                navigateToStage(2);
+            });
+            
+            // Start quiz
+            initQuiz();
+        }
+        
+        // Add demo completion buttons for all games
+        const demoButtons = [
+            { id: 'complete-spot-fake', stage: 0, input: spotFakeInput },
+            { id: 'complete-hacker-maze', stage: 1, input: mazeInput },
+            { id: 'complete-chat-sim', stage: 2, input: chatInput }
+        ];
+        
+        demoButtons.forEach(button => {
+            const container = stages[button.stage].querySelector('.text-center');
+            
+            if (container) {
+                // Check if a complete button already exists
+                const existingBtn = container.querySelector('[data-complete-btn="true"]');
+                if (existingBtn) return; // Skip if button already exists
+                
+                const demoBtn = document.createElement('button');
+                demoBtn.setAttribute('data-complete-btn', 'true');
+                demoBtn.className = 'mt-6 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold rounded-lg shadow-lg transition-all transform hover:scale-105 shadow-purple-500/20';
+                demoBtn.innerHTML = '<span class="flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>Complete Challenge</span>';
+                
+                demoBtn.addEventListener('click', function() {
+                    stagesCompleted[button.stage] = true;
+                    button.input.value = "1";
+                    updateProgress();
+                    
+                    stageBtns[button.stage].classList.remove('bg-gray-800/70', 'text-gray-400');
+                    stageBtns[button.stage].classList.add('bg-gradient-to-r', 'from-purple-600', 'to-blue-600', 'text-white');
+                    
+                    this.disabled = true;
+                    this.innerHTML = '<span class="flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>Completed!</span>';
+                    this.className = 'mt-6 px-6 py-3 bg-green-600 text-white font-bold rounded-lg cursor-not-allowed';
+                    
+                    // Add automatic navigation to next stage when a stage is completed
+                    if (button.stage === 0) {
+                        // If Spot the Fake is completed, move to Hacker Maze
+                        setTimeout(() => showStage(2), 1000);
+                    } else if (button.stage === 1) {
+                        // If Hacker Maze is completed, move to Chat Simulation
+                        setTimeout(() => showStage(3), 1000);
+                    }
+                });
+                
+                container.appendChild(demoBtn);
+            }
+        });
+    });
+</script>
+
+<script>
+    // Social Media Mayhem script
+    document.addEventListener('DOMContentLoaded', function() {
+        // Only run on Social Media Mayhem page
+        if (!document.getElementById('social-stage1')) return;
+        
+        // Get UI elements
+        const stageBtns = document.querySelectorAll('.social-stage-btn');
+        const stages = document.querySelectorAll('.social-stage');
+        const progressBar = document.getElementById('mission-progress-bar');
+        const progressText = document.getElementById('mission-progress-text');
+        const submitBtn = document.getElementById('submit-social-media-mission');
+        
+        // Form inputs
+        const completeInput = document.getElementById('social_media_complete');
+        const scoreInput = document.getElementById('social_media_score');
+        const spotFakeInput = document.getElementById('social_spot_fake_complete');
+        const mazeInput = document.getElementById('social_maze_complete');
+        const chatInput = document.getElementById('social_chat_complete');
+        
+        // Track completion status
+        const stagesCompleted = [false, false, false];
+        
+        // Navigation
+        stageBtns.forEach((btn, index) => {
+            btn.addEventListener('click', function() {
+                showStage(index + 1);
+            });
+        });
+        
+        function showStage(num) {
+            // Update buttons
+            stageBtns.forEach((btn, i) => {
+                if (i + 1 === num) {
+                    btn.classList.add('active', 'bg-gradient-to-r', 'from-purple-600', 'to-blue-600', 'text-white');
+                    btn.classList.remove('bg-gray-800/70', 'text-gray-400');
+                } else {
+                    btn.classList.remove('active');
+                    
+                    if (stagesCompleted[i]) {
+                        btn.classList.add('bg-gradient-to-r', 'from-purple-600', 'to-blue-600', 'text-white');
+                        btn.classList.remove('bg-gray-800/70', 'text-gray-400');
+                    } else {
+                        btn.classList.remove('bg-gradient-to-r', 'from-purple-600', 'to-blue-600', 'text-white');
+                        btn.classList.add('bg-gray-800/70', 'text-gray-400');
+                    }
+                }
+            });
+            
+            // Show stage
+            stages.forEach((stage, i) => {
+                if (i + 1 === num) {
+                    stage.classList.remove('hidden');
+                } else {
+                    stage.classList.add('hidden');
+                }
+            });
+        }
+        
+        // Update progress
+        function updateProgress() {
+            const count = stagesCompleted.filter(Boolean).length;
+            const percentage = (count / 3) * 100;
+            
+            progressBar.style.width = `${percentage}%`;
+            progressText.textContent = `${count}/3 Challenges`;
+            
+            scoreInput.value = count;
+            
+            if (count === 3) {
+                completeInput.value = "1";
+                submitBtn.classList.remove('hidden');
+                submitBtn.disabled = false;
             }
         }
         
-        // Update PhishGuard's advice based on score
-        function updatePhishGuardAdvice(stage, percentage, score, maxScore) {
-            const assistantContainer = phishingAssistantText.closest('.flex');
-            assistantContainer.classList.remove('animate__animated', 'animate__bounce', 'animate__tada', 'animate__shakeX');
-            
-            if (percentage >= 90) {
-                phishingAssistantText.textContent = `Amazing job! You found ${score} out of ${maxScore} clues! You're a cyber detective! 🕵️‍♂️`;
-                assistantContainer.classList.add('animate__animated', 'animate__tada');
-            } else if (percentage >= 70) {
-                phishingAssistantText.textContent = `Good work! You found ${score} out of ${maxScore} clues. You're getting really good at spotting phishing!`;
-                assistantContainer.classList.add('animate__animated', 'animate__bounce');
-            } else if (percentage >= 50) {
-                phishingAssistantText.textContent = `You found ${score} out of ${maxScore} clues. Let's try to find more of the warning signs next time!`;
-                assistantContainer.classList.add('animate__animated', 'animate__bounce');
-            } else {
-                phishingAssistantText.textContent = `You found ${score} out of ${maxScore} clues. Phishing can be tricky! Take another look at the message and try again.`;
-                assistantContainer.classList.add('animate__animated', 'animate__shakeX');
-            }
+        // Fix for the "Continue to Next Challenge" button in Spot the Fake quiz
+        const completeSpotFakeBtn = document.getElementById('complete-spot-fake');
+        if (completeSpotFakeBtn) {
+            completeSpotFakeBtn.addEventListener('click', function() {
+                // Navigate to Hacker Maze (second stage)
+                showStage(2);
+            });
         }
         
-        // Calculate total score across all stages and test
-        function updateTotalPhishingScore() {
-            let totalScore = 0;
+        // Add functionality for the Escape the Hacker Maze game
+        const btnStart = document.getElementById('btn-start');
+        const btnPause = document.getElementById('btn-pause');
+        const btnJump = document.getElementById('btn-jump');
+        const player = document.getElementById('player');
+        const gameOverScreen = document.getElementById('game-over-screen');
+        const levelComplete = document.getElementById('level-complete');
+        const btnRetry = document.getElementById('btn-retry');
+        const btnContinue = document.getElementById('btn-continue');
+        
+        if (btnStart && player) {
+            let isGameRunning = false;
+            let score = 0;
+            let level = 1;
             
-            // Add scores for each completed stage
-            if (phishingStagesCompleted[0]) totalScore += 6;
-            if (phishingStagesCompleted[1]) totalScore += 5;
-            if (phishingStagesCompleted[2]) totalScore += 5;
-            if (phishingStagesCompleted[3]) totalScore += 7;
+            function updateGameUI() {
+                // Update score and level display
+                document.getElementById('game-score').textContent = score;
+                document.getElementById('game-level').textContent = level;
+            }
             
-            // Add test score if available (up to 10 points)
-            const testScore = parseInt(phishingTestScoreInput.value) || 0;
-            totalScore += testScore;
+            function startGame() {
+                isGameRunning = true;
+                btnStart.classList.add('hidden');
+                btnPause.classList.remove('hidden');
+                gameOverScreen.classList.add('hidden');
+                
+                // Simple animation to show the game is running
+                player.classList.add('animate__animated', 'animate__bounce');
+                
+                // Add space bar control for jump
+                document.addEventListener('keydown', function(e) {
+                    if (e.code === 'Space' && isGameRunning) {
+                        jumpPlayer();
+                    }
+                });
+                
+                updateGameUI();
+            }
             
-            // Set the total score in the form
-            totalPhishingScoreInput.value = totalScore;
+            function pauseGame() {
+                isGameRunning = false;
+                btnPause.classList.add('hidden');
+                btnStart.textContent = 'Resume Game';
+                btnStart.classList.remove('hidden');
+            }
+            
+            function jumpPlayer() {
+                if (!isGameRunning) return;
+                
+                player.classList.remove('animate__bounce');
+                player.classList.add('animate__animated', 'animate__bounceUp');
+                
+                setTimeout(() => {
+                    player.classList.remove('animate__bounceUp');
+                    if (isGameRunning) {
+                        player.classList.add('animate__bounce');
+                    }
+                }, 500);
+                
+                // Increase score
+                score += 10;
+                updateGameUI();
+                
+                // Check if level complete
+                if (score >= 100) {
+                    completeLevel();
+                }
+            }
+            
+            function completeLevel() {
+                isGameRunning = false;
+                levelComplete.classList.remove('hidden');
+            }
+            
+            // Event listeners
+            btnStart.addEventListener('click', startGame);
+            btnPause.addEventListener('click', pauseGame);
+            btnJump.addEventListener('click', jumpPlayer);
+            btnRetry.addEventListener('click', function() {
+                score = 0;
+                level = 1;
+                gameOverScreen.classList.add('hidden');
+                startGame();
+            });
+            
+            btnContinue.addEventListener('click', function() {
+                levelComplete.classList.add('hidden');
+                
+                // Mark the maze game as complete
+                stagesCompleted[1] = true;
+                mazeInput.value = "1";
+                updateProgress();
+                
+                // Update UI
+                stageBtns[1].classList.remove('bg-gray-800/70', 'text-gray-400');
+                stageBtns[1].classList.add('bg-gradient-to-r', 'from-purple-600', 'to-blue-600', 'text-white');
+                
+                // Navigate to chat simulation (stage 3)
+                setTimeout(() => showStage(3), 1000);
+            });
         }
     });
 </script>
 
-<style>
-/* Villain animation effects */
-@keyframes pulse-slow {
-    0% {
-        transform: scale(1);
-        opacity: 1;
-    }
-    50% {
-        transform: scale(1.05);
-        opacity: 0.9;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
+<!-- Type PhishGuard's welcome message -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Type PhishGuard's welcome message
+        const phishingAssistantText = document.getElementById('phishing-assistant-text');
+        if (phishingAssistantText) {
+            const welcomeMessage = "Hi there! I'm PhishGuard! I'll help you spot tricky emails and messages that might be trying to steal your information. Let's learn how to stay safe online!";
+            let charIndex = 0;
+            
+            function typeWelcomeMessage() {
+                if (charIndex < welcomeMessage.length) {
+                    phishingAssistantText.textContent += welcomeMessage.charAt(charIndex);
+                    charIndex++;
+                    setTimeout(typeWelcomeMessage, 30);
+                }
+            }
+            
+            // Start typing animation
+            typeWelcomeMessage();
+        }
+        
+        // Code rain animation for email challenge (similar to Secret Code page)
+        const emailCodeRainCanvas = document.getElementById('email-code-rain');
+        if (emailCodeRainCanvas) {
+            const ctx = emailCodeRainCanvas.getContext('2d');
+            
+            // Set canvas dimensions
+            function resizeCanvas() {
+                emailCodeRainCanvas.width = emailCodeRainCanvas.parentElement.offsetWidth;
+                emailCodeRainCanvas.height = emailCodeRainCanvas.parentElement.offsetHeight;
+            }
+            
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            
+            // Matrix rain effect
+            const fontSize = 12;
+            const columns = Math.floor(emailCodeRainCanvas.width / fontSize);
+            const drops = [];
+            
+            // Initialize drops
+            for (let i = 0; i < columns; i++) {
+                drops[i] = Math.floor(Math.random() * -100);
+            }
+            
+            // Characters to display
+            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンабвгдеёжзийклмнопрстуфхцчшщъыьэюя';
+            
+            function draw() {
+                // Semi-transparent black to create fade effect
+                ctx.fillStyle = 'rgba(15, 23, 42, 0.05)';
+                ctx.fillRect(0, 0, emailCodeRainCanvas.width, emailCodeRainCanvas.height);
+                
+                // Set text color and font
+                ctx.font = `${fontSize}px monospace`;
+                
+                // Draw characters
+                for (let i = 0; i < drops.length; i++) {
+                    // Random character
+                    const text = chars[Math.floor(Math.random() * chars.length)];
+                    
+                    // Different shades of green/blue for matrix effect
+                    const gradient = Math.random();
+                    if (gradient < 0.7) {
+                        ctx.fillStyle = 'rgba(16, 185, 129, 0.6)'; // Teal (primary color from Secret Code)
+                    } else {
+                        ctx.fillStyle = 'rgba(20, 184, 166, 0.5)'; // Lighter teal shade
+                    }
+                    
+                    // Draw the character
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    
+                    // Move drops down and reset when off the screen
+                    drops[i]++;
+                    
+                    // Random reset to create varied rain effect
+                    if (drops[i] * fontSize > emailCodeRainCanvas.height && Math.random() > 0.975) {
+                        drops[i] = Math.floor(Math.random() * -20);
+                    }
+                }
+            }
+            
+            // Animation loop
+            setInterval(draw, 50);
+        }
+        
+        // Create cybersecurity grid effect
+        const cyberGrid = document.querySelector('.cyber-grid');
+        if (cyberGrid) {
+            const gridSize = 20;
+            const rows = Math.ceil(cyberGrid.parentElement.offsetHeight / gridSize);
+            const cols = Math.ceil(cyberGrid.parentElement.offsetWidth / gridSize);
+            
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
+                    // Create grid cell with random chance to be visible
+                    if (Math.random() > 0.85) {
+                        const cell = document.createElement('div');
+                        cell.classList.add('cyber-grid-cell');
+                        cell.style.top = `${i * gridSize}px`;
+                        cell.style.left = `${j * gridSize}px`;
+                        cell.style.width = `${gridSize - 2}px`;
+                        cell.style.height = `${gridSize - 2}px`;
+                        cell.style.opacity = Math.random() * 0.2 + 0.1;
+                        
+                        // Randomly choose color
+                        const colorClass = Math.random() > 0.5 ? 'cyber-grid-cell-blue' : 'cyber-grid-cell-green';
+                        cell.classList.add(colorClass);
+                        
+                        cyberGrid.appendChild(cell);
+                    }
+                }
+            }
+        }
+        
+        // Add hover effects to email content when hovering over checkboxes
+        const email = document.querySelector('.email-content');
+        if (email) {
+            // Add suspicious link hover effect
+            const suspiciousLink = email.querySelector('.suspicious-link');
+            if (suspiciousLink) {
+                suspiciousLink.addEventListener('mouseover', function() {
+                    this.style.boxShadow = '0 0 15px rgba(239, 68, 68, 0.6)';
+                });
+                
+                suspiciousLink.addEventListener('mouseout', function() {
+                    this.style.boxShadow = 'none';
+                });
+            }
+            
+            // Highlight urgent text with hover
+            const urgentTexts = email.querySelectorAll('p:nth-child(1), p:nth-child(3), p:nth-child(6)');
+            urgentTexts.forEach(text => {
+                text.classList.add('hover:text-danger-300', 'transition-colors', 'duration-300');
+            });
+        }
+    });
+</script>
 
-.animate-pulse-slow {
-    animation: pulse-slow 3s ease-in-out infinite;
-}
+<!-- Script to handle the "Check My Answers" button for phishing email challenge -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle "Check My Answers" button functionality for the phishing email challenge
+        const checkBasicsBtn = document.getElementById('check-basics');
+        if (checkBasicsBtn) {
+            checkBasicsBtn.addEventListener('click', function() {
+                // Get selected clues
+                const selectedClues = Array.from(document.querySelectorAll('input[name="clues[]"]:checked'))
+                    .map(checkbox => checkbox.value);
+                
+                // Get selected action
+                const selectedAction = document.querySelector('input[name="action"]:checked')?.value;
+                
+                // Check if user has selected clues and an action
+                if (selectedClues.length === 0 || !selectedAction) {
+                    alert('Please identify the suspicious elements and choose what action to take.');
+                    return;
+                }
+                
+                // Check if correct action is selected (report)
+                const isActionCorrect = selectedAction === 'report';
+                
+                // Check how many clues were correctly identified (all 5 should be selected)
+                const correctCluesCount = selectedClues.length;
+                const totalCorrectClues = 5; // Total number of clues
+                
+                // Create feedback message
+                let feedbackTitle, feedbackMessage, feedbackClass;
+                
+                if (isActionCorrect && correctCluesCount === totalCorrectClues) {
+                    feedbackTitle = 'Excellent job!';
+                    feedbackMessage = 'You correctly identified all the suspicious elements and chose the right action. This is definitely a phishing email that should be reported and deleted.';
+                    feedbackClass = 'bg-green-700/50 text-green-300 border-green-500/30';
+                    
+                    // Mark this stage as completed if tracking variable exists
+                    if (typeof phishingStagesCompleted !== 'undefined') {
+                        phishingStagesCompleted[0] = true;
+                        
+                        // Update UI to reflect completion
+                        const phishingStageBtns = document.querySelectorAll('.phishing-stage-btn');
+                        if (phishingStageBtns.length > 0) {
+                            phishingStageBtns[0].classList.remove('bg-gray-800/70', 'text-gray-400');
+                            phishingStageBtns[0].classList.add('bg-gradient-to-r', 'from-primary-600', 'to-cyan-600', 'text-white');
+                            
+                            // Enable next stage button
+                            if (phishingStageBtns[1]) {
+                                phishingStageBtns[1].classList.remove('bg-gray-800/70', 'text-gray-400');
+                                phishingStageBtns[1].classList.add('bg-gray-800/40', 'text-gray-200');
+                            }
+                        }
+                    }
+                } else if (isActionCorrect) {
+                    feedbackTitle = 'Good choice, but keep looking!';
+                    feedbackMessage = `You correctly chose to report the email, but you missed some suspicious elements. You found ${correctCluesCount} out of ${totalCorrectClues} clues. Try again and see if you can find them all!`;
+                    feedbackClass = 'bg-blue-700/50 text-blue-300 border-blue-500/30';
+                } else {
+                    feedbackTitle = 'Be careful!';
+                    feedbackMessage = 'This is a dangerous phishing email. You should mark it as spam/phishing and delete it rather than interacting with it in any way.';
+                    feedbackClass = 'bg-red-700/50 text-red-300 border-red-500/30';
+                }
+                
+                // Display feedback
+                const feedbackEl = document.createElement('div');
+                feedbackEl.className = `mt-6 p-4 rounded-lg ${feedbackClass} animate__animated animate__fadeIn`;
+                feedbackEl.innerHTML = `
+                    <h4 class="font-bold text-lg mb-2">${feedbackTitle}</h4>
+                    <p>${feedbackMessage}</p>
+                `;
+                
+                // Remove any existing feedback
+                const existingFeedback = checkBasicsBtn.parentNode.querySelector('.animate__fadeIn');
+                if (existingFeedback) {
+                    existingFeedback.remove();
+                }
+                
+                // Add feedback after the button
+                checkBasicsBtn.parentNode.appendChild(feedbackEl);
+                
+                // If they got everything right, show a continue button
+                if (isActionCorrect && correctCluesCount === totalCorrectClues) {
+                    const continueBtn = document.createElement('button');
+                    continueBtn.className = 'cyber-button px-6 py-2 mt-4 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white font-bold rounded-md transition-all duration-300 relative overflow-hidden shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 transform hover:translate-y-[-3px]';
+                    continueBtn.innerHTML = '<span class="relative z-10">Continue to Next Challenge</span>';
+                    
+                    continueBtn.addEventListener('click', function() {
+                        // Navigate to the next phishing stage
+                        const phishingStageBtns = document.querySelectorAll('.phishing-stage-btn');
+                        if (phishingStageBtns[1]) {
+                            phishingStageBtns[1].click();
+                        }
+                    });
+                    
+                    feedbackEl.appendChild(continueBtn);
+                }
+            });
+        }
+    });
+</script>
 
-@keyframes spotlight {
-    0% {
-        box-shadow: 0 0 10px 2px rgba(255, 0, 0, 0.3);
-    }
-    50% {
-        box-shadow: 0 0 20px 5px rgba(255, 0, 0, 0.5);
-    }
-    100% {
-        box-shadow: 0 0 10px 2px rgba(255, 0, 0, 0.3);
-    }
-}
-
-/* Glowing effect for buttons and important elements */
-.btn-cyber {
-    position: relative;
-    overflow: hidden;
-}
-
-.btn-cyber:before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(
-        to bottom right,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.2) 100%
-    );
-    transform: rotate(45deg);
-    z-index: 0;
-    transition: all 0.5s ease;
-    opacity: 0;
-}
-
-.btn-cyber:hover:before {
-    opacity: 1;
-    animation: shine 1.5s infinite;
-}
-
-@keyframes shine {
-    0% {
-        left: -100%;
-        top: -100%;
-    }
-    100% {
-        left: 100%;
-        top: 100%;
-    }
-}
-</style>
-@endif 
+<!-- Social Media Mayhem Scripts -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Only run this code if on Social Media Mayhem mission
+        if(document.getElementById('social-stage1')) {
+            // ... existing code ...
+            
+            // Matrix-like code rain background for Social Media Mayhem
+            const codeRainCanvas = document.getElementById('social-code-rain');
+            if (codeRainCanvas) {
+                const ctx = codeRainCanvas.getContext('2d');
+                codeRainCanvas.width = window.innerWidth;
+                codeRainCanvas.height = window.innerHeight;
+                
+                const matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%";
+                const matrixChars = matrix.split("");
+                
+                const fontSize = 14;
+                const columns = codeRainCanvas.width / fontSize;
+                
+                const drops = [];
+                for (let i = 0; i < columns; i++) {
+                    drops[i] = Math.floor(Math.random() * codeRainCanvas.height / fontSize);
+                }
+                
+                function drawCodeRain() {
+                    // Semi-transparent black to create fade effect
+                    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+                    ctx.fillRect(0, 0, codeRainCanvas.width, codeRainCanvas.height);
+                    
+                    ctx.fillStyle = "#8B5CF6"; // Purple color for matrix code
+                    ctx.font = fontSize + "px monospace";
+                    
+                    for (let i = 0; i < drops.length; i++) {
+                        // Random character
+                        const text = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+                        // Position character
+                        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                        
+                        // Check if it's time to reset drop
+                        if (drops[i] * fontSize > codeRainCanvas.height && Math.random() > 0.975) {
+                            drops[i] = 0;
+                        }
+                        
+                        // Move drop down
+                        drops[i]++;
+                    }
+                }
+                
+                // Animation loop
+                setInterval(drawCodeRain, 35);
+                
+                // Resize handling
+                window.addEventListener('resize', function() {
+                    codeRainCanvas.width = window.innerWidth;
+                    codeRainCanvas.height = window.innerHeight;
+                });
+            }
+            
+            // Create digital nodes
+            const nodesContainer = document.querySelector('.digital-nodes');
+            if (nodesContainer) {
+                // Create 50 random nodes
+                for (let i = 0; i < 50; i++) {
+                    const node = document.createElement('div');
+                    node.classList.add('node');
+                    
+                    // Random position
+                    const posX = Math.random() * 100;
+                    const posY = Math.random() * 100;
+                    node.style.left = posX + '%';
+                    node.style.top = posY + '%';
+                    
+                    // Random size (1-3px)
+                    const size = Math.random() * 2 + 1;
+                    node.style.width = size + 'px';
+                    node.style.height = size + 'px';
+                    
+                    // Random opacity
+                    node.style.opacity = Math.random() * 0.8 + 0.2;
+                    
+                    // Random pulsing animation
+                    const animationDuration = Math.random() * 3 + 2;
+                    node.style.animation = `pulse-subtle ${animationDuration}s ease-in-out infinite`;
+                    
+                    nodesContainer.appendChild(node);
+                }
+            }
+            
+            // Create digital rain effect
+            const digitalRain = document.querySelector('.digital-rain');
+            if (digitalRain) {
+                const characters = "10";
+                const columnCount = Math.floor(window.innerWidth / 15); // One column every 15px
+                
+                for (let i = 0; i < columnCount; i++) {
+                    const column = document.createElement('div');
+                    column.classList.add('rain-column');
+                    
+                    // Random position
+                    column.style.left = (i * 15) + Math.random() * 10 + 'px';
+                    
+                    // Random animation duration
+                    const duration = Math.random() * 10 + 5;
+                    column.style.animationDuration = duration + 's';
+                    
+                    // Generate random binary characters
+                    const length = Math.floor(Math.random() * 20) + 10;
+                    let content = '';
+                    for (let j = 0; j < length; j++) {
+                        content += characters.charAt(Math.floor(Math.random() * characters.length));
+                    }
+                    column.textContent = content;
+                    
+                    digitalRain.appendChild(column);
+                }
+            }
+            
+            // Floating particles animation
+            const particles = document.querySelectorAll('.floating-particle');
+            particles.forEach(particle => {
+                // Random size
+                const size = Math.floor(Math.random() * 6) + 4;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                // Random color
+                const colors = ['#8B5CF6', '#3B82F6', '#06B6D4', '#10B981'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.backgroundColor = color;
+                particle.style.boxShadow = `0 0 10px ${color}`;
+                
+                // Set initial position
+                particle.style.position = 'absolute';
+                particle.style.borderRadius = '50%';
+                
+                // Animate floating
+                animateParticle(particle);
+            });
+            
+            function animateParticle(particle) {
+                // Random movement duration
+                const duration = Math.floor(Math.random() * 8) + 4;
+                // Random X and Y movement range
+                const xMove = Math.floor(Math.random() * 30) - 15;
+                const yMove = Math.floor(Math.random() * 30) - 15;
+                
+                // Current position
+                const currentLeft = parseInt(particle.style.left) || 0;
+                const currentTop = parseInt(particle.style.top) || 0;
+                
+                // Animate to new position
+                particle.style.transition = `all ${duration}s ease-in-out`;
+                particle.style.left = (currentLeft + xMove) + '%';
+                particle.style.top = (currentTop + yMove) + '%';
+                
+                // Schedule next animation
+                setTimeout(() => animateParticle(particle), duration * 1000);
+            }
+            
+            // Add typing effect to elements with typing-text class
+            const typingElements = document.querySelectorAll('.typing-text');
+            typingElements.forEach(element => {
+                const text = element.textContent;
+                element.textContent = '';
+                
+                let i = 0;
+                function typeWriter() {
+                    if (i < text.length) {
+                        element.textContent += text.charAt(i);
+                        i++;
+                        setTimeout(typeWriter, 30);
+                    }
+                }
+                
+                typeWriter();
+            });
+        }
+    });
+</script>
+@endsection
